@@ -1,0 +1,86 @@
+import React, { useEffect } from "react";
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import AdminNavbar from "../../Components/Admin/Navbar/AdminNavbar";
+import SideBar from "../../Components/Admin/SideBar/SideBar";
+import { useDispatch } from "react-redux";
+
+function AdminProfile() {
+  const dispatch = useDispatch();
+
+  return (
+    <div className="flex flex-row bg-neutral-100 h-screen w-screen ">
+      <SideBar />
+      <div className="flex flex-col flex-1 overflow-hidden ">
+        <AdminNavbar />
+
+        <Box sx={{ flexGrow: 1, p: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Paper
+                sx={{ p: 2, textAlign: "center", backgroundColor: "#f2f2f2" }}
+              >
+                <Typography variant="h3" sx={{ color: "#004d40" }}>
+                  Admin Profile
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Paper sx={{ p: 2 }}>
+                <Typography variant="h5" sx={{ marginBottom: "1rem" }}>
+                  Personal Information
+                </Typography>
+                <Typography sx={{ marginBottom: "0.5rem" }}>
+                  Name: John Doe
+                </Typography>
+                <Typography sx={{ marginBottom: "0.5rem" }}>
+                  Email: john.doe@example.com
+                </Typography>
+                <Typography>Phone: (123) 456-7890</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Paper sx={{ p: 2 }}>
+                <Typography variant="h5" sx={{ marginBottom: "1rem" }}>
+                  Account Information
+                </Typography>
+                <Typography sx={{ marginBottom: "0.5rem" }}>
+                  Username: johndoe
+                </Typography>
+                <Typography sx={{ marginBottom: "0.5rem" }}>
+                  Password: *********
+                </Typography>
+                <Typography>Last Login: 04/17/2023 10:30 AM</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Box
+                sx={{
+                  position: "relative",
+                  height: "100%",
+                  overflow: "hidden",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  <img
+                    src="https://picsum.photos/300/200"
+                    alt="Admin Profile"
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </div>
+    </div>
+  );
+}
+
+export default AdminProfile;
