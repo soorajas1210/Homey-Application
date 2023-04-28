@@ -464,7 +464,7 @@ function ProviderBookingDetails() {
                                                             {user.serviceDate}
                                                         </TableCell>
                                                         <TableCell align="right"> <Chip label={user.status} variant="outlined" /></TableCell>
-                                                        {user.status === "Booked" ? (
+                                                        {user.status === "booked" ? (
 
                                                             <TableCell align="right" sx={{ gap: 2, display: "grid" }} >
                                                                 <Button

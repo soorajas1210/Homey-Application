@@ -11,6 +11,9 @@ import SignIn from "../Pages/Users/SignIn";
 import SignUp from "../Pages/Users/SignUp";
 import UserProfile from "../Pages/Users/UserProfile";
 import EditUserProfile from "../Pages/Users/EditUserProfile";
+import UserServiceDetails from "../Pages/Users/UserServiceDetails";
+import Payment from "../Pages/Users/Payment";
+import UserChat from "../Pages/Users/UserChat";
 
 function UserRouters() {
   return (
@@ -27,6 +30,12 @@ function UserRouters() {
       <Route path="/book/recommendations" element={<Recomendations />} />
       <Route path="/book/ConfirmBooking" element={<ConfirmBooking />} />
       <Route path="/userProfile/edit" element={<EditUserProfile />} />
+      <Route
+        path="/userProfile/serviceDetails/:id"
+        element={<UserServiceDetails />}
+      />
+      <Route path="/payment/:id" element={<Payment />} />
+      <Route path="/user/chat" element={<UserChat />} />
     </Routes>
   );
 }

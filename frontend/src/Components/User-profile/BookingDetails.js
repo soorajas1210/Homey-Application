@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userbookedList } from "../../actions/userActions";
+import { cancelBooking, userbookedList } from "../../actions/userActions";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -234,41 +234,6 @@ function BookingDetails() {
 
   const navigate = useNavigate();
 
-  const List = useSelector((state) => state.providerList);
-  const { loading, provider, error } = List;
-
-  const adminLogin = useSelector((state) => state.adminSignin);
-
-  const {
-    adminInfo: { isAdmin },
-  } = adminLogin;
-
-  const adminProviderBlock = useSelector((state) => state.providerBlock);
-
-  const { user } = adminProviderBlock;
-
-
-  const onClickHandler = (id, status, user) => {
-    confirmAlert({
-      title: "Confirm",
-      message: `Are you sure you need to ${
-        status === "provider" ? `Block` : `Unblock`
-      } ${user} ?`,
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => {
-          
-          },
-        },
-        {
-          label: "No",
-          onClick: () => navigate("/admin/customers"),
-        },
-      ],
-    });
-  };
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -318,7 +283,32 @@ function BookingDetails() {
   };
 
   const bookingList = useSelector((state) => state.userbookedList);
-  const { userBooked } = bookingList;
+  const { loading, error, userBooked } = bookingList;
+
+  console.log("Bookinglist", userBooked);
+
+  const onClickHandler = (id) => {
+    confirmAlert({
+      title: "Confirm",
+      message: `Are you sure you need to cancel Booking ?`,
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            dispatch(cancelBooking(id));
+          },
+        },
+        {
+          label: "No",
+          onClick: () => navigate(" "),
+        },
+      ],
+    });
+  };
+
+  const onClickDetails = (id) => {
+    navigate(`/userProfile/serviceDetails/${id}`);
+  };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -451,24 +441,32 @@ function BookingDetails() {
                               {user.serviceDate}
                             </TableCell>
                             <TableCell align="right">{user.status}</TableCell>
-                            <TableCell align="right">
-                              <Button
-                                variant={
-                                  user.role === "provider"
-                                    ? "outlined"
-                                    : "contained"
-                                }
-                                color={
-                                  user.role === "provider" ? "success" : "error"
-                                }
-                                onClick={async () => {
-                                  // setUser(user.firstName);
-                                  onClickHandler(user.userId);
-                                }}
-                              >
-                                {"Cancel"}
-                              </Button>
-                            </TableCell>
+                            {user.status === "booked" ? (
+                              <TableCell align="right">
+                                <Button
+                                  variant="outlined"
+                                  color="error"
+                                  onClick={async () => {
+                                    onClickHandler(user.bookingObjectId);
+                                  }}
+                                >
+                                  {"Cancel"}
+                                </Button>
+                              </TableCell>
+                            ) : (
+                              <TableCell align="right">
+                                <Button
+                                  variant="outlined"
+                                  sx={{ color: "#0f4a74" }}
+                                  onClick={async () => {
+                                    // setUser(user.firstName);
+                                    onClickDetails(user.bookingObjectId);
+                                  }}
+                                >
+                                  {"Details"}
+                                </Button>
+                              </TableCell>
+                            )}
                           </TableRow>
                         );
                       })}

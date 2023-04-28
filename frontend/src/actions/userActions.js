@@ -53,8 +53,27 @@ import {
   userbookedListFail,
   userbookedListSuccess,
 } from "../Redux/Users/userbookedListSlice";
-import { getUserInfoFail, getUserInfoSuccess } from "../Redux/Users/getUserInfoSlice";
-import { providerbookedListFail, providerbookedListSuccess } from "../Redux/Service-Providers/providerBookedListSlice";
+import {
+  getUserInfoFail,
+  getUserInfoSuccess,
+} from "../Redux/Users/getUserInfoSlice";
+import {
+  providerbookedListFail,
+  providerbookedListSuccess,
+} from "../Redux/Service-Providers/providerBookedListSlice";
+import {
+  getInvoiceFail,
+  getInvoiceReq,
+  getInvoiceSuccess,
+} from "../Redux/Users/getInvoiceSlice";
+import {
+  clientSecreteFail,
+  clientSecreteSuccess,
+} from "../Redux/Users/clientSecreteSlice";
+import {
+  paymentDataFail,
+  paymentDataSuccess,
+} from "../Redux/Users/paymentDataSlice";
 
 export const signin = (email, password) => async (dispatch) => {
   try {
@@ -422,7 +441,6 @@ export const userbookedList = () => async (dispatch, getState) => {
   }
 };
 
-
 export const getUser = () => async (dispatch, getState) => {
   try {
     const {
@@ -452,7 +470,6 @@ export const getUser = () => async (dispatch, getState) => {
 
 export const providerbookedList = () => async (dispatch, getState) => {
   try {
-    
     const {
       userSignin: { userInfo },
     } = getState();
@@ -474,5 +491,114 @@ export const providerbookedList = () => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch(providerbookedListFail(message));
+  }
+};
+
+export const cancelBooking = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.patch(
+      "/api/users/cancelBooking",
+      { id },
+      config
+    );
+
+    console.log("canceled", data);
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+  }
+};
+
+export const checkInvoice = (id) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/users/getInvoice/${id}`, config);
+
+    console.log("getInvoice", data);
+    dispatch(getInvoiceSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(getInvoiceFail(message));
+  }
+};
+
+export const checkoutService = (product) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const data = await axios.post("/api/users/checkout", { product }, config);
+
+    console.log(data.data.clientSecret);
+    dispatch(clientSecreteSuccess(data.data.clientSecret));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(clientSecreteFail(message));
+  }
+};
+
+export const paymentSuccess = (newData) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    dispatch(paymentDataFail());
+    const payed = await axios.post(
+      "/api/users/paymentSuccess",
+      { newData },
+      config
+    );
+    console.log("payment success", payed);
+    dispatch(paymentDataSuccess(payed));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(paymentDataFail(message));
   }
 };

@@ -37,7 +37,7 @@ function Account() {
                 <div class="md:flex no-wrap md:-mx-2 ">
                     <div class="w-full md:w-3/12 md:mx-2">
                         <div class="bg-white p-3 border-t-4 border-green-400">
-                            <img className="rounded" src={getUserInfo?.profileImage.url} alt="" style={{ borderRadius: "50%" }}></img>
+                            <img className="rounded w-32 h-32 mx-auto" src={getUserInfo?.profileImage.url} alt="" style={{ borderRadius: "50%" }}></img>
                             <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
                                 <span>{getUserInfo?.firstName} </span>{" "}
                                 <span> {getUserInfo?.lastName}</span>

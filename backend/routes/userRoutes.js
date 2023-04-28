@@ -14,6 +14,10 @@ const {
   userbookedList,
   getUserInfo,
   providerbookedList,
+  cancelBooking,
+  checkInvoice,
+  checkoutService,
+  paymentSuccess,
 } = require("../controllers/userController");
 const userProtect = require("../middlewares/userAuthMiddleware");
 
@@ -28,17 +32,16 @@ router.get("/getServiceDetails/:id", getServiceDetails);
 router.get("/getCategoryDetails/:id", getCategoryDetails);
 router.get("/serviceSearch/:id", serviceSearch);
 router.post("/searchProvider", userProtect, searchProvider);
-router.get("/providerRecommendations", userProtect, providerRecommendations);  
+router.get("/providerRecommendations", userProtect, providerRecommendations);
 router.post("/selectedProvider", userProtect, selectedProvider);
-router.get("/getBookingData", userProtect, getBookingData); 
+router.get("/getBookingData", userProtect, getBookingData);
 router.post("/bookService", userProtect, bookService);
-router.get("/userbookedList", userProtect, userbookedList); 
+router.get("/userbookedList", userProtect, userbookedList);
 router.get("/getUserInfo", userProtect, getUserInfo);
-router.get("/providerbookedList", userProtect, providerbookedList); 
-
-
-
-
-
+router.get("/providerbookedList", userProtect, providerbookedList);
+router.patch("/cancelBooking", userProtect, cancelBooking);
+router.get("/getInvoice/:id", userProtect, checkInvoice);
+router.post("/checkout",userProtect, checkoutService);
+router.post("/paymentSuccess",userProtect ,paymentSuccess);
 
 module.exports = router;

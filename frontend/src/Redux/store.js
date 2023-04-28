@@ -29,7 +29,9 @@ import getUserInfoReducer from "./Users/getUserInfoSlice";
 import providerBookedListReducer from "./Service-Providers/providerBookedListSlice";
 import providerBookedDetailsReducer from "./Service-Providers/providerBookedDetailsSlice";
 import sendInvoiceReducer from "./Service-Providers/sendInvoiceSlice";
-
+import getInvoiceReducer from "./Users/getInvoiceSlice";
+import clientSecreteReducer from "./Users/clientSecreteSlice";
+import paymentDataReducer from "./Users/paymentDataSlice";
 
 
 export const store = configureStore({
@@ -47,6 +49,9 @@ export const store = configureStore({
     bookService: bookServiceReducer,
     userbookedList: userbookedListReducer,
     getUserInfo: getUserInfoReducer,
+    getInvoice: getInvoiceReducer,
+    clientSecrete : clientSecreteReducer,
+    paymentCompletd : paymentDataReducer,
 
     // admin
     adminUsersList: usersListReducer,

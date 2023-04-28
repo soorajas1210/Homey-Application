@@ -22,9 +22,9 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 
-
 import OtpInput from "otp-input-react";
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../actions/userActions";
 import { userRegistered } from "../../Redux/Users/UserSignupSlice";
@@ -39,6 +39,7 @@ const theme = createTheme({
   },
 });
 function SignUp() {
+  const [checked, setChecked] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
-  const [counter, setCounter] = useState(60);
+  const [counter, setCounter] = useState(0);
   const [otp, setOtp] = useState("");
   const [otploading, setOtpLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
@@ -61,32 +62,31 @@ function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-const handleBlur = (e) => {
-  const { name, value } = e.target;
-  switch (name) {
-    case "firstName":
-      setFirstNameError(value.trim() === "" || value.trim().length <= 2);
-      break;
-    case "lastName":
-      setLastNameError(value.trim() === "");
-      break;
-    case "email":
-      setEmailError(value.trim() === "" || !/\S+@\S+\.\S+/.test(value));
-      break;
-    case "mobile":
-      setMobileNoError(value.trim() === "" || value.trim().length !== 10);
-      break;
-    case "password":
-      setPasswordError(value.trim() === "");
-      break;
-    case "confirmPassword":
-      setConfirmPasswordError(value.trim() !== password);
-      break;
-    default:
-      break;
-  }
-};
-
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "firstName":
+        setFirstNameError(value.trim() === "" || value.trim().length <= 2);
+        break;
+      case "lastName":
+        setLastNameError(value.trim() === "");
+        break;
+      case "email":
+        setEmailError(value.trim() === "" || !/\S+@\S+\.\S+/.test(value));
+        break;
+      case "mobile":
+        setMobileNoError(value.trim() === "" || value.trim().length !== 10);
+        break;
+      case "password":
+        setPasswordError(value.trim() === "");
+        break;
+      case "confirmPassword":
+        setConfirmPasswordError(value.trim() !== password);
+        break;
+      default:
+        break;
+    }
+  };
 
   const userSignup = useSelector((state) => state.userSignup);
 
@@ -113,44 +113,55 @@ const handleBlur = (e) => {
       navigate("/signin");
       dispatch(userRegistered());
     }
-  });
+  }, [registered, dispatch, navigate]);
 
   // OTP VERIFY
   function onCaptchVerify() {
-
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            onSignUp();
-          },
-          "expired-callback": () => {},
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onSignUp();
         },
-        auth
-      );
-    
+        "expired-callback": () => {},
+      },
+      auth
+    );
   }
 
   function onSignUp(event) {
     event.preventDefault();
-    setCounter(60);
-    setOtpLoading(true);
-    onCaptchVerify();
-    const appVerifier = window.recaptchaVerifier;
-    const phoneNumber = "+91" + mobileno;
+    if (checked) {
+      setCounter(60);
+      setOtpLoading(true);
+      onCaptchVerify();
+      const appVerifier = window.recaptchaVerifier;
+      const phoneNumber = "+91" + mobileno;
 
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        setOtpLoading(false);
-        setShowOTP(true);
-        toast.success("OTP Sended Successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-        setOtpLoading(false);
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          setOtpLoading(false);
+          setShowOTP(true);
+          toast.success("OTP Sended Successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+          setOtpLoading(false);
+        });
+    } else {
+      toast("please check the box ✔️", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
+    }
   }
 
   function onOTPVerify() {
@@ -185,11 +196,9 @@ const handleBlur = (e) => {
   return (
     <div className="image">
       {showOTP ? (
-        <div >
-          
+        <div>
           <section className="bg-transparent flex items-center justify-center h-screen rounded-xl">
             <div>
-              <Toaster toastOptions={{ duration: 7000 }} />
               <div id="recaptcha-container"></div>
 
               <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
@@ -225,7 +234,7 @@ const handleBlur = (e) => {
               {/* resendotp */}
               <div className="text-green-200 ml-5 ">
                 {counter === 0 ? (
-                  <button className="text-blue-600"  onClick={onSignUp}>
+                  <button className="text-blue-600" onClick={onSignUp}>
                     Resend OTP
                   </button>
                 ) : (
@@ -363,7 +372,13 @@ const handleBlur = (e) => {
                   <Grid item xs={12}>
                     <FormControlLabel
                       control={
-                        <Checkbox value="allowExtraEmails" color="primary" />
+                        <Checkbox
+                          required
+                          value="allowExtraEmails"
+                          color="primary"
+                          checked={checked}
+                          onChange={(e) => setChecked(e.target.checked)}
+                        />
                       }
                       label="I want to receive inspiration, marketing promotions and updates via email."
                     />
@@ -390,6 +405,18 @@ const handleBlur = (e) => {
                 </Grid>
               </Box>
             </Box>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
           </Container>
         </ThemeProvider>
       )}

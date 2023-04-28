@@ -3,11 +3,17 @@ const asyncHandler = require("express-async-handler");
 const generateTocken = require("../utils/generateTocken");
 const Service = require("../models/servicesModel");
 const ServiceCategory = require("../models/serviceCategoryModel");
-
+const stripe = require("stripe")(
+  "sk_test_51N0SnbSGULmMYgVw4RBtkPI7c9i4ijS3uL5GB0Sxs2HLDyQlBV5ldmV6zOsYf7n3S9h2KRR4pEOBr9xLsxsiSUsi00jaO2FFoq"
+);
+const uuid = require("uuid").v4;
 const Location = require("../models/locationModel");
 const Provider = require("../models/serviceProviderModel");
 const Booking = require("../models/bookingModel");
 const Booked = require("../models/completedBookingModel");
+const Invoice = require("../models/InvoiceModel");
+const expressAsyncHandler = require("express-async-handler");
+const Payment = require("../models/paymentSuccessModel");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, mobileno, password } = req.body;
@@ -356,22 +362,24 @@ const userbookedList = asyncHandler(async (req, res) => {
 
     const allBookingData = [];
     const BookingList = await Booked.find({ userId: myId });
-
+    console.log(BookingList);
     if (BookingList) {
       if (BookingList.length > 0) {
         for (let i = 0; i < BookingList.length; i++) {
-          const provider = BookingList[i];
+          const booking = BookingList[i];
+
           const providerData = await Provider.find({
-            _id: provider.providerId,
+            _id: booking.providerId,
           }).populate("userId");
 
           if (providerData.length > 0) {
             allBookingData.push({
-              ...provider.toObject(),
+              ...booking.toObject(),
               ...providerData[0].toObject(),
+              bookingObjectId: booking._id,
             });
           } else {
-            allBookingData.push(provider.toObject());
+            allBookingData.push(booking.toObject());
           }
         }
       } else {
@@ -379,7 +387,7 @@ const userbookedList = asyncHandler(async (req, res) => {
       }
     }
 
-    res.json(allBookingData);
+    res.status(200).json(allBookingData);
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ error: "No Booking data found" });
@@ -436,6 +444,105 @@ const providerbookedList = asyncHandler(async (req, res) => {
   }
 });
 
+const cancelBooking = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const cancelData = await Booked.updateOne(
+      { _id: id },
+      { $set: { status: "cancelled" } }
+    );
+
+    if (cancelData.status === "canceled") {
+      res.status(200).json(cancelData);
+    }
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ error: "No Booking data found" });
+  }
+});
+
+const checkInvoice = asyncHandler(async (req, res) => {
+  try {
+    const invoiceData = await Invoice.findOne({ bookedId: req.params.id })
+      .populate("userId")
+      .populate("providerId");
+    if (invoiceData) {
+      res.status(200).json(invoiceData);
+    } else {
+      res.status(400);
+      throw new Error("No Data !");
+    }
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ error: "No Booking data found" });
+  }
+});
+
+const checkoutService = asyncHandler(async (req, res) => {
+  try {
+    const { product } = req.body;
+
+    if (product) {
+      const total = product.amount;
+      console.log("Payment Request recieved for this ruppess", total);
+
+      const payment = await stripe.paymentIntents.create({
+        amount: total * 100,
+        currency: "inr",
+      });
+
+      res.status(201).send({
+        clientSecret: payment.client_secret,
+      });
+    }
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ error: "Failure" });
+  }
+});
+
+const paymentSuccess = asyncHandler(async (req, res) => {
+  try {
+    const { newData } = req.body;
+
+    if (newData) {
+      const paymentData = await Payment.create({
+        firstName: newData.firstName,
+        lastName: newData.lastName,
+        streetAddress: newData.streetAddress,
+        city: newData.city,
+        state: newData.state,
+        country: newData.country,
+        pin: newData.pin,
+        phoneNumber: newData.phoneNumber,
+        bookedId: newData.bookedId,
+        userId: newData.userId,
+        providerId: newData.providerId,
+        invoiceId: newData.invoiceId,
+      });
+
+      if (paymentData) {
+        await Invoice.updateOne(
+          { _id: newData.invoiceId },
+          { $set: { status: "payed" } }
+        );
+        await Booked.updateOne(
+          { _id: newData.bookedId },
+          { $set: { status: "payed" } }
+        );
+        res.status(200).json(paymentData);
+      }
+    } else {
+      res.status(400);
+      throw new Error("NO data Found!");
+    }
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ error: "Failure" });
+  }
+});
+
 module.exports = {
   signinUser,
   registerUser,
@@ -451,4 +558,8 @@ module.exports = {
   userbookedList,
   getUserInfo,
   providerbookedList,
+  cancelBooking,
+  checkInvoice,
+  checkoutService,
+  paymentSuccess,
 };

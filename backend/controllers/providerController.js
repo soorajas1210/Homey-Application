@@ -189,7 +189,7 @@ const bookedServiceDetails = asyncHandler(async (req, res) => {
       .populate("userId")
       .populate("serviceId")
       .populate("providerId");
-  
+
     if (serviceDetails) {
       res.status(200).json(serviceDetails);
     } else {
@@ -204,7 +204,7 @@ const bookedServiceDetails = asyncHandler(async (req, res) => {
 const sendInvoice = asyncHandler(async (req, res) => {
   try {
     const { newData } = req.body;
-   console.log("new Data",newData);
+    console.log("new Data", newData);
 
     const invoiceData = Invoice.create({
       bookedId: newData.bookedId,
@@ -218,6 +218,11 @@ const sendInvoice = asyncHandler(async (req, res) => {
     });
 
     if (invoiceData) {
+      await Booked.updateOne(
+        { _id: newData.bookedId },
+        { $set: { status: "forPayment" } }
+      );
+
       res.status(200).send(invoiceData);
     } else {
       res.status(404).send("Invoice not Send");
