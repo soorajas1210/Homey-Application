@@ -7,6 +7,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@headlessui/react": "^1.7.12",
+    "@iconscout/react-unicons": "^2.0.2",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
@@ -41,6 +42,7 @@
     "react-google-login": "^5.2.2",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1",
+    "react-input-emoji": "^5.0.2",
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
@@ -48,7 +50,10 @@
     "react-stripe-checkout": "^2.6.3",
     "react-toastify": "^9.1.2",
     "recharts": "^2.4.3",
+    "sass": "^1.62.1",
+    "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.10",
+    "timeago.js": "^4.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

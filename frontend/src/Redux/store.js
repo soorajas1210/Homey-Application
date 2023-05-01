@@ -32,6 +32,14 @@ import sendInvoiceReducer from "./Service-Providers/sendInvoiceSlice";
 import getInvoiceReducer from "./Users/getInvoiceSlice";
 import clientSecreteReducer from "./Users/clientSecreteSlice";
 import paymentDataReducer from "./Users/paymentDataSlice";
+import userChatReducer from "./Users/userChatSlice";
+import getProviderInfoReducer from"./Service-Providers/getProviderInfoSlice";
+import fetchMessagesReducer from "./Users/fetchMessagesSlice"
+import sendMessageReducer from "./Users/sendMessageSlice";
+import getChatUserInfoReducer from "./Users/getChatUserInfoSlice";
+import chatCreateReducer from "./Users/chatCreateSlice";
+
+
 
 
 export const store = configureStore({
@@ -50,8 +58,15 @@ export const store = configureStore({
     userbookedList: userbookedListReducer,
     getUserInfo: getUserInfoReducer,
     getInvoice: getInvoiceReducer,
-    clientSecrete : clientSecreteReducer,
-    paymentCompletd : paymentDataReducer,
+    clientSecrete: clientSecreteReducer,
+    paymentCompletd: paymentDataReducer,
+    // chat
+    userChats: userChatReducer,
+    getMessages : fetchMessagesReducer,
+    sendMessage : sendMessageReducer,
+    getChatUserInfo : getChatUserInfoReducer,
+    chatCreate : chatCreateReducer,
+
 
     // admin
     adminUsersList: usersListReducer,
@@ -74,5 +89,6 @@ export const store = configureStore({
     providerBookedList: providerBookedListReducer,
     providerBookedDetails: providerBookedDetailsReducer,
     sendInvoice: sendInvoiceReducer,
+    getProviderInfo : getProviderInfoReducer,
   },
 });

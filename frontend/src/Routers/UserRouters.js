@@ -35,7 +35,7 @@ function UserRouters() {
         element={<UserServiceDetails />}
       />
       <Route path="/payment/:id" element={<Payment />} />
-      <Route path="/user/chat" element={<UserChat />} />
+      <Route path="/user/chat/:id" element={<UserChat />} />
     </Routes>
   );
 }

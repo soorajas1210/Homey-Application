@@ -19,6 +19,10 @@ import {
   sendInvoiceReq,
   sendInvoiceSuccess,
 } from "../Redux/Service-Providers/sendInvoiceSlice";
+import {
+  getProviderInfoFail,
+  getProviderInfoSuccess,
+} from "../Redux/Service-Providers/getProviderInfoSlice";
 
 export const providerReg =
   (
@@ -199,5 +203,34 @@ export const Invoice = (newData) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch(sendInvoiceFail(message));
+  }
+};
+
+export const providerDetails = (pid) => async (dispatch, getState) => {
+  console.log("pid", pid);
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `/api/provider/providerInfo/${pid}`,
+      config
+    );
+    console.log("providerInfo", data);
+    dispatch(getProviderInfoSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(getProviderInfoFail(message));
   }
 };

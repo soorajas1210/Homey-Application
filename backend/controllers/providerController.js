@@ -153,6 +153,20 @@ const toVerifyList = asyncHandler(async (req, res) => {
   }
 });
 
+const providerInfo = asyncHandler(async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    if (id) {
+      const provider = await Provider.findById(id).populate("userId");
+      res.status(200).json(provider);
+    }
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("No data found!");
+  }
+});
+
 const providerBookingHandler = asyncHandler(async (req, res) => {
   try {
     const { body } = req;
@@ -233,10 +247,21 @@ const sendInvoice = asyncHandler(async (req, res) => {
   }
 });
 
+const providerChat = asyncHandler(async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
+
 module.exports = {
   toVerify,
   toVerifyList,
   providerBookingHandler,
   bookedServiceDetails,
   sendInvoice,
+  providerChat,
+  providerInfo,
 };

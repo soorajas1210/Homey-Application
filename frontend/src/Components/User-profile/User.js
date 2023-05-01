@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BookingDetails from "./BookingDetails";
-import { getUser } from "../../actions/userActions";
+import { getFullUserInfo} from "../../actions/userActions";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
@@ -9,9 +9,12 @@ import { Button } from "@mui/material";
 function User() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.userSignin);
+  const { userInfo } = user;
+
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getFullUserInfo(userInfo._id));
   }, [dispatch]);
 
   const userSignin = useSelector((state) => state.getUserInfo);

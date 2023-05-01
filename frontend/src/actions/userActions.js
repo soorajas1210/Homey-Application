@@ -72,8 +72,26 @@ import {
 } from "../Redux/Users/clientSecreteSlice";
 import {
   paymentDataFail,
+  paymentDataReq,
   paymentDataSuccess,
 } from "../Redux/Users/paymentDataSlice";
+import { userChatFail, userChatSuccess } from "../Redux/Users/userChatSlice";
+import {
+  fetchMessagesFail,
+  fetchMessagesSuccess,
+} from "../Redux/Users/fetchMessagesSlice";
+import {
+  sendMessageFail,
+  sendMessageSuccess,
+} from "../Redux/Users/sendMessageSlice";
+import {
+  getChatUserInfoFail,
+  getChatUserInfoSuccess,
+} from "../Redux/Users/getChatUserInfoSlice";
+import {
+  createChatFail,
+  createChatSuccess,
+} from "../Redux/Users/chatCreateSlice";
 
 export const signin = (email, password) => async (dispatch) => {
   try {
@@ -441,8 +459,10 @@ export const userbookedList = () => async (dispatch, getState) => {
   }
 };
 
-export const getUser = () => async (dispatch, getState) => {
+export const getFullUserInfo = (id) => async (dispatch, getState) => {
   try {
+    console.log("id", id);
+
     const {
       userSignin: { userInfo },
     } = getState();
@@ -455,7 +475,7 @@ export const getUser = () => async (dispatch, getState) => {
     };
 
     console.log("userinfo");
-    const { data } = await axios.get("/api/users/getUserInfo", config);
+    const { data } = await axios.get(`/api/users/getUserInfo/${id}`, config);
 
     dispatch(getUserInfoSuccess(data));
     console.log("user", data);
@@ -586,7 +606,7 @@ export const paymentSuccess = (newData) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    dispatch(paymentDataFail());
+    dispatch(paymentDataReq());
     const payed = await axios.post(
       "/api/users/paymentSuccess",
       { newData },
@@ -600,5 +620,143 @@ export const paymentSuccess = (newData) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch(paymentDataFail(message));
+  }
+};
+
+export const createChat =
+  (senderId, receiverId, serviceId) => async (dispatch, getState) => {
+    try {
+      console.log(senderId, receiverId, serviceId);
+      const {
+        userSignin: { userInfo },
+      } = getState();
+
+      console.log("chat data", userInfo._id);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "/api/users/createChat",
+        { senderId, receiverId, serviceId },
+        config
+      );
+      console.log("create Chat", data);
+      dispatch(createChatSuccess(data));
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch(createChatFail(message));
+    }
+  };
+
+export const getChats = () => async (dispatch, getState) => {
+  try {
+    console.log("getData");
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    console.log("chat data", userInfo._id);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users/chat/${userInfo._id}`, config);
+    console.log("chat data", data);
+    dispatch(userChatSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(userChatFail(message));
+  }
+};
+
+export const fetchMessages = (id) => async (dispatch, getState) => {
+  try {
+    console.log("getData", id);
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users/getMessages/${id}`, config);
+    console.log("fetch messages", data);
+
+    dispatch(fetchMessagesSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    fetchMessagesFail(message);
+  }
+};
+
+export const addMessage = (message) => async (dispatch, getState) => {
+  try {
+    console.log("message", message);
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post("/api/users/messages", message, config);
+    console.log("messages", data);
+
+    dispatch(sendMessageSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    sendMessageFail(message);
+  }
+};
+
+export const getChatUserInfo = (id) => async (dispatch, getState) => {
+  try {
+    console.log("id", id);
+
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    console.log("userinfo");
+    const { data } = await axios.get(`/api/users/getChatInfo/${id}`, config);
+
+    dispatch(getChatUserInfoSuccess(data));
+    console.log("user", data);
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(getChatUserInfoFail(message));
   }
 };

@@ -1,11 +1,19 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../../Components/Navbar/Navbar";
+import Footer from "../../Components/Footer/Footer";
+import Chat from "../../Components/Chat/Chat";
 
 function UserChat() {
+
+  
   return (
-    <div>
-      user chat
-    </div>
-  )
+    <>
+      <Navbar />
+
+      <Chat />
+      <Footer />
+    </>
+  );
 }
 
-export default UserChat
+export default UserChat;

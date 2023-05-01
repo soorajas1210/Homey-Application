@@ -239,9 +239,9 @@ function ProviderBookingDetails() {
 
     const adminLogin = useSelector((state) => state.adminSignin);
 
-    const {
-        adminInfo: { isAdmin },
-    } = adminLogin;
+    // const {
+    //     adminInfo: { isAdmin },
+    // } = adminLogin;
 
     const adminProviderBlock = useSelector((state) => state.providerBlock);
 

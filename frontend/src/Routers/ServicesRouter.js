@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import BecomeaServicer from '../Pages/Service-Providers/BecomeaServicer';
 import ProviderAccount from '../Pages/Service-Providers/ProviderAccount';
 import ProviderServiceDetails from '../Pages/Service-Providers/ProviderServiceDetails';
-import ProviderChat from '../Pages/Service-Providers/ProviderChat';
+import ProviderChatPage from '../Pages/Service-Providers/ProviderChatPage';
 
 
 
@@ -20,7 +20,7 @@ function ServicesRouter() {
         path="/serviceProvider/serviceDetails/:id"
         element={<ProviderServiceDetails />}
       />
-      <Route path="/provider/chat" element={<ProviderChat />} />
+      <Route path="/provider/chat/:id" element={<ProviderChatPage />} />
     </Routes>
   );
 }

@@ -3,15 +3,18 @@ import profile from './avatar.jpg'
 import ProviderBookingDetails from './ProviderBookingDetails'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../../actions/userActions';
+import { getFullUserInfo, getUser } from '../../../actions/userActions';
 import { Button } from '@mui/material';
 
 function Account() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const user = useSelector((state) => state.userSignin);
+    const { userInfo } = user;
+
     useEffect(() => {
-        dispatch(getUser());
+        dispatch(getFullUserInfo(userInfo._id));
     }, [dispatch]);
 
     const userSignin = useSelector((state) => state.getUserInfo);

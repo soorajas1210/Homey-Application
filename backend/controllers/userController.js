@@ -12,8 +12,9 @@ const Provider = require("../models/serviceProviderModel");
 const Booking = require("../models/bookingModel");
 const Booked = require("../models/completedBookingModel");
 const Invoice = require("../models/InvoiceModel");
-const expressAsyncHandler = require("express-async-handler");
 const Payment = require("../models/paymentSuccessModel");
+const Chat = require("../models/chatModel");
+const Message = require("../models/messageModel");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, mobileno, password } = req.body;
@@ -396,23 +397,27 @@ const userbookedList = asyncHandler(async (req, res) => {
 
 const getUserInfo = asyncHandler(async (req, res) => {
   try {
-    const { myValue } = req;
-    const myId = myValue.toString();
+    const myId = req.params.id;
     console.log("myId", myId);
 
     const userData = await User.findById(myId);
     console.log("userInfo:", userData);
-    if (userData.role !== "provider") {
-      res.status(200).json(userData);
-    }
-    if (userData.role === "provider") {
-      const pData = await Provider.find({ userId: myId });
-      const mergedData = {
-        ...userData.toObject(),
-        ...pData[0].toObject(),
-      };
+    if (userData) {
+      if (userData.role !== "provider") {
+        res.status(200).json(userData);
+      }
+      if (userData.role === "provider") {
+        const pData = await Provider.find({ userId: myId });
+        const mergedData = {
+          ...userData.toObject(),
+          ...pData[0].toObject(),
+        };
 
-      res.status(200).json(mergedData);
+        res.status(200).json(mergedData);
+      }
+    } else {
+      console.log("error:", error);
+      throw new Error("No data found!");
     }
   } catch (error) {
     console.log("error:", error);
@@ -543,6 +548,115 @@ const paymentSuccess = asyncHandler(async (req, res) => {
   }
 });
 
+const createChat = asyncHandler(async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const newChat = new Chat({
+      members: [req.body.senderId, req.body.receiverId],
+      serviceId: req.body.serviceId,
+    });
+    const result = await newChat.save();
+    if (result) {
+      await Booked.updateOne(
+        { _id: req.body.serviceId },
+        { $set: { chat: "Active" } }
+      );
+      res.status(200).json(result);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
+
+const userChat = asyncHandler(async (req, res) => {
+  try {
+    const chat = await Chat.find({
+      members: { $in: [req.params.userId] },
+    });
+    res.status(200).json(chat);
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
+
+const findChat = asyncHandler(async (req, res) => {
+  try {
+    const chat = await Chat.findOne({
+      members: { $all: [req.params.firstId, req.params.secondId] },
+    });
+
+    res.status(200).json(chat);
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
+
+const addMessage = asyncHandler(async (req, res) => {
+  try {
+    const { chatId, senderId, text } = req.body;
+    const message = new Message({
+      chatId,
+      senderId,
+      text,
+    });
+    const result = await message.save();
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
+
+const getMessages = asyncHandler(async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const result = await Message.find({ chatId });
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
+});
+
+const getChatInfo = asyncHandler(async (req, res) => {
+  try {
+    const myId = req.params.id;
+    console.log("myId", myId);
+
+    const userData = await User.findById(myId);
+    console.log("userInfo:", userData);
+    if (userData) {
+      if (userData.role !== "provider") {
+        res.status(200).json(userData);
+      }
+      if (userData.role === "provider") {
+        const pData = await Provider.find({ userId: myId });
+        const mergedData = {
+          ...userData.toObject(),
+          ...pData[0].toObject(),
+        };
+
+        res.status(200).json(mergedData);
+      }
+    } else {
+      console.log("error:", error);
+      throw new Error("No data found!");
+    }
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("No data found!");
+  }
+});
+
 module.exports = {
   signinUser,
   registerUser,
@@ -562,4 +676,10 @@ module.exports = {
   checkInvoice,
   checkoutService,
   paymentSuccess,
+  userChat,
+  createChat,
+  findChat,
+  addMessage,
+  getMessages,
+  getChatInfo,
 };

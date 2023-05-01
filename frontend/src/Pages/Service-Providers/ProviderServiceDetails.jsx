@@ -151,11 +151,11 @@ function ProviderServiceDetails() {
                         </Grid>
                         <Grid sx={{ display: "flex", gap: 2 }}>
                             <div style={{ flexGrow: 1 }} ></div>
-                            <Link to ="/provider/chat"> 
-                            <Button variant="contained" className={classes.button} >
-                                <ChatIcon />
-                            </Button>
-                            </Link>
+                            {providerBookedDetails?.chat === "Active" && ( <Link to={`/provider/chat/${providerBookedDetails?._id}`}>
+                                <Button variant="contained" className={classes.button} >
+                                    <ChatIcon />
+                                </Button>
+                            </Link>)}
                         </Grid>
                         <Grid item>
                             <Paper>

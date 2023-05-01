@@ -80,10 +80,14 @@ const bookedSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    status :{
+    status: {
       type: String,
-      default: 'booked',
-    }
+      default: "booked",
+    },
+    chat: {
+      type: String,
+      default: "notActive"
+    },
   },
   {
     timestamps: true,
@@ -93,4 +97,3 @@ const bookedSchema = mongoose.Schema(
 const Booked = mongoose.model("Booked", bookedSchema);
 
 module.exports = Booked;
-

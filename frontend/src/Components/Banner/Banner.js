@@ -11,6 +11,8 @@ import { handleServiceSearch, toBooking } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
 const filter = createFilterOptions();
 
+
+
 function Banner() {
   const dispatch = useDispatch();
   const servicesList = useSelector((state) => state.searchService);

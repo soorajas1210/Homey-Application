@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
@@ -7,12 +7,6 @@ import {
   Paper,
   Typography,
   Button,
-  Divider,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   ThemeProvider,
   createTheme,
   Stepper,
@@ -23,7 +17,7 @@ import Footer from "../../Components/Footer/Footer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Invoice, bookedServiceDetails } from "../../actions/servicesActions";
-import { checkInvoice } from "../../actions/userActions";
+import { checkInvoice, createChat } from "../../actions/userActions";
 
 const theme = createTheme();
 
@@ -73,6 +67,10 @@ function UserServiceDetails() {
   const details = useSelector((state) => state.providerBookedDetails);
   const { providerBookedDetails } = details;
 
+  const senderId = providerBookedDetails?.userId._id;
+  const receiverId = providerBookedDetails?.providerId.userId;
+  const serviceId = providerBookedDetails?._id;
+
   switch (providerBookedDetails?.status) {
     case "Accepted":
       color = classes.confirmed;
@@ -103,6 +101,10 @@ function UserServiceDetails() {
     navigate(`/payment/${id}`);
   };
 
+  const activeChat = () => {
+    dispatch(createChat(senderId, receiverId, serviceId));
+  };
+
   return (
     <>
       <Navbar />
@@ -127,11 +129,18 @@ function UserServiceDetails() {
             </Grid>
             <Grid sx={{ display: "flex", gap: 2 }}>
               <div style={{ flexGrow: 1 }}></div>
-              <Link to="/user/chat">
-                <Button variant="contained" className={classes.button}>
-                  <ChatIcon />
+
+              {providerBookedDetails?.chat === "Active" ? (
+                <Link to={`/user/chat/${providerBookedDetails?._id}`}>
+                  <Button variant="contained" className={classes.button}>
+                    <ChatIcon />
+                  </Button>
+                </Link>
+              ) : (
+                <Button variant="contained" onClick={activeChat}>
+                  Click To Chat
                 </Button>
-              </Link>
+              )}
             </Grid>
             <Grid item>
               <Paper>
