@@ -65,6 +65,8 @@ import {
   locationListReq,
   locationListSuccess,
 } from "../Redux/Admin/locationListSlice";
+import { async } from "react-input-emoji";
+import { bookingListFail, bookingListSuccess } from "../Redux/Admin/bookingListSlice";
 
 export const Signin = (email, password) => async (dispatch) => {
   try {
@@ -466,4 +468,29 @@ export const locationList = () => async (dispatch) => {
   }
 };
 
+export const getBookedList = () => async (dispatch, getState) => {
+  try {
+    const {
+      adminSignin: { adminInfo },
+    } = getState();
 
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        authorization: `Bearer ${adminInfo.token}`,
+      },
+    };
+   ;
+
+    const { data } = await axios.get("/api/admin/getBookedList", config);
+    console.log("getBookedList", data);
+    dispatch(bookingListSuccess(data))
+
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+        dispatch(bookingListFail(message))
+  }
+};

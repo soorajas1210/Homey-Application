@@ -55,7 +55,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
     // Receive Message from parent component
     useEffect(() => {
         console.log("Message Arrived: ", receivedMessage)
-        if (receivedMessage !== null && receivedMessage?.chatId === chat._id) {
+        if (receivedMessage !== null && receivedMessage?.chatId === chat?._id) {
             setMessages([...messages, receivedMessage]);
         }
 

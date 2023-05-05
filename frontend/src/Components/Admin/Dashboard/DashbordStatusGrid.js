@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoBagHandle, IoPieChart, IoPeople, IoCart } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { getBookedList, usersList } from "../../../actions/adminActions";
 
 export default function DashboardStatusGrid() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBookedList());
+    dispatch(usersList())
+  },[]);
+
+  const List = useSelector((state) => state.bookingList);
+  const { bookings } = List;
+
+  console.log("hello",bookings)
+
+    const uList = useSelector((state) => state.adminUsersList);
+    const { loading, users, error } = uList;
+
   return (
     <div className="flex gap-4">
       <BoxWrapper>
@@ -9,12 +26,14 @@ export default function DashboardStatusGrid() {
           <IoBagHandle className="text-2xl text-white" />
         </div>
         <div className="pl-4">
-          <span className="text-sm text-gray-500 font-light">Total Services Completed</span>
+          <span className="text-sm text-gray-500 font-light">
+            Total Services Completed
+          </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              54232
+              {bookings.filter((booking) => booking.status === "payed").length}
             </strong>
-            <span className="text-sm text-green-500 pl-2">+343</span>
+            {/* <span className="text-sm text-green-500 pl-2">+343</span> */}
           </div>
         </div>
       </BoxWrapper>
@@ -44,7 +63,7 @@ export default function DashboardStatusGrid() {
           </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              12313
+              {users.length}
             </strong>
             <span className="text-sm text-red-500 pl-2">-30</span>
           </div>
@@ -55,12 +74,14 @@ export default function DashboardStatusGrid() {
           <IoCart className="text-2xl text-white" />
         </div>
         <div className="pl-4">
-          <span className="text-sm text-gray-500 font-light">Total Bookings</span>
+          <span className="text-sm text-gray-500 font-light">
+            Total Bookings
+          </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              16432
+              {bookings.filter((booking) => booking.status !== "payed").length}
             </strong>
-            <span className="text-sm text-red-500 pl-2">-43</span>
+            {/* <span className="text-sm text-red-500 pl-2">-43</span> */}
           </div>
         </div>
       </BoxWrapper>

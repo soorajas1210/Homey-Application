@@ -52,8 +52,8 @@ function Recomendations() {
   }, [successData, navigate]);
 
   useEffect(() => {
-    dispatch(getrecommendationList());
-  }, [dispatch]);
+    dispatch(getrecommendationList(newDate, taskTime));
+  }, [dispatch, newDate, taskTime]);
   return (
     <div>
       <BookingNavbar />

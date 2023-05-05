@@ -38,7 +38,7 @@ import fetchMessagesReducer from "./Users/fetchMessagesSlice"
 import sendMessageReducer from "./Users/sendMessageSlice";
 import getChatUserInfoReducer from "./Users/getChatUserInfoSlice";
 import chatCreateReducer from "./Users/chatCreateSlice";
-
+import bookingListReducer from "./Admin/bookingListSlice"
 
 
 
@@ -82,6 +82,7 @@ export const store = configureStore({
     providerBlock: providerBlockReducer,
     addLocation: addLocationReducer,
     locationsList: locationListReducer,
+    bookingList : bookingListReducer,
 
     // service Provider
     providerRegistration: providerRegistrationReducer,

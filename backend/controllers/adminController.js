@@ -5,6 +5,7 @@ const ServiceCategory = require("../models/serviceCategoryModel");
 const Service = require("../models/servicesModel");
 const Provider = require("../models/serviceProviderModel");
 const Location = require("../models/locationModel");
+const Booked = require("../models/completedBookingModel");
 
 const adminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -15,8 +16,10 @@ const adminLogin = asyncHandler(async (req, res) => {
       res.json({
         _id: admin._id,
         firstName: admin.firstName,
+        lastName: admin.lastName,
         email: admin.email,
         mobileno: admin.mobileno,
+        pic: admin.pic,
         isAdmin: admin.isAdmin,
         token: generateTocken(admin._id),
       });
@@ -331,6 +334,27 @@ const locationList = asyncHandler(async (req, res) => {
   }
 });
 
+const getBookedList = asyncHandler(async(req,res)=>{
+try {
+  
+  const bookedList = await Booked.find()
+
+  if(bookedList){
+    res.status(200).json(bookedList)
+  }
+
+} catch (error) {
+   console.log(error.message);
+   res.status(404);
+   throw new Error("No booking Yet!");
+}
+
+
+
+
+})
+
+
 module.exports = {
   adminLogin,
   getUsers,
@@ -345,4 +369,5 @@ module.exports = {
   blockProvider,
   addLocation,
   locationList,
+  getBookedList,
 };

@@ -11,12 +11,15 @@ import { handleServiceSearch, toBooking } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
 const filter = createFilterOptions();
 
-
-
 function Banner() {
   const dispatch = useDispatch();
+  const [service, setService] = useState([]);
   const servicesList = useSelector((state) => state.searchService);
   const { services } = servicesList;
+
+  useEffect(() => {
+    if (services) setService(services);
+  }, [services]);
 
   console.log("servicesBanner", services);
   const navigate = useNavigate();
@@ -110,6 +113,9 @@ function Banner() {
               }
             }}
             filterOptions={(options, params) => {
+              if (!Array.isArray(options)) {
+                return [];
+              }
               if (options.length === 0) {
                 return options;
               }
@@ -133,7 +139,7 @@ function Banner() {
             clearOnBlur
             handleHomeEndKeys
             id="free-solo-with-text-demo"
-            options={services}
+            options={service}
             getOptionLabel={(option) => {
               // Value selected with enter, right from the input
               if (typeof option === "string") {

@@ -296,36 +296,38 @@ export const searchProvider =
     }
   };
 
-export const getrecommendationList = () => async (dispatch, getState) => {
-  try {
-    dispatch(recommendationListReq());
-    const {
-      userSignin: { userInfo },
-    } = getState();
+export const getrecommendationList =
+  (newDate, taskTime) => async (dispatch, getState) => {
+    try {
+      dispatch(recommendationListReq());
+      const {
+        userSignin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.get(
-      "/api/users/providerRecommendations",
-      config
-    );
+      const { data } = await axios.post(
+        "/api/users/providerRecommendations",
+        { newDate, taskTime },
+        config
+      );
 
-    dispatch(recommendationListSuccess(data));
+      dispatch(recommendationListSuccess(data));
 
-    console.log("serachProvidrData", data);
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch(recommendationListFail(message));
-  }
-};
+      console.log("serachProvidrData", data);
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch(recommendationListFail(message));
+    }
+  };
 
 // export const timeAndDate = (date, taskTime) => async (dispatch) => {
 //   try {
@@ -423,7 +425,11 @@ export const bookService = (newData) => async (dispatch, getState) => {
     );
 
     dispatch(bookServiceSuccess(data));
-    console.log("booked", data);
+    if(data){
+      dispatch(selectedProviderSuccess(null));
+      dispatch(getBookingDataSuccess(null));
+
+    }
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -654,31 +660,36 @@ export const createChat =
     }
   };
 
-export const getChats = () => async (dispatch, getState) => {
-  try {
-    console.log("getData");
-    const {
-      userSignin: { userInfo },
-    } = getState();
+export const getChats =
+  (bookedId) => async (dispatch, getState) => {
+    try {
+      console.log("bookedId", bookedId);
+      const {
+        userSignin: { userInfo },
+      } = getState();
 
-    console.log("chat data", userInfo._id);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-    const { data } = await axios.get(`/api/users/chat/${userInfo._id}`, config);
-    console.log("chat data", data);
-    dispatch(userChatSuccess(data));
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch(userChatFail(message));
-  }
-};
+      console.log("chat data", userInfo._id);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(
+        `/api/users/chat/${userInfo._id}`,
+       { bookedId},
+        config
+      );
+      console.log("chat data", data);
+      dispatch(userChatSuccess(data));
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      dispatch(userChatFail(message));
+    }
+  };
 
 export const fetchMessages = (id) => async (dispatch, getState) => {
   try {

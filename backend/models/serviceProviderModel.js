@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const bookingSchema = new mongoose.Schema({
+  date: { type: String },
+  time: { type: String },
+});
+
 const serviceProviderSchema = new mongoose.Schema(
   {
     userId: {
@@ -60,6 +65,7 @@ const serviceProviderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    bookings: [bookingSchema],
   },
   {
     timestamps: true,

@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import AdminNavbar from "../../Components/Admin/Navbar/AdminNavbar";
 import SideBar from "../../Components/Admin/SideBar/SideBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AdminProfile() {
   const dispatch = useDispatch();
+
+const admin = useSelector((state)=>state.adminSignin)
+const {adminInfo} = admin;
 
   return (
     <div className="flex flex-row bg-neutral-100 h-screen w-screen ">
@@ -30,12 +33,12 @@ function AdminProfile() {
                   Personal Information
                 </Typography>
                 <Typography sx={{ marginBottom: "0.5rem" }}>
-                  Name: John Doe
+                  Name: {adminInfo.firstName + " " + adminInfo.lastName}
                 </Typography>
                 <Typography sx={{ marginBottom: "0.5rem" }}>
-                  Email: john.doe@example.com
+                  Email: {adminInfo.email}
                 </Typography>
-                <Typography>Phone: (123) 456-7890</Typography>
+                <Typography>Phone: (+91) {adminInfo.mobileno}</Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -69,7 +72,7 @@ function AdminProfile() {
                   }}
                 >
                   <img
-                    src="https://picsum.photos/300/200"
+                    src={adminInfo.pic}
                     alt="Admin Profile"
                     style={{ maxWidth: "100%", height: "auto" }}
                   />

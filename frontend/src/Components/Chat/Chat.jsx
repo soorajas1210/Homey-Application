@@ -15,18 +15,30 @@ function Chat() {
     const [onlineUsers, setOnlineUsers] = useState([])
     const [sendMessage, setSendMessage] = useState(null)
     const [receivedMessage, setReceivedMessage] = useState(null);
-
+    const [currentChat, setCurrentChat] = useState(null);
 
     useEffect(() => {
         dispatch(bookedServiceDetails(id));
     }, [id]);
+
     const details = useSelector((state) => state.providerBookedDetails);
     const { providerBookedDetails } = details;
 
     console.log("providerBookedDetails is ", providerBookedDetails)
 
-    const uid = providerBookedDetails?.userId._id
+    const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : null;
 
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
+
+
+
+    // const uid = providerBookedDetails?.userId._id
+
+    const uid = userInfo._id
+    const bookedId = providerBookedDetails?._id
     console.log("user id", uid)
 
     // socket
@@ -35,18 +47,20 @@ function Chat() {
 
     useEffect(() => {
         dispatch(getChats())
+    }, [userInfo])
 
-    }, [])
 
 
+    const chatUsers = useSelector((state) => state.userChats)
+    const { chats } = chatUsers;
 
 
 
     useEffect(() => {
-        socket.current = io('http://localhost:8800')
-        socket.current.emit("new-user-add", uid)
-        socket.current.on('get-users', (users) => setOnlineUsers(users))
-    }, [uid])
+        socket.current = io("http://127.0.0.1:8800");
+        socket.current.emit("new-user-add", uid);
+        socket.current.on("get-users", (users) => setOnlineUsers(users));
+    }, []);
 
     // Send Message to socket server
     useEffect(() => {
@@ -58,19 +72,24 @@ function Chat() {
     // Get the message from socket server
     useEffect(() => {
         socket.current.on("recieve-message", (data) => {
-            console.log("data received",data)
+            console.log("data received", data);
             setReceivedMessage(data);
-        }
+        });
 
-        );
+        // Handle socket connection error
+        socket.current.on("connect_error", (err) => {
+            console.error("Socket connection error:", err);
+        });
+
+        // Handle socket disconnect
+        socket.current.on("disconnect", (reason) => {
+            console.warn("Socket disconnected:", reason);
+        });
     }, []);
-
-    const chatUsers = useSelector((state) => state.userChats)
-    const { chats } = chatUsers;
 
     const checkOnlineStatus = (chats) => {
         const chatMember = chats?.members?.find((member) => member !== uid);
-        const online = onlineUsers.find((user) => user.userId === chatMember);
+        const online = onlineUsers.find((user) => user?.userId === chatMember);
         return online ? true : false;
     };
 
@@ -80,13 +99,27 @@ function Chat() {
             <div className='Left-side-chat'>
                 <div className="Chat-container">
                     <h2> Chats</h2>
-                    <div className="Chat-list">
+                    {/* <div className="Chat-list">
                         <Conversation
                             data={chats[0]}
                             currentUser={uid}
                             online={checkOnlineStatus(chats[0])}
                         />
-                    </div>
+                    </div> */}
+
+                    {chats.map((chat) => (
+                        <div
+                            onClick={() => {
+                                setCurrentChat(chat);
+                            }}
+                        >
+                            <Conversation
+                                data={chat}
+                                currentUser={uid}
+                                online={checkOnlineStatus(chat)}
+                            />
+                        </div>
+                    ))}
 
                 </div>
             </div>
@@ -97,7 +130,7 @@ function Chat() {
                     <NavIcons />
                 </div>
                 <ChatBox
-                    chat={chats[0]}
+                    chat={currentChat}
                     currentUser={uid}
                     setSendMessage={setSendMessage}
                     receivedMessage={receivedMessage}

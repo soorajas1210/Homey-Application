@@ -156,7 +156,7 @@ const toVerifyList = asyncHandler(async (req, res) => {
 const providerInfo = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    
+
     if (id) {
       const provider = await Provider.findById(id).populate("userId");
       res.status(200).json(provider);
@@ -173,12 +173,35 @@ const providerBookingHandler = asyncHandler(async (req, res) => {
     const { id, status } = body;
 
     const bookingData = await Booked.findById(id);
+    const pid = bookingData.providerId;
+    const newPid = pid.toString();
+
+    console.log("booking data:", bookingData);
+    const newBooking = {
+      date: bookingData.serviceDate,
+      time: bookingData.serviceTime,
+    };
+
     if (bookingData) {
       if (status === "Accepted") {
         const updatedData = await Booked.updateOne(
           { _id: id },
           { $set: { status: "Accepted" } }
         );
+        Provider.updateOne(
+          {
+            _id: newPid,
+          },
+          { $push: { bookings: newBooking } },
+          { upsert: true, new: true }
+        )
+          .then((updated) => {
+            console.log("Provider document updated successfully:", updated);
+          })
+          .catch((err) => {
+            console.log("Error in the operation:", err);
+          });
+
         res.status(200).json(updatedData);
       } else if (status === "Rejected") {
         const updatedData = await Booked.updateOne(

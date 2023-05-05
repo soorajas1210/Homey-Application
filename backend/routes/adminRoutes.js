@@ -14,6 +14,7 @@ const {
   blockProvider,
   addLocation,
   locationList,
+  getBookedList,
 } = require("../controllers/adminController");
 const adminProtect = require("../middlewares/adminAuthMiddleware");
 
@@ -32,5 +33,7 @@ router.get("/providersList",providersList);
 router.patch("/blockProvider/:id", blockProvider);
 router.post("/addLocation", addLocation);
 router.get("/locationList", locationList);
+router.get("/getBookedList", getBookedList);
+
 
 module.exports = router;

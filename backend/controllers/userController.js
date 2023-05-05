@@ -210,6 +210,17 @@ const searchProvider = asyncHandler(async (req, res) => {
 
 const providerRecommendations = asyncHandler(async (req, res) => {
   const { myValue } = req;
+
+  const newDate = req.body.newDate;
+  const taskTime = req.body.taskTime;
+
+  console.log("newDate,taskTime", newDate, taskTime);
+
+  // const newBooking = {
+  //   date: newDate,
+  //   time: taskTime,
+  // };
+
   const myId = myValue.toString();
   console.log(myId);
   const sarchBookData = await Booking.findOne({ userId: myId }).populate(
@@ -232,6 +243,16 @@ const providerRecommendations = asyncHandler(async (req, res) => {
             { userId: provider._id },
             { serviceCategory: sarchBookData.serviceId.serviceName },
             { workLocation: sarchBookData.location },
+            {
+              bookings: {
+                $not: {
+                  $elemMatch: {
+                    date: newDate,
+                    time: taskTime,
+                  },
+                },
+              },
+            },
           ],
         });
 
@@ -573,9 +594,21 @@ const createChat = asyncHandler(async (req, res) => {
 
 const userChat = asyncHandler(async (req, res) => {
   try {
+    const bookedId = req.body.bookedId;
+
+    console.log(" bookedId", bookedId);
+
     const chat = await Chat.find({
       members: { $in: [req.params.userId] },
     });
+
+    // const chat = await Chat.find({
+    //   $and: [
+    //     { members: { $in: [req.params.userId] } },
+    //     { serviceId: { $eq: req.body.bookedId } },
+    //   ],
+    // });
+
     res.status(200).json(chat);
   } catch (error) {
     console.log(error);

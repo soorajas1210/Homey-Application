@@ -17,20 +17,20 @@ function Conversation({ data, currentUser, online }) {
     const cuser = useSelector((state) => state.getChatUserInfo);
     const { chatUserInfo } = cuser;
 
-    useEffect(() => {
-        if (chatUserInfo) {
-            setUserData(chatUserInfo)
-        }
-    }, [chatUserInfo])
+    // useEffect(() => {
+    //     if (chatUserInfo) {
+    //         setUserData(chatUserInfo)
+    //     }
+    // }, [chatUserInfo])
 
     return (
         <>
             <div className="follower conversation" >
                 <div>
                     {online && <div className="online-dot"></div>}
-                    <img src={userData?.profileImage?.url} alt={""} style={{ width: '50px', height: '50px' }} />
+                    <img src={chatUserInfo?.profileImage?.url} alt={""} style={{ width: '50px', height: '50px' }} />
                     <div className='name' style={{ fontSize: "0.8rem" }} ></div>
-                    <span>{userData?.firstName + " " + userData?.lastName}</span> <br />
+                    <span>{chatUserInfo?.firstName + " " + chatUserInfo?.lastName}</span> <br />
                     <span style={{ color: online ? "#51e200" : " " }}>{online ? "Online" : "Offline"}</span>
                 </div>
 
