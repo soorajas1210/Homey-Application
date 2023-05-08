@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -24,12 +24,7 @@ import { visuallyHidden } from "@mui/utils";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/alert";
-import {
-  blockProvider,
-  blockUserAction,
-  providersList,
-  usersList,
-} from "../../actions/adminActions";
+import { blockProvider, providersList } from "../../actions/adminActions";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { confirmAlert } from "react-confirm-alert";
@@ -98,11 +93,8 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -385,11 +377,14 @@ export default function ServiceProvidersTable() {
 
                         <TableCell align="right">{user.email}</TableCell>
                         <TableCell align="right">
-                          {new Date(user.createdAt).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                          })}
+                          {new Date(user.createdAt).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
                         </TableCell>
                         <TableCell align="right">
                           <Button

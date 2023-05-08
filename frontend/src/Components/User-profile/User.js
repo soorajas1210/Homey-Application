@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BookingDetails from "./BookingDetails";
-import { getFullUserInfo} from "../../actions/userActions";
+import { getFullUserInfo } from "../../actions/userActions";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
@@ -11,7 +11,6 @@ function User() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.userSignin);
   const { userInfo } = user;
-
 
   useEffect(() => {
     dispatch(getFullUserInfo(userInfo._id));
@@ -28,8 +27,8 @@ function User() {
   };
 
   const toProviderAccount = () => {
-    navigate("/serviceProvider/account")
-  }
+    navigate("/serviceProvider/account");
+  };
 
   return (
     <>
@@ -41,13 +40,13 @@ function User() {
                 <img
                   src={getUserInfo?.pic}
                   alt=""
-                  style={{ borderRadius: "50%" }}
-                ></img>
-                <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
+                  class="rounded-full w-24 h-24 mx-auto"
+                />
+                <h1 class="text-gray-900 font-bold text-xl leading-8 my-1 text-center">
                   <span>{getUserInfo?.firstName} </span>{" "}
                   <span> {getUserInfo?.lastName}</span>
                 </h1>
-                <h3 class="text-gray-600 font-lg text-semibold leading-6">
+                <h3 class="text-gray-600 font-lg text-semibold leading-6 text-center">
                   Owner at Her Company Inc.
                 </h3>
                 <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
@@ -90,10 +89,7 @@ function User() {
                   </li>
                 </ul>
               </div>
-
-              <div class="my-4"></div>
             </div>
-
             <div class="w-full md:w-9/12 mx-2 h-64">
               <div class="bg-white p-3 shadow-sm rounded-sm">
                 <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
@@ -167,8 +163,9 @@ function User() {
               <div class="my-4"></div>
             </div>
           </div>
-
-          <BookingDetails />
+          <div className="">
+            <BookingDetails />
+          </div>
         </div>
       </div>
     </>

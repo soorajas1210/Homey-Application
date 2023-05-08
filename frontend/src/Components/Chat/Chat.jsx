@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./Chat.css"
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats, getUser } from '../../actions/userActions'
+import { getChats} from '../../actions/userActions'
 import NavIcons from './NavIcons/NavIcons'
 import Conversation from './Conversation'
 import { useParams } from 'react-router-dom'
@@ -26,16 +26,8 @@ function Chat() {
 
     console.log("providerBookedDetails is ", providerBookedDetails)
 
-    const userInfoFromStorage = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo"))
-        : null;
-
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
-
-
-
-    // const uid = providerBookedDetails?.userId._id
 
     const uid = userInfo._id
     const bookedId = providerBookedDetails?._id

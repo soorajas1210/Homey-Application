@@ -15,6 +15,8 @@ const {
   addLocation,
   locationList,
   getBookedList,
+  deleteLocation,
+  paymentInfo,
 } = require("../controllers/adminController");
 const adminProtect = require("../middlewares/adminAuthMiddleware");
 
@@ -34,6 +36,8 @@ router.patch("/blockProvider/:id", blockProvider);
 router.post("/addLocation", addLocation);
 router.get("/locationList", locationList);
 router.get("/getBookedList", getBookedList);
+router.get("/deleteLocation", deleteLocation);
+router.get("/paymentInfo", paymentInfo);
 
 
 module.exports = router;

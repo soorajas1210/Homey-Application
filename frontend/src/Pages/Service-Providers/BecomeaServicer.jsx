@@ -67,7 +67,8 @@ function BecomeaServicer() {
     <div>
       <Navbar />
 
-      {!details ? (<div className='lg:flex px-10  '>
+      {!details ? (
+      <div className='lg:flex px-10  '>
         <div className='w-2/3 p-10 md:hiden sm:hidden   '>
           <img className='ml-20 ' src={image} alt='' style={{ height: "80%" }} />
         </div>
@@ -106,13 +107,10 @@ function BecomeaServicer() {
               {smessage && <Alert variant="filled" severity="success">{smessage}</Alert>}
             </div>
           </form>
-
         </div>
-
-
-
-
-      </div>) : (
+      </div>
+      
+      ) : (
 
         <ApplyVerify serviceCategory={serviceCategory} workLocation={workLocation} />
       )}

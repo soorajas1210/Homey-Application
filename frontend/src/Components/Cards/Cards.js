@@ -1,11 +1,4 @@
 import * as React from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
-import Box from "@mui/joy/Box";
-import Card from "@mui/joy/Card";
-import Typography from "@mui/joy/Typography";
-import Link from "@mui/joy/Link";
-import CardImage from "./Work complete.avif";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function Cards(props) {

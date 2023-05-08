@@ -3,7 +3,6 @@ import BookingNavbar from "../../Components/BookingNavbar/BookingNavbar";
 import ServiceProvidersList from "../../Components/Recommendations/ServiceProvidersList";
 import SideBox from "../../Components/Recommendations/SideBox";
 import { useDispatch, useSelector } from "react-redux";
-import { providersList } from "../../actions/adminActions";
 import {
   getrecommendationList,
   selectedProvider,
@@ -12,12 +11,13 @@ import { Typography } from "@mui/material";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import Footer from "../../Components/Footer/Footer";
 
 function Recomendations() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const List = useSelector((state) => state.recommendationList);
-  const { loading, provider, error } = List;
+  const { provider } = List;
 
   const getData = useSelector((state) => state.selectedProvider);
 
@@ -58,7 +58,7 @@ function Recomendations() {
     <div>
       <BookingNavbar />
 
-      <div className=" absolute w-1/4 flex flex-col items-center right-5 mt-5">
+      {/* <div className=" absolute w-1/4 flex flex-col items-center right-5 mt-5">
         <label
           for="countries"
           class="block mb-2 text-sm font-medium text-gray-900 w-1/4 "
@@ -102,7 +102,40 @@ function Recomendations() {
 
           {sProvider && submitFunction()}
         </div>
+      </div> */}
+
+      <div className="flex flex-col md:flex-row items-start md:space-x-5 md:ml-8">
+        <SideBox
+          changeDate={(date) => setDate(date)}
+          date={date}
+          changeTaskTime={(taskTime) => setTaskTime(taskTime)}
+          taskTime={taskTime}
+        />
+
+        <div className="flex flex-col  w-full p-5">
+          {provider && provider.length > 0 ? (
+            provider.map((provider) => (
+              <ServiceProvidersList
+                key={provider._id}
+                provider={provider}
+                providerSelected={(sProvider) => setSProvider(sProvider)}
+              />
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center text-gray-500 text-center py-16">
+              <PermContactCalendarIcon className="mb-4" fontSize="large" />
+              <p className="mb-2">
+                There are no Taskers currently available to help with your task.
+                Try seeing who's available on different days.
+              </p>
+            </div>
+          )}
+
+          {sProvider && submitFunction()}
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }

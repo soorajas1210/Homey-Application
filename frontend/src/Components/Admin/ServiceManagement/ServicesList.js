@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@material-ui/core";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addServices, sTypeList } from "../../../actions/adminActions";
 import Alert from "@material-ui/lab/alert";
@@ -38,7 +37,6 @@ function ServicesList() {
   const [desc, setDesc] = useState(false);
   const [text, setText] = useState("");
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // IMAGE UPLOAD
@@ -109,7 +107,7 @@ useEffect(() => {
       component="form"
       noValidate
       onSubmit={handleChange}
-      sx={{ minWidth: 150, width: 600, px: 4 }}
+      sx={{ minWidth: 150, width: "100%", px: 4 }}
     >
       <Card variant="outlined" sx={{ boxShadow: 3 }}>
         <React.Fragment>

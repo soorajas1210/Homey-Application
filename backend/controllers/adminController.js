@@ -6,6 +6,7 @@ const Service = require("../models/servicesModel");
 const Provider = require("../models/serviceProviderModel");
 const Location = require("../models/locationModel");
 const Booked = require("../models/completedBookingModel");
+const Payment = require("../models/paymentSuccessModel");
 
 const adminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -334,25 +335,46 @@ const locationList = asyncHandler(async (req, res) => {
   }
 });
 
-const getBookedList = asyncHandler(async(req,res)=>{
-try {
-  
-  const bookedList = await Booked.find()
+const getBookedList = asyncHandler(async (req, res) => {
+  try {
+    const bookedList = await Booked.find();
 
-  if(bookedList){
-    res.status(200).json(bookedList)
+    if (bookedList) {
+      res.status(200).json(bookedList);
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(404);
+    throw new Error("No booking Yet!");
   }
+});
 
-} catch (error) {
-   console.log(error.message);
-   res.status(404);
-   throw new Error("No booking Yet!");
-}
+const deleteLocation = asyncHandler(async (req, res) => {
+  try {
+    const locId = req.body.locId;
+    const deleteData = await Location.findByIdAndDelete(locId);
+    res.status(204).end();
+  } catch (error) {
+    console.log(error.message);
+    res.status(404);
+    throw new Error("No booking Yet!");
+  }
+});
 
+const paymentInfo = asyncHandler(async (req, res) => {
+  try {
+    const paymentDetails = await Payment.find().populate("invoiceId");
 
+    if (paymentDetails) {
+      res.status(200).json(paymentDetails);
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(404);
+    throw new Error("No payment Yet!");
+  }
+});
 
-
-})
 
 
 module.exports = {
@@ -370,4 +392,6 @@ module.exports = {
   addLocation,
   locationList,
   getBookedList,
+  deleteLocation,
+  paymentInfo,
 };

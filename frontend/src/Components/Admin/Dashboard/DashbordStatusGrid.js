@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
 import { IoBagHandle, IoPieChart, IoPeople, IoCart } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookedList, usersList } from "../../../actions/adminActions";
 
 export default function DashboardStatusGrid() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getBookedList());
-    dispatch(usersList())
-  },[]);
+  const pay = useSelector((state) => state.paymentInfo);
+  const { payments } = pay;
+
+  const totalAmount = payments.reduce((total, payment) => {
+    return total + parseFloat(payment.invoiceId.amount);
+  }, 0);
 
   const List = useSelector((state) => state.bookingList);
   const { bookings } = List;
 
-  console.log("hello",bookings)
+  console.log("hello", bookings);
 
-    const uList = useSelector((state) => state.adminUsersList);
-    const { loading, users, error } = uList;
+  const uList = useSelector((state) => state.adminUsersList);
+  const { users } = uList;
 
   return (
     <div className="flex gap-4">
@@ -47,9 +48,9 @@ export default function DashboardStatusGrid() {
           </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              $3423
+              {totalAmount}
             </strong>
-            <span className="text-sm text-green-500 pl-2">-343</span>
+            {/* <span className="text-sm text-green-500 pl-2">-343</span> */}
           </div>
         </div>
       </BoxWrapper>
@@ -65,7 +66,7 @@ export default function DashboardStatusGrid() {
             <strong className="text-xl text-gray-700 font-semibold">
               {users.length}
             </strong>
-            <span className="text-sm text-red-500 pl-2">-30</span>
+            {/* <span className="text-sm text-red-500 pl-2">-30</span> */}
           </div>
         </div>
       </BoxWrapper>

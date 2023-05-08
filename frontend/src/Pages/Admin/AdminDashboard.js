@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import ServiceStatusPieChart from "../../Components/Admin/Dashboard/ServiceStatusPieChart";
 import DashboardStatsGrid from "../../Components/Admin/Dashboard/DashbordStatusGrid";
 import AdminNavbar from "../../Components/Admin/Navbar/AdminNavbar";
 import SideBar from "../../Components/Admin/SideBar/SideBar";
 import TransactionChart from "../../Components/Admin/Dashboard/TransactionChart";
+import { useDispatch } from "react-redux";
+import { getBookedList, getPaymentInfo, usersList } from "../../actions/adminActions";
 
 function AdminDashboard() {
+const dispatch = useDispatch()
+
+    useEffect(() => {
+      dispatch(getPaymentInfo());
+    }, []);
+
+     useEffect(() => {
+       dispatch(getBookedList());
+       dispatch(usersList());
+     }, [dispatch]);
+
   return (
     <div className="flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden">
       <SideBar />

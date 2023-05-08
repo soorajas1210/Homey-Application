@@ -39,7 +39,7 @@ import sendMessageReducer from "./Users/sendMessageSlice";
 import getChatUserInfoReducer from "./Users/getChatUserInfoSlice";
 import chatCreateReducer from "./Users/chatCreateSlice";
 import bookingListReducer from "./Admin/bookingListSlice"
-
+import paymentInfoReducer from "./Admin/paymentInfoSlice";
 
 
 export const store = configureStore({
@@ -83,6 +83,7 @@ export const store = configureStore({
     addLocation: addLocationReducer,
     locationsList: locationListReducer,
     bookingList : bookingListReducer,
+    paymentInfo : paymentInfoReducer,
 
     // service Provider
     providerRegistration: providerRegistrationReducer,

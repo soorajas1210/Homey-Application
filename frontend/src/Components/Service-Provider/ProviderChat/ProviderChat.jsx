@@ -27,20 +27,10 @@ function ProviderChat() {
 
     console.log("providerBookedDetails is ", providerBookedDetails)
 
-
-    const userInfoFromStorage = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo"))
-        : null;
-
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
 
-    // const uid = providerBookedDetails?.providerId?.userId
-
     const uid = userInfo._id
-
-    console.log("uid", uid)
-
 
 
     // socket

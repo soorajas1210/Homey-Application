@@ -1,13 +1,11 @@
-import { async } from "@firebase/util";
+
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import Alert from "@material-ui/lab/alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useNavigate } from "react-router-dom";
-import { adminLoginSuccess } from "../../Redux/Admin/adminSigninSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Signin } from "../../actions/adminActions";
-import { store } from "../../Redux/store";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");

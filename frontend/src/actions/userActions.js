@@ -63,7 +63,6 @@ import {
 } from "../Redux/Service-Providers/providerBookedListSlice";
 import {
   getInvoiceFail,
-  getInvoiceReq,
   getInvoiceSuccess,
 } from "../Redux/Users/getInvoiceSlice";
 import {
@@ -545,6 +544,7 @@ export const cancelBooking = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
+        console.log(message)
   }
 };
 

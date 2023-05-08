@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { sList, sTypeList } from "../../actions/adminActions";
 
 
@@ -21,7 +21,7 @@ function List() {
   const { serviceType } = TypeList;
 
   const serviceList = useSelector((state) => state.servicesList);
-  const { services, loading, error } = serviceList;
+  const { services } = serviceList;
 
   const handleClick = (id) => {
   navigate(`/ServiceBook/${id} `);

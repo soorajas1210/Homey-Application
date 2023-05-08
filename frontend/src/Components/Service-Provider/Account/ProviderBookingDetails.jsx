@@ -448,7 +448,7 @@ function ProviderBookingDetails() {
                                                             />
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {user.userId.firstName}
+                                                            {user.userId.firstName +" "+ user.userId.lastName}
                                                         </TableCell>
                                                         <TableCell align="right">
                                                             {new Date(user.createdAt).toLocaleDateString(

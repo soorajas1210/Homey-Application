@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addMessage, fetchMessages, getFullUserInfo, getUser } from '../../../actions/userActions'
+import { addMessage, fetchMessages, getFullUserInfo } from '../../../actions/userActions'
 import { format } from 'timeago.js'
 import InputEmoji from 'react-input-emoji'
 import "./ChatBox.css"
@@ -23,9 +23,6 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
 
     const user = useSelector((state) => state.getUserInfo)
     const { getUserInfo } = user;
-
-    const send = useSelector((state) => state.sendMessage)
-    const { sendMessage } = send;
 
     useEffect(() => {
         dispatch(getFullUserInfo(currentUser))

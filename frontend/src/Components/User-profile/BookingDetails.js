@@ -24,12 +24,6 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/alert";
-import {
-  blockProvider,
-  blockUserAction,
-  providersList,
-  usersList,
-} from "../../actions/adminActions";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { confirmAlert } from "react-confirm-alert";
@@ -104,14 +98,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -425,7 +412,9 @@ function BookingDetails() {
                               />
                             </TableCell>
                             <TableCell align="right">
-                              {user.userId.firstName}
+                              {user.userId.firstName +
+                                " " +
+                                user.userId.lastName}
                             </TableCell>
                             <TableCell align="right">
                               {new Date(user.createdAt).toLocaleDateString(

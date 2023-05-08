@@ -154,9 +154,9 @@ const serviceSearch = asyncHandler(async (req, res) => {
       Service.find({ locations: { $in: [loc.location] } })
         .then((services) => {
           if (services.length > 0) {
-            res.json(services);
+            res.status(200).json(services);
           } else {
-            res.json({ message: "No services found in that location" });
+            res.json([]);
           }
         })
         .catch((err) => {
@@ -533,31 +533,41 @@ const paymentSuccess = asyncHandler(async (req, res) => {
     const { newData } = req.body;
 
     if (newData) {
-      const paymentData = await Payment.create({
-        firstName: newData.firstName,
-        lastName: newData.lastName,
-        streetAddress: newData.streetAddress,
-        city: newData.city,
-        state: newData.state,
-        country: newData.country,
-        pin: newData.pin,
-        phoneNumber: newData.phoneNumber,
-        bookedId: newData.bookedId,
-        userId: newData.userId,
-        providerId: newData.providerId,
-        invoiceId: newData.invoiceId,
-      });
+      const pDetails = await Provider.findById(newData.providerId).populate(
+        "userId"
+      );
 
-      if (paymentData) {
-        await Invoice.updateOne(
-          { _id: newData.invoiceId },
-          { $set: { status: "payed" } }
-        );
-        await Booked.updateOne(
-          { _id: newData.bookedId },
-          { $set: { status: "payed" } }
-        );
-        res.status(200).json(paymentData);
+      console.log("provderFirstName", pDetails);
+      if (pDetails) {
+
+        const paymentData = await Payment.create({
+          firstName: newData.firstName,
+          lastName: newData.lastName,
+          provderFirstName:pDetails.userId.firstName,
+          providerLastName:pDetails.userId.lastName,
+          streetAddress: newData.streetAddress,
+          city: newData.city,
+          state: newData.state,
+          country: newData.country,
+          pin: newData.pin,
+          phoneNumber: newData.phoneNumber,
+          bookedId: newData.bookedId,
+          userId: newData.userId,
+          providerId: newData.providerId,
+          invoiceId: newData.invoiceId,
+        });
+
+        if (paymentData) {
+          await Invoice.updateOne(
+            { _id: newData.invoiceId },
+            { $set: { status: "payed" } }
+          );
+          await Booked.updateOne(
+            { _id: newData.bookedId },
+            { $set: { status: "payed" } }
+          );
+          res.status(200).json(paymentData);
+        }
       }
     } else {
       res.status(400);

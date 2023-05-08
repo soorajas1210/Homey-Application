@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   BarChart,
   Bar,
@@ -74,6 +75,13 @@ const data = [
 ];
 
 export default function TransactionChart() {
+
+    const pay = useSelector((state) => state.paymentInfo);
+    const { payments } = pay;
+
+    const List = useSelector((state) => state.bookingList);
+    const { bookings } = List;
+
   return (
     <div className="h-[22rem] bg-white p-4 rounded-sm border border-gray-200 flex flex-col flex-1">
       <strong className="text-gray-700 font-medium">Transactions</strong>

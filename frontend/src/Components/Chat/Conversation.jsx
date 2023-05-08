@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getChatUserInfo, getFullUserInfo } from '../../actions/userActions';
+import { getChatUserInfo} from '../../actions/userActions';
 
 
 function Conversation({ data, currentUser, online }) {
     const dispatch = useDispatch()
-    const [userData, setUserData] = useState(null);
-
     useEffect(() => {
         const userId = data?.members?.find((id) => id !== currentUser)
         console.log("conv uid", userId)

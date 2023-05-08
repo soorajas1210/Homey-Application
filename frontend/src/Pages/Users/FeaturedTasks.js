@@ -59,18 +59,16 @@ function FeaturedTasks() {
         </p>
       </div>
       <div className="flex">
-        <div className="flex flex-col gap-y-4 w-2/3 ml-20 mt-10 ">
+        <div className="flex flex-col gap-y-4 w-1/2 ml-20 mt-10">
           {services
             .filter(
               (service) => service.serviceType === getCategory.serviceType
             )
             .map((service) => (
               <BookNow key={service._id} props={service} />
-
-              
             ))}
         </div>
-        <div className="ml-10  w-1/3 mt-10 px-6 ">
+        <div className="ml-10  w-1/3 mt-10 px-6  ">
           <h1 className="font-bold text-lg">1.Select your Tasker</h1>{" "}
           <p>
             Describe your task and choose a background checked and

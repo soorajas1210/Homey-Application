@@ -65,8 +65,11 @@ import {
   locationListReq,
   locationListSuccess,
 } from "../Redux/Admin/locationListSlice";
-import { async } from "react-input-emoji";
-import { bookingListFail, bookingListSuccess } from "../Redux/Admin/bookingListSlice";
+import {
+  bookingListFail,
+  bookingListSuccess,
+} from "../Redux/Admin/bookingListSlice";
+import { paymentInfoFail, paymentInfoSuccess } from "../Redux/Admin/paymentInfoSlice";
 
 export const Signin = (email, password) => async (dispatch) => {
   try {
@@ -480,17 +483,70 @@ export const getBookedList = () => async (dispatch, getState) => {
         authorization: `Bearer ${adminInfo.token}`,
       },
     };
-   ;
 
     const { data } = await axios.get("/api/admin/getBookedList", config);
     console.log("getBookedList", data);
-    dispatch(bookingListSuccess(data))
-
+    dispatch(bookingListSuccess(data));
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-        dispatch(bookingListFail(message))
+    dispatch(bookingListFail(message));
+  }
+};
+
+export const deleteLocation = (locId) => async (dispatch, getState) => {
+  try {
+    const {
+      adminSignin: { adminInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        authorization: `Bearer ${adminInfo.token}`,
+      },
+    };
+
+    const data = await axios.delete(
+      "/api/admin/deleteLocation",
+      { locId },
+      config
+    );
+
+    console.log(data);
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    console.log(message);
+  }
+};
+
+
+export const getPaymentInfo = () => async (dispatch, getState) => {
+  try {
+    const {
+      adminSignin: { adminInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        authorization: `Bearer ${adminInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/admin/paymentInfo", config);
+    console.log("paymentInfo", data);
+    dispatch(paymentInfoSuccess(data))
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+       dispatch(paymentInfoFail(message));
   }
 };

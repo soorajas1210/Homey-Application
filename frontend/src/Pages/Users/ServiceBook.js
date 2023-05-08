@@ -1,15 +1,34 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { serviceDetails } from "../../actions/userActions";
 import Footer from "../../Components/Footer/Footer";
 import Navbar from "../../Components/Navbar/Navbar";
 import image from "../assets/Handyman-Booking.png";
+import { Box, Button, Typography } from "@mui/material";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  container: {
+    height: "31rem",
+    "@media (max-width: 600px)": {
+      height: "20rem",
+    },
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+});
 
 function ServiceBook() {
+  const classes = useStyles();
+
   const { id } = useParams();
   console.log(id);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const service = useSelector((state) => state.serviceDetails);
 
@@ -24,11 +43,9 @@ const navigate = useNavigate()
     fetchData();
   }, [dispatch, id]);
 
-  const handleClick = () =>{
-
+  const handleClick = () => {
     navigate(`/book/details/${id}`);
-
-  }
+  };
 
   return (
     <div>
@@ -43,23 +60,58 @@ const navigate = useNavigate()
                 height: "31rem",
               }}
             ></div>
-            <div class="absolute text-center h-2/3 max-w-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded overflow-hidden shadow-lg bg-white">
-              <div class="px-6 py-4">
-                <div class="font-bold text-2xl mb-2 mt-5">
+
+
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                borderRadius: "16px",
+                overflow: "hidden",
+                boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.1)",
+                bgcolor: "#fff",
+                maxWidth: "500px",
+              }}
+            >
+              <Box sx={{ px: 6, py: 2, textAlign: "center" }}>
+                <Typography
+                  variant="h4"
+                  component="div"
+                  fontWeight="bold"
+                  mt={2}
+                  mb={2}
+                >
                   {getService.serviceName}
-                </div>
-                <p class="text-gray-700 font-semibold text-base mt-10">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                  exercitationem praesentium nihil.
-                </p>
-              </div>
-              
-                <button onClick={()=>handleClick(getService._id)} className=" h-10 mt-10 px-5 m-2 bg-green-700 hover:bg-green-800 text-white font-bold py-2 border border-green-700 rounded  ">
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  mt={4}
+                  fontWeight="bold"
+                >
+                  Book your service Now....
+                </Typography>
+
+                <Button
+                  onClick={() => handleClick(getService._id)}
+                  sx={{
+                    mt: 4,
+                    px: 5,
+                    py: 2,
+                    bgcolor: "#004C00",
+                    color: "white",
+                    "&:hover": {
+                      bgcolor: "#519451",
+                    },
+                  }}
+                  variant="contained"
+                >
                   Book Now
-                </button>
-            
-            </div>
+                </Button>
+              </Box>
+            </Box>
           </div>
         </div>
       </div>

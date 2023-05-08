@@ -1,11 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
-
-const data = [
-  { name: "Booked", value: 540 },
-  { name: "Pending", value: 620 },
-  { name: "Completed", value: 210 },
-];
 
 const RADIAN = Math.PI / 180;
 const COLORS = ["#00C49F", "#FFBB28", "#FF8042"];
@@ -36,9 +31,30 @@ const renderCustomizedLabel = ({
 };
 
 export default function ServiceStatusPieChart() {
+  const pay = useSelector((state) => state.paymentInfo);
+  const { payments } = pay;
+
+  const List = useSelector((state) => state.bookingList);
+  const { bookings } = List;
+
+  const data = [
+    {
+      name: "Booked",
+      value: bookings.filter((booking) => booking.status === "booked").length,
+    },
+    {
+      name: "Pending",
+      value: bookings.filter((booking) => booking.status === "Accepted").length,
+    },
+    {
+      name: "Completed",
+      value: bookings.filter((booking) => booking.status === "payed").length,
+    },
+  ];
+
   return (
     <div className="w-[20rem] h-[22rem] bg-white p-4 rounded-sm border border-gray-200 flex flex-col">
-      <strong className="text-gray-700 font-medium">Buyer Profile</strong>
+      <strong className="text-gray-700 font-medium">Booking Details </strong>
       <div className="mt-3 w-full flex-1 text-xs">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={400} height={300}>
