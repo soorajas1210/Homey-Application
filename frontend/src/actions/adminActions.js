@@ -70,6 +70,9 @@ import {
   bookingListSuccess,
 } from "../Redux/Admin/bookingListSlice";
 import { paymentInfoFail, paymentInfoSuccess } from "../Redux/Admin/paymentInfoSlice";
+import { BASE_URL } from "./helper";
+
+
 
 export const Signin = (email, password) => async (dispatch) => {
   try {
@@ -83,7 +86,7 @@ export const Signin = (email, password) => async (dispatch) => {
     console.log("11object", email, password);
 
     const { data } = await axios.post(
-      "/api/admin/adminLogin",
+    `  ${BASE_URL}/api/admin/adminLogin`,
       {
         email,
         password,
@@ -119,7 +122,7 @@ export const usersList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/usersList", config);
+    const { data } = await axios.get(`${BASE_URL}/api/admin/usersList`, config);
 
     console.log(data);
 
@@ -156,7 +159,7 @@ export const blockUserAction = (id, status) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.patch(
-      `/api/admin/blockUser/${id}`,
+      `${BASE_URL}/api/admin/blockUser/${id}`,
       sendStatus,
       config
     );
@@ -185,7 +188,7 @@ export const addServiceType =
       dispatch(addServiceTypeReq());
 
       const { data } = await axios.post(
-        "/api/admin/addServiceTypes",
+        `${BASE_URL}/api/admin/addServiceTypes`,
         {
           serviceType,
           fileLink,
@@ -214,7 +217,10 @@ export const sTypeList = () => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/serviceTypeList", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/admin/serviceTypeList`,
+      config
+    );
 
     console.log(data);
 
@@ -239,7 +245,7 @@ export const addServices =
       dispatch(addServiceReq());
 
       const { data } = await axios.post(
-        "/api/admin/addServices",
+        `${BASE_URL}/api/admin/addServices`,
         {
           stype,
           services,
@@ -268,7 +274,7 @@ export const sList = () => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/servicesList", config);
+    const { data } = await axios.get(`${BASE_URL}/api/admin/servicesList`, config);
 
     console.log(data);
 
@@ -298,7 +304,7 @@ export const verifyProvider = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.patch(
-      `/api/admin/verifyProvider/${id}`,
+      `${BASE_URL}/api/admin/verifyProvider/${id}`,
       config
     );
 
@@ -330,7 +336,7 @@ export const rejectProvider = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.patch(
-      `/api/admin/rejectProvider/${id}`,
+      `${BASE_URL}/api/admin/rejectProvider/${id}`,
       config
     );
 
@@ -361,7 +367,10 @@ export const providersList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/providersList", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/admin/providersList`,
+      config
+    );
 
     console.log(data);
 
@@ -398,7 +407,7 @@ export const blockProvider = (id, status) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.patch(
-      `/api/admin/blockProvider/${id}`,
+      `${BASE_URL}/api/admin/blockProvider/${id}`,
       sendStatus,
       config
     );
@@ -430,7 +439,7 @@ export const newLocation = (location) => async (dispatch, getState) => {
     dispatch(addLocationReq());
 
     const { data } = await axios.post(
-      "/api/admin/addLocation",
+      `${BASE_URL}/api/admin/addLocation`,
       {
         location,
       },
@@ -456,7 +465,10 @@ export const locationList = () => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/locationList", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/admin/locationList`,
+      config
+    );
 
     console.log(data);
 
@@ -484,7 +496,10 @@ export const getBookedList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/getBookedList", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/admin/getBookedList`,
+      config
+    );
     console.log("getBookedList", data);
     dispatch(bookingListSuccess(data));
   } catch (error) {
@@ -510,7 +525,7 @@ export const deleteLocation = (locId) => async (dispatch, getState) => {
     };
 
     const data = await axios.delete(
-      "/api/admin/deleteLocation",
+      `${BASE_URL}/api/admin/deleteLocation`,
       { locId },
       config
     );
@@ -539,7 +554,10 @@ export const getPaymentInfo = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/admin/paymentInfo", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/admin/paymentInfo`,
+      config
+    );
     console.log("paymentInfo", data);
     dispatch(paymentInfoSuccess(data))
   } catch (error) {

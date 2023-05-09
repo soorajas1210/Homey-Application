@@ -1,3 +1,4 @@
+import { BASE_URL } from "./helper";
 import axios from "axios";
 import {
   providerRegFail,
@@ -56,7 +57,7 @@ export const providerReg =
       dispatch(providerRegReq());
 
       const { data } = await axios.post(
-        "/api/provider/toVerify",
+        `${BASE_URL}/api/provider/toVerify`,
         {
           serviceCategory,
           workLocation,
@@ -101,7 +102,10 @@ export const toVerifyList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/provider/toVerifyList", config);
+    const { data } = await axios.get(
+     ` ${BASE_URL}/api/provider/toVerifyList`,
+      config
+    );
 
     console.log(data);
 
@@ -130,7 +134,7 @@ export const providerBookingHandler =
       };
 
       const { data } = await axios.patch(
-        "/api/provider/providerBookingHandler",
+        ` ${BASE_URL}/api/provider/providerBookingHandler`,
         { id, status },
         config
       );
@@ -159,7 +163,7 @@ export const bookedServiceDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/provider/serviceDetails/${id}`,
+      `${BASE_URL}/api/provider/serviceDetails/${id}`,
       config
     );
     console.log("service Details", data);
@@ -190,7 +194,7 @@ export const Invoice = (newData) => async (dispatch, getState) => {
     dispatch(sendInvoiceReq());
 
     const { data } = await axios.post(
-      "/api/provider/sendInvoice",
+     ` ${BASE_URL}/api/provider/sendInvoice`,
       {
         newData,
       },
@@ -222,7 +226,7 @@ export const providerDetails = (pid) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/provider/providerInfo/${pid}`,
+      `${BASE_URL}/api/provider/providerInfo/${pid}`,
       config
     );
     console.log("providerInfo", data);

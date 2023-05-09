@@ -91,6 +91,7 @@ import {
   createChatFail,
   createChatSuccess,
 } from "../Redux/Users/chatCreateSlice";
+import { BASE_URL } from "./helper";
 
 export const signin = (email, password) => async (dispatch) => {
   try {
@@ -102,7 +103,7 @@ export const signin = (email, password) => async (dispatch) => {
     dispatch(userLoginReq());
 
     const { data } = await axios.post(
-      "/api/users/signin",
+      `${BASE_URL}/api/users/signin`,
       {
         email,
         password,
@@ -131,7 +132,7 @@ export const gsignin = (email) => async (dispatch) => {
     dispatch(userLoginReq());
 
     const { data } = await axios.post(
-      "/api/users/signinWithGoogle",
+     ` ${BASE_URL}/api/users/signinWithGoogle`,
       {
         email,
       },
@@ -166,7 +167,7 @@ export const signup =
       dispatch(userSignupReq());
 
       const { data } = await axios.post(
-        "/api/users/signup",
+        `${BASE_URL}/api/users/signup`,
         {
           firstName,
           lastName,
@@ -197,7 +198,7 @@ export const serviceDetails = (id) => async (dispatch) => {
     };
 
     const { data } = await axios.get(
-      `/api/users/getServiceDetails/${id}`,
+      `${BASE_URL}/api/users/getServiceDetails/${id}`,
       config
     );
     console.log(data);
@@ -220,7 +221,7 @@ export const serviceTypeDetails = (id) => async (dispatch) => {
     };
 
     const { data } = await axios.get(
-      `/api/users/getCategoryDetails/${id}`,
+      `${BASE_URL}/api/users/getCategoryDetails/${id}`,
       config
     );
     console.log(data);
@@ -243,7 +244,10 @@ export const handleServiceSearch = (id) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/serviceSearch/${id}`, config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/serviceSearch/${id}`,
+      config
+    );
 
     console.log("home list ", data);
 
@@ -273,7 +277,7 @@ export const searchProvider =
       };
 
       const { data } = await axios.post(
-        "/api/users/searchProvider",
+        `${BASE_URL}/api/users/searchProvider`,
         {
           id,
           location,
@@ -311,7 +315,7 @@ export const getrecommendationList =
       };
 
       const { data } = await axios.post(
-        "/api/users/providerRecommendations",
+        `${BASE_URL}/api/users/providerRecommendations`,
         { newDate, taskTime },
         config
       );
@@ -353,7 +357,7 @@ export const selectedProvider =
       };
 
       const { data } = await axios.post(
-        "/api/users/selectedProvider",
+        ` ${BASE_URL}/api/users/selectedProvider`,
         {
           newDate,
           taskTime,
@@ -387,7 +391,10 @@ export const getBookingData = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/users/getBookingData", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/getBookingData`,
+      config
+    );
 
     dispatch(getBookingDataSuccess(data));
     console.log("mergedData", data);
@@ -416,7 +423,7 @@ export const bookService = (newData) => async (dispatch, getState) => {
     dispatch(bookServiceReq());
 
     const { data } = await axios.post(
-      "/api/users/bookService",
+      `${BASE_URL}/api/users/bookService`,
       {
         newData,
       },
@@ -451,7 +458,10 @@ export const userbookedList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/users/userbookedList", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/userbookedList`,
+      config
+    );
 
     dispatch(userbookedListSuccess(data));
     console.log("booking list", data);
@@ -480,7 +490,10 @@ export const getFullUserInfo = (id) => async (dispatch, getState) => {
     };
 
     console.log("userinfo");
-    const { data } = await axios.get(`/api/users/getUserInfo/${id}`, config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/getUserInfo/${id}`,
+      config
+    );
 
     dispatch(getUserInfoSuccess(data));
     console.log("user", data);
@@ -506,7 +519,10 @@ export const providerbookedList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/users/providerbookedList", config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/providerbookedList`,
+      config
+    );
 
     dispatch(providerbookedListSuccess(data));
     console.log("booking list", data);
@@ -533,7 +549,7 @@ export const cancelBooking = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.patch(
-      "/api/users/cancelBooking",
+      `${BASE_URL}/api/users/cancelBooking`,
       { id },
       config
     );
@@ -561,7 +577,10 @@ export const checkInvoice = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/getInvoice/${id}`, config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/getInvoice/${id}`,
+      config
+    );
 
     console.log("getInvoice", data);
     dispatch(getInvoiceSuccess(data));
@@ -587,7 +606,7 @@ export const checkoutService = (product) => async (dispatch, getState) => {
       },
     };
 
-    const data = await axios.post("/api/users/checkout", { product }, config);
+    const data = await axios.post(`${BASE_URL}/api/users/checkout`, { product }, config);
 
     console.log(data.data.clientSecret);
     dispatch(clientSecreteSuccess(data.data.clientSecret));
@@ -614,7 +633,7 @@ export const paymentSuccess = (newData) => async (dispatch, getState) => {
     };
     dispatch(paymentDataReq());
     const payed = await axios.post(
-      "/api/users/paymentSuccess",
+      `${BASE_URL}/api/users/paymentSuccess`,
       { newData },
       config
     );
@@ -645,7 +664,7 @@ export const createChat =
         },
       };
       const { data } = await axios.post(
-        "/api/users/createChat",
+        `${BASE_URL}/api/users/createChat`,
         { senderId, receiverId, serviceId },
         config
       );
@@ -676,8 +695,8 @@ export const getChats =
         },
       };
       const { data } = await axios.get(
-        `/api/users/chat/${userInfo._id}`,
-       { bookedId},
+        `${BASE_URL}/api/users/chat/${userInfo._id}`,
+        { bookedId },
         config
       );
       console.log("chat data", data);
@@ -704,7 +723,10 @@ export const fetchMessages = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`/api/users/getMessages/${id}`, config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/getMessages/${id}`,
+      config
+    );
     console.log("fetch messages", data);
 
     dispatch(fetchMessagesSuccess(data));
@@ -730,7 +752,11 @@ export const addMessage = (message) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.post("/api/users/messages", message, config);
+    const { data } = await axios.post(
+      `${BASE_URL}/api/users/messages`,
+      message,
+      config
+    );
     console.log("messages", data);
 
     dispatch(sendMessageSuccess(data));
@@ -759,7 +785,10 @@ export const getChatUserInfo = (id) => async (dispatch, getState) => {
     };
 
     console.log("userinfo");
-    const { data } = await axios.get(`/api/users/getChatInfo/${id}`, config);
+    const { data } = await axios.get(
+      `${BASE_URL}/api/users/getChatInfo/${id}`,
+      config
+    );
 
     dispatch(getChatUserInfoSuccess(data));
     console.log("user", data);
