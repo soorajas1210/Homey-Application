@@ -82,6 +82,7 @@ function ConfirmPayment() {
   const stripe = useStripe();
   const [clientSecret, setClientSecret] = useState("");
   const [pay, setPay] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     dispatch(checkoutService(product));
@@ -97,11 +98,11 @@ function ConfirmPayment() {
   const detailsCheck = (e) => {
     e.preventDefault();
     setPay(true);
-    
   };
 
-  const confirmPayment = async (e) => {
+  const confirm = async (e) => {
     e.preventDefault();
+    setSubmitting(true); // Disable submit button
 
     await stripe
       .confirmCardPayment(clientSecret, {
@@ -124,6 +125,7 @@ function ConfirmPayment() {
         });
       })
       .catch((error) => console.warn(error));
+    setSubmitting(false); // Re-enable submit button
   };
 
   return (
@@ -301,9 +303,10 @@ function ConfirmPayment() {
                 prefix={"₹ "}
               />
               <Button
+                disabled={submitting}
                 variant="outlined"
                 sx={{ fontWeight: 1000 }}
-                onClick={confirmPayment}
+                onClick={confirm}
               >
                 Pay Now
               </Button>

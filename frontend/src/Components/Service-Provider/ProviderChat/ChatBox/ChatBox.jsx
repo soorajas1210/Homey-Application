@@ -98,7 +98,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
                             <div className="follower">
                                 <div>
                                     <img
-                                        src={getUserInfo?.pic}
+                                        src={getUserInfo?.role === "provider" ? getUserInfo?.profileImage.url : getUserInfo?.pic}
                                         alt="Profile"
                                         className="followerImage"
                                         style={{ width: "50px", height: "50px" }}

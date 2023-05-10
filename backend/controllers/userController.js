@@ -539,12 +539,11 @@ const paymentSuccess = asyncHandler(async (req, res) => {
 
       console.log("provderFirstName", pDetails);
       if (pDetails) {
-
         const paymentData = await Payment.create({
           firstName: newData.firstName,
           lastName: newData.lastName,
-          provderFirstName:pDetails.userId.firstName,
-          providerLastName:pDetails.userId.lastName,
+          provderFirstName: pDetails.userId.firstName,
+          providerLastName: pDetails.userId.lastName,
           streetAddress: newData.streetAddress,
           city: newData.city,
           state: newData.state,
@@ -608,16 +607,16 @@ const userChat = asyncHandler(async (req, res) => {
 
     console.log(" bookedId", bookedId);
 
-    const chat = await Chat.find({
-      members: { $in: [req.params.userId] },
-    });
-
     // const chat = await Chat.find({
-    //   $and: [
-    //     { members: { $in: [req.params.userId] } },
-    //     { serviceId: { $eq: req.body.bookedId } },
-    //   ],
+    //   members: { $in: [req.params.userId] },
     // });
+
+    const chat = await Chat.find({
+      $and: [
+        { members: { $in: [req.params.userId] } },
+        { serviceId: { $eq: req.body.bookedId } },
+      ],
+    });
 
     res.status(200).json(chat);
   } catch (error) {
@@ -700,6 +699,40 @@ const getChatInfo = asyncHandler(async (req, res) => {
   }
 });
 
+const editUser = asyncHandler(async (req, res) => {
+  try {
+    const { myValue, body } = req;
+    const myId = myValue.toString();
+    const { editData } = body;
+
+    if (editData) {
+      const update = await User.findOneAndUpdate(
+        { _id: myId },
+        {
+          firstName: editData.firstName,
+          lastName: editData.lastName,
+          email: editData.email,
+          mobileno: editData.phoneNumber,
+          streetAddress: editData.streetAddress,
+          city: editData.city,
+          state: editData.state,
+          pin: editData.pin,
+          country: editData.country,
+        }
+      );
+      if (update) {
+        res.status(200).json(update);
+      } else {
+        console.log("error:", error);
+        throw new Error("Details not updated");
+      }
+    }
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("No data found!");
+  }
+});
+
 module.exports = {
   signinUser,
   registerUser,
@@ -725,4 +758,5 @@ module.exports = {
   addMessage,
   getMessages,
   getChatInfo,
+  editUser,
 };

@@ -62,7 +62,6 @@ export default function ApplyVerify({ serviceCategory, workLocation }) {
 
   const handleProfileImage = (e) => {
     const file = e.target.files[0];
-
     setFileToBase(file);
   };
 

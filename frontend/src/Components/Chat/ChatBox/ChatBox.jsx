@@ -24,6 +24,9 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
     const user = useSelector((state) => state.getUserInfo)
     const { getUserInfo } = user;
 
+console.log("getUserInfo",getUserInfo)
+
+
     useEffect(() => {
         dispatch(getFullUserInfo(currentUser))
         if (chat !== null) {
@@ -95,7 +98,7 @@ function ChatBox({ chat, currentUser, setSendMessage, receivedMessage }) {
                             <div className="follower">
                                 <div>
                                     <img
-                                        src={getUserInfo?.pic}
+                                        src={getUserInfo?.role === "provider" ? getUserInfo?.profileImage.url : getUserInfo?.pic}
                                         alt="Profile"
                                         className="followerImage"
                                         style={{ width: "50px", height: "50px" }}

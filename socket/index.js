@@ -1,6 +1,6 @@
 const io = require("socket.io")(8800, {
   cors: {
-    origin: "https://homeyapp.netlify.app",
+    origin: "https://homeyapplication.netlify.app/",
   },
 });
 
@@ -37,5 +37,3 @@ io.on("connection", (socket) => {
     }
   });
 });
-
-

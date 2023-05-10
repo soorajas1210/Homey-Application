@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,9 +8,17 @@ import Typography from "@mui/material/Typography";
 import { Grid, List, ListItem, ListItemText, TextField } from "@mui/material";
 import BookingNavbar from "../../Components/BookingNavbar/BookingNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { bookService, getBookingData } from "../../actions/userActions";
+import {
+  bookService,
+  editUser,
+  getBookingData,
+} from "../../actions/userActions";
 import { useTheme } from "@mui/material/styles";
 import Navbar from "../../Components/Navbar/Navbar";
+import axios from "axios";
+import { BASE_URL } from "../../actions/helper";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditUserProfile() {
   const theme = useTheme();
@@ -23,10 +31,43 @@ function EditUserProfile() {
   const [state, setState] = useState("");
   const [pin, setPin] = useState("");
   const [country, setCountry] = useState("");
-  const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
 
-  const verifySubmit = () => {};
+  const editData = {
+    firstName,
+    lastName,
+    streetAddress,
+    city,
+    state,
+    pin,
+    country,
+    phoneNumber,
+  };
+
+  const verifySubmit = (e) => {
+    e.preventDefault();
+    dispatch(editUser(editData));
+  };
+
+  const edit = useSelector((state) => state.userEdit);
+
+  const { smessage } = edit;
+
+  useEffect(() => {
+    if (smessage) {
+      toast.success(" Successfully Updated", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  },[smessage]);
 
   return (
     <div>
@@ -173,12 +214,25 @@ function EditUserProfile() {
               <Button
                 sx={{ backgroundColor: "#004C00", mt: 10 }}
                 variant="contained"
+                type="submit"
               >
                 {"Submit"}{" "}
               </Button>
             </Paper>
           </Grid>
         </Grid>
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </Container>
     </div>
   );

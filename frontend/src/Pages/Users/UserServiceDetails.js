@@ -103,6 +103,7 @@ function UserServiceDetails() {
 
   const activeChat = () => {
     dispatch(createChat(senderId, receiverId, serviceId));
+    navigate(`/user/chat/${providerBookedDetails?._id}`);
   };
 
   return (

@@ -40,6 +40,7 @@ import getChatUserInfoReducer from "./Users/getChatUserInfoSlice";
 import chatCreateReducer from "./Users/chatCreateSlice";
 import bookingListReducer from "./Admin/bookingListSlice"
 import paymentInfoReducer from "./Admin/paymentInfoSlice";
+import userEditReducer from "./Users/userEditSlice"
 
 
 export const store = configureStore({
@@ -60,6 +61,8 @@ export const store = configureStore({
     getInvoice: getInvoiceReducer,
     clientSecrete: clientSecreteReducer,
     paymentCompletd: paymentDataReducer,
+    userEdit: userEditReducer,
+    
     // chat
     userChats: userChatReducer,
     getMessages : fetchMessagesReducer,

@@ -31,7 +31,7 @@ function Conversation({ data, currentUser, online }) {
                     {online && <div className="online-dot"></div>}
 
 
-                    <img src={userData?.profileImage?.url} alt={""} style={{ width: '50px', height: '50px' }} />
+                    <img src={userData?.role === "provider" ? userData?.profileImage?.url : userData?.pic} alt={""} style={{ width: '50px', height: '50px' }} />
                     <div className='name' style={{ fontSize: "0.8rem" }} ></div>
                     <span>{userData?.firstName + " " + userData?.lastName}</span> <br/>
                     <span style={{ color: online ? "#51e200" : "" }}>{online ? "Online" : "Offline"}</span>

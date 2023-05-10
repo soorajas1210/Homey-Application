@@ -38,7 +38,7 @@ function ProviderChat() {
     console.log("id", id)
 
     useEffect(() => {
-        dispatch(getChats())
+        dispatch(getChats(id))
     }, [userInfo])
 
     const chatUsers = useSelector((state) => state.userChats)
@@ -46,7 +46,7 @@ function ProviderChat() {
 
 
     useEffect(() => {
-        socket.current = io("http://127.0.0.1:8800");
+        socket.current = io("https://chatsocket-dlgf.onrender.com");
         socket.current.emit("new-user-add", uid);
         socket.current.on("get-users", (users) => setOnlineUsers(users));
     }, []);

@@ -26,7 +26,7 @@ function Conversation({ data, currentUser, online }) {
             <div className="follower conversation" >
                 <div>
                     {online && <div className="online-dot"></div>}
-                    <img src={chatUserInfo?.profileImage?.url} alt={""} style={{ width: '50px', height: '50px' }} />
+                    <img src={chatUserInfo?.role === "provider" ? chatUserInfo?.profileImage?.url : chatUserInfo?.pic} alt={""} style={{ width: '50px', height: '50px' }} />
                     <div className='name' style={{ fontSize: "0.8rem" }} ></div>
                     <span>{chatUserInfo?.firstName + " " + chatUserInfo?.lastName}</span> <br />
                     <span style={{ color: online ? "#51e200" : " " }}>{online ? "Online" : "Offline"}</span>

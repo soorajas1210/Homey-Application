@@ -92,6 +92,7 @@ import {
   createChatSuccess,
 } from "../Redux/Users/chatCreateSlice";
 import { BASE_URL } from "./helper";
+import { userEditFail, userEditSuccess } from "../Redux/Users/userEditSlice";
 
 export const signin = (email, password) => async (dispatch) => {
   try {
@@ -132,7 +133,7 @@ export const gsignin = (email) => async (dispatch) => {
     dispatch(userLoginReq());
 
     const { data } = await axios.post(
-     ` ${BASE_URL}/api/users/signinWithGoogle`,
+      ` ${BASE_URL}/api/users/signinWithGoogle`,
       {
         email,
       },
@@ -431,10 +432,9 @@ export const bookService = (newData) => async (dispatch, getState) => {
     );
 
     dispatch(bookServiceSuccess(data));
-    if(data){
+    if (data) {
       dispatch(selectedProviderSuccess(null));
       dispatch(getBookingDataSuccess(null));
-
     }
   } catch (error) {
     const message =
@@ -560,7 +560,7 @@ export const cancelBooking = (id) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-        console.log(message)
+    console.log(message);
   }
 };
 
@@ -606,7 +606,11 @@ export const checkoutService = (product) => async (dispatch, getState) => {
       },
     };
 
-    const data = await axios.post(`${BASE_URL}/api/users/checkout`, { product }, config);
+    const data = await axios.post(
+      `${BASE_URL}/api/users/checkout`,
+      { product },
+      config
+    );
 
     console.log(data.data.clientSecret);
     dispatch(clientSecreteSuccess(data.data.clientSecret));
@@ -679,36 +683,35 @@ export const createChat =
     }
   };
 
-export const getChats =
-  (bookedId) => async (dispatch, getState) => {
-    try {
-      console.log("bookedId", bookedId);
-      const {
-        userSignin: { userInfo },
-      } = getState();
+export const getChats = (bookedId) => async (dispatch, getState) => {
+  try {
+    console.log("bookedId", bookedId);
+    const {
+      userSignin: { userInfo },
+    } = getState();
 
-      console.log("chat data", userInfo._id);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-      const { data } = await axios.get(
-        `${BASE_URL}/api/users/chat/${userInfo._id}`,
-        { bookedId },
-        config
-      );
-      console.log("chat data", data);
-      dispatch(userChatSuccess(data));
-    } catch (error) {
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      dispatch(userChatFail(message));
-    }
-  };
+    console.log("chat data", userInfo._id);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `${BASE_URL}/api/users/chat/${userInfo._id}`,
+      { bookedId },
+      config
+    );
+    console.log("chat data", data);
+    dispatch(userChatSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch(userChatFail(message));
+  }
+};
 
 export const fetchMessages = (id) => async (dispatch, getState) => {
   try {
@@ -791,12 +794,41 @@ export const getChatUserInfo = (id) => async (dispatch, getState) => {
     );
 
     dispatch(getChatUserInfoSuccess(data));
-    console.log("user", data);
+    console.log("chatuser", data);
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
     dispatch(getChatUserInfoFail(message));
+  }
+};
+
+export const editUser = (editData) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const data = await axios.patch(
+      `${BASE_URL}/api/users/editUser`,
+      { editData },
+      config
+    );
+dispatch(userEditSuccess(data))
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    console.log(message);
+    dispatch(userEditFail(message))
   }
 };

@@ -47,7 +47,7 @@ const {adminInfo} = admin;
                   Account Information
                 </Typography>
                 <Typography sx={{ marginBottom: "0.5rem" }}>
-                  Username: johndoe
+                  Username: {adminInfo.email}
                 </Typography>
                 <Typography sx={{ marginBottom: "0.5rem" }}>
                   Password: *********
