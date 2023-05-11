@@ -59,7 +59,13 @@ function BookNow(props) {
       <CardActions sx={{ justifyContent: "end" }}>
         <Button
           variant="contained"
-          sx={{ color: "0B9B1E" }}
+          sx={{
+            bgcolor: "#004C00",
+            color: "white",
+            "&:hover": {
+              bgcolor: "#519451",
+            },
+          }}
           onClick={() => viewService(props.props._id)}
           size="small"
         >

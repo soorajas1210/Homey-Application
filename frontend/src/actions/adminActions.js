@@ -83,7 +83,7 @@ export const Signin = (email, password) => async (dispatch) => {
     };
 
     dispatch(adminLoginReq());
-    console.log("11object", email, password);
+
 
     const { data } = await axios.post(
     `  ${BASE_URL}/api/admin/adminLogin`,
@@ -94,7 +94,7 @@ export const Signin = (email, password) => async (dispatch) => {
       config
     );
 
-    console.log(data);
+  
     dispatch(adminLoginSuccess(data));
     localStorage.setItem("adminInfo", JSON.stringify(data));
   } catch (error) {
@@ -114,7 +114,7 @@ export const usersList = () => async (dispatch, getState) => {
       adminSignin: { adminInfo },
     } = getState();
 
-    console.log(adminInfo);
+  
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,6 @@ export const usersList = () => async (dispatch, getState) => {
 
     const { data } = await axios.get(`${BASE_URL}/api/admin/usersList`, config);
 
-    console.log(data);
 
     dispatch(usersListSuccess(data));
   } catch (error) {
@@ -138,14 +137,14 @@ export const usersList = () => async (dispatch, getState) => {
 
 export const blockUserAction = (id, status) => async (dispatch, getState) => {
   try {
-    console.log("object");
+  
     dispatch(userBlockReq());
 
     const {
       adminSignin: { adminInfo },
     } = getState();
 
-    console.log(adminInfo);
+
 
     const config = {
       headers: {
@@ -164,7 +163,7 @@ export const blockUserAction = (id, status) => async (dispatch, getState) => {
       config
     );
 
-    console.log("data", data);
+   
     dispatch(userBlockSuccess(data));
     // dispatch(usersListSuccess(data))
   } catch (error) {
@@ -179,7 +178,7 @@ export const blockUserAction = (id, status) => async (dispatch, getState) => {
 export const addServiceType =
   (serviceType, fileLink, text) => async (dispatch) => {
     try {
-      console.log("action", fileLink, serviceType);
+    
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -196,7 +195,7 @@ export const addServiceType =
         },
         config
       );
-      console.log(data);
+    
       dispatch(addServiceTypeSuccess(data));
     } catch (error) {
       const errorIs =
@@ -222,7 +221,7 @@ export const sTypeList = () => async (dispatch) => {
       config
     );
 
-    console.log(data);
+
 
     dispatch(serviceTypeListSuccess(data));
   } catch (error) {
@@ -254,7 +253,7 @@ export const addServices =
         },
         config
       );
-      console.log(data);
+     
       dispatch(addServiceSuccess(data));
     } catch (error) {
       const errorIs =
@@ -276,7 +275,7 @@ export const sList = () => async (dispatch) => {
 
     const { data } = await axios.get(`${BASE_URL}/api/admin/servicesList`, config);
 
-    console.log(data);
+ 
 
     dispatch(servicesListSuccess(data));
   } catch (error) {
@@ -294,7 +293,6 @@ export const verifyProvider = (id) => async (dispatch, getState) => {
       adminSignin: { adminInfo },
     } = getState();
 
-    console.log(adminInfo);
 
     const config = {
       headers: {
@@ -308,7 +306,6 @@ export const verifyProvider = (id) => async (dispatch, getState) => {
       config
     );
 
-    console.log("data", data);
     dispatch(providerVerifySuccess(data));
     // dispatch(usersListSuccess(data))
   } catch (error) {
@@ -326,7 +323,6 @@ export const rejectProvider = (id) => async (dispatch, getState) => {
       adminSignin: { adminInfo },
     } = getState();
 
-    console.log(adminInfo);
 
     const config = {
       headers: {
@@ -340,7 +336,7 @@ export const rejectProvider = (id) => async (dispatch, getState) => {
       config
     );
 
-    console.log("data", data);
+
     dispatch(providerRejectSuccess(data));
   } catch (error) {
     const message =
@@ -359,7 +355,6 @@ export const providersList = () => async (dispatch, getState) => {
       adminSignin: { adminInfo },
     } = getState();
 
-    console.log(adminInfo);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -372,7 +367,7 @@ export const providersList = () => async (dispatch, getState) => {
       config
     );
 
-    console.log(data);
+   
 
     dispatch(providerListSuccess(data));
   } catch (error) {
@@ -386,14 +381,13 @@ export const providersList = () => async (dispatch, getState) => {
 
 export const blockProvider = (id, status) => async (dispatch, getState) => {
   try {
-    console.log("object");
+  
     dispatch(providerBlockReq());
 
     const {
       adminSignin: { adminInfo },
     } = getState();
 
-    console.log(adminInfo);
 
     const config = {
       headers: {
@@ -412,7 +406,7 @@ export const blockProvider = (id, status) => async (dispatch, getState) => {
       config
     );
 
-    console.log("data", data);
+
     dispatch(providerBlockSuccess(data));
     // dispatch(usersListSuccess(data))
   } catch (error) {
@@ -445,7 +439,7 @@ export const newLocation = (location) => async (dispatch, getState) => {
       },
       config
     );
-    console.log(data);
+  
     dispatch(addLocationSuccess(data));
   } catch (error) {
     const message =
@@ -470,7 +464,7 @@ export const locationList = () => async (dispatch) => {
       config
     );
 
-    console.log(data);
+   
 
     dispatch(locationListSuccess(data));
   } catch (error) {
@@ -500,7 +494,7 @@ export const getBookedList = () => async (dispatch, getState) => {
       `${BASE_URL}/api/admin/getBookedList`,
       config
     );
-    console.log("getBookedList", data);
+   
     dispatch(bookingListSuccess(data));
   } catch (error) {
     const message =
@@ -558,7 +552,7 @@ export const getPaymentInfo = () => async (dispatch, getState) => {
       `${BASE_URL}/api/admin/paymentInfo`,
       config
     );
-    console.log("paymentInfo", data);
+   
     dispatch(paymentInfoSuccess(data))
   } catch (error) {
     const message =

@@ -107,7 +107,7 @@ export const toVerifyList = () => async (dispatch, getState) => {
       config
     );
 
-    console.log(data);
+  
 
     dispatch(toVerifyListSuccess(data));
   } catch (error) {
@@ -150,7 +150,7 @@ export const providerBookingHandler =
 
 export const bookedServiceDetails = (id) => async (dispatch, getState) => {
   try {
-    console.log("Ooked id", id);
+ 
     const {
       userSignin: { userInfo },
     } = getState();
@@ -166,7 +166,7 @@ export const bookedServiceDetails = (id) => async (dispatch, getState) => {
       `${BASE_URL}/api/provider/serviceDetails/${id}`,
       config
     );
-    console.log("service Details", data);
+   
 
     dispatch(providerBookedDetailsSuccess(data));
   } catch (error) {
@@ -200,7 +200,7 @@ export const Invoice = (newData) => async (dispatch, getState) => {
       },
       config
     );
-    console.log("sendInvoice", data);
+  
     dispatch(sendInvoiceSuccess(data));
   } catch (error) {
     const message =
@@ -212,7 +212,7 @@ export const Invoice = (newData) => async (dispatch, getState) => {
 };
 
 export const providerDetails = (pid) => async (dispatch, getState) => {
-  console.log("pid", pid);
+
   try {
     const {
       userSignin: { userInfo },
@@ -229,7 +229,7 @@ export const providerDetails = (pid) => async (dispatch, getState) => {
       `${BASE_URL}/api/provider/providerInfo/${pid}`,
       config
     );
-    console.log("providerInfo", data);
+   
     dispatch(getProviderInfoSuccess(data));
   } catch (error) {
     const message =

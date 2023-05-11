@@ -111,7 +111,7 @@ export const signin = (email, password) => async (dispatch) => {
       },
       config
     );
-    console.log(data);
+  
     dispatch(userLoginSuccess(data));
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
@@ -139,7 +139,7 @@ export const gsignin = (email) => async (dispatch) => {
       },
       config
     );
-    console.log(data);
+ 
     dispatch(userLoginSuccess(data));
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
@@ -202,7 +202,7 @@ export const serviceDetails = (id) => async (dispatch) => {
       `${BASE_URL}/api/users/getServiceDetails/${id}`,
       config
     );
-    console.log(data);
+  
     dispatch(getServiceDetailsSuccess(data));
   } catch (error) {
     const errorIs =
@@ -225,7 +225,7 @@ export const serviceTypeDetails = (id) => async (dispatch) => {
       `${BASE_URL}/api/users/getCategoryDetails/${id}`,
       config
     );
-    console.log(data);
+   
     dispatch(getCategoryDetailsSuccess(data));
   } catch (error) {
     const errorIs =
@@ -250,7 +250,6 @@ export const handleServiceSearch = (id) => async (dispatch) => {
       config
     );
 
-    console.log("home list ", data);
 
     dispatch(serviceSearchSuccess(data));
   } catch (error) {
@@ -290,7 +289,6 @@ export const searchProvider =
 
       dispatch(searchProviderSuccess(data));
 
-      console.log("serachProvidrData", data);
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -323,7 +321,6 @@ export const getrecommendationList =
 
       dispatch(recommendationListSuccess(data));
 
-      console.log("serachProvidrData", data);
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -333,14 +330,7 @@ export const getrecommendationList =
     }
   };
 
-// export const timeAndDate = (date, taskTime) => async (dispatch) => {
-//   try {
-//     console.log("in actions", date, taskTime);
-//     dispatch(dateAndTime(date, taskTime));
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+
 
 export const selectedProvider =
   (newDate, taskTime, sProvider) => async (dispatch, getState) => {
@@ -369,7 +359,7 @@ export const selectedProvider =
 
       dispatch(selectedProviderSuccess(data));
 
-      console.log("selectedProvidrData", data);
+   
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -398,7 +388,7 @@ export const getBookingData = () => async (dispatch, getState) => {
     );
 
     dispatch(getBookingDataSuccess(data));
-    console.log("mergedData", data);
+
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -464,7 +454,7 @@ export const userbookedList = () => async (dispatch, getState) => {
     );
 
     dispatch(userbookedListSuccess(data));
-    console.log("booking list", data);
+
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -476,7 +466,7 @@ export const userbookedList = () => async (dispatch, getState) => {
 
 export const getFullUserInfo = (id) => async (dispatch, getState) => {
   try {
-    console.log("id", id);
+ 
 
     const {
       userSignin: { userInfo },
@@ -489,14 +479,14 @@ export const getFullUserInfo = (id) => async (dispatch, getState) => {
       },
     };
 
-    console.log("userinfo");
+    
     const { data } = await axios.get(
       `${BASE_URL}/api/users/getUserInfo/${id}`,
       config
     );
 
     dispatch(getUserInfoSuccess(data));
-    console.log("user", data);
+ 
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -525,7 +515,7 @@ export const providerbookedList = () => async (dispatch, getState) => {
     );
 
     dispatch(providerbookedListSuccess(data));
-    console.log("booking list", data);
+ 
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -582,7 +572,7 @@ export const checkInvoice = (id) => async (dispatch, getState) => {
       config
     );
 
-    console.log("getInvoice", data);
+   
     dispatch(getInvoiceSuccess(data));
   } catch (error) {
     const message =
@@ -612,7 +602,6 @@ export const checkoutService = (product) => async (dispatch, getState) => {
       config
     );
 
-    console.log(data.data.clientSecret);
     dispatch(clientSecreteSuccess(data.data.clientSecret));
   } catch (error) {
     const message =
@@ -641,7 +630,7 @@ export const paymentSuccess = (newData) => async (dispatch, getState) => {
       { newData },
       config
     );
-    console.log("payment success", payed);
+ 
     dispatch(paymentDataSuccess(payed));
   } catch (error) {
     const message =
@@ -655,12 +644,12 @@ export const paymentSuccess = (newData) => async (dispatch, getState) => {
 export const createChat =
   (senderId, receiverId, serviceId) => async (dispatch, getState) => {
     try {
-      console.log(senderId, receiverId, serviceId);
+     
       const {
         userSignin: { userInfo },
       } = getState();
 
-      console.log("chat data", userInfo._id);
+    
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -672,7 +661,7 @@ export const createChat =
         { senderId, receiverId, serviceId },
         config
       );
-      console.log("create Chat", data);
+   
       dispatch(createChatSuccess(data));
     } catch (error) {
       const message =
@@ -685,12 +674,11 @@ export const createChat =
 
 export const getChats = (bookedId) => async (dispatch, getState) => {
   try {
-    console.log("bookedId", bookedId);
+ 
     const {
       userSignin: { userInfo },
     } = getState();
 
-    console.log("chat data", userInfo._id);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -702,7 +690,7 @@ export const getChats = (bookedId) => async (dispatch, getState) => {
       { bookedId },
       config
     );
-    console.log("chat data", data);
+   
     dispatch(userChatSuccess(data));
   } catch (error) {
     const message =
@@ -715,7 +703,7 @@ export const getChats = (bookedId) => async (dispatch, getState) => {
 
 export const fetchMessages = (id) => async (dispatch, getState) => {
   try {
-    console.log("getData", id);
+
     const {
       userSignin: { userInfo },
     } = getState();
@@ -730,7 +718,7 @@ export const fetchMessages = (id) => async (dispatch, getState) => {
       `${BASE_URL}/api/users/getMessages/${id}`,
       config
     );
-    console.log("fetch messages", data);
+ 
 
     dispatch(fetchMessagesSuccess(data));
   } catch (error) {
@@ -744,7 +732,7 @@ export const fetchMessages = (id) => async (dispatch, getState) => {
 
 export const addMessage = (message) => async (dispatch, getState) => {
   try {
-    console.log("message", message);
+
     const {
       userSignin: { userInfo },
     } = getState();
@@ -760,7 +748,7 @@ export const addMessage = (message) => async (dispatch, getState) => {
       message,
       config
     );
-    console.log("messages", data);
+
 
     dispatch(sendMessageSuccess(data));
   } catch (error) {
@@ -774,7 +762,7 @@ export const addMessage = (message) => async (dispatch, getState) => {
 
 export const getChatUserInfo = (id) => async (dispatch, getState) => {
   try {
-    console.log("id", id);
+  
 
     const {
       userSignin: { userInfo },
@@ -787,14 +775,14 @@ export const getChatUserInfo = (id) => async (dispatch, getState) => {
       },
     };
 
-    console.log("userinfo");
+  
     const { data } = await axios.get(
       `${BASE_URL}/api/users/getChatInfo/${id}`,
       config
     );
 
     dispatch(getChatUserInfoSuccess(data));
-    console.log("chatuser", data);
+
   } catch (error) {
     const message =
       error.response && error.response.data.message

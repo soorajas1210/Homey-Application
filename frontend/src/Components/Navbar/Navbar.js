@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import { Avatar} from "@mui/material";
+import { Avatar } from "@mui/material";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -151,12 +151,12 @@ function Navbar() {
                 ))}
               </Menu>
             </Box>
-            <Link href="/">
+            <Link to="/">
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 70,
+                  height: { xs: 35, md: 35 },
+                  width: { xs: 70, md: 50 },
                   display: { xs: "flex", md: "none" },
                 }}
                 alt="Your logo."

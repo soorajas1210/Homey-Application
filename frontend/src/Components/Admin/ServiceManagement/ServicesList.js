@@ -107,7 +107,7 @@ useEffect(() => {
       component="form"
       noValidate
       onSubmit={handleChange}
-      sx={{ minWidth: 150, width: "100%", px: 4 }}
+      sx={{ minWidth: 150, width: "100%", px: { xs: 2, md: 4 }, py: 2 }}
     >
       <Card variant="outlined" sx={{ boxShadow: 3 }}>
         <React.Fragment>
@@ -120,7 +120,15 @@ useEffect(() => {
             </Typography>
 
             {/* FILE UPLOAD */}
-            <div className="mt-5 mb-5 flex gap-5">
+            <Box
+              sx={{
+                mt: 3,
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                alignItems: { md: "center" },
+                gap: { xs: 2, md: 5 },
+              }}
+            >
               <input
                 accept="image/*"
                 className={classes.input}
@@ -154,13 +162,22 @@ useEffect(() => {
                   <CheckCircleTwoToneIcon /> {"uploaded"}
                 </span>
               )}
-            </div>
-            <Box sx={{ display: "flex", justifyContent: "start", gap: 2 }}>
-              <FormControl size="small" sx={{ minWidth: 100, width: 150 }}>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: { xs: 2, md: 5 },
+                mt: 2,
+              }}
+            >
+              <FormControl
+                size="small"
+                sx={{ minWidth: 100, width: { xs: "100%", sm: 150 } }}
+              >
                 <InputLabel id="demo-simple-select-helper-label">
                   Service Type
                 </InputLabel>
-
                 <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
@@ -199,12 +216,12 @@ useEffect(() => {
               </Box>
             )}
           </CardContent>
-          <CardActions style={{ justifyContent: "flex-end " }}>
+          <CardActions sx={{ justifyContent: "flex-end ", mt: 3 }}>
             <Button
               type="submit"
               variant="outlined"
               color="secondary"
-              style={{ marginRight: "20px" }}
+              sx={{ mr: { xs: 0, sm: 2 } }}
             >
               Add
             </Button>

@@ -30,6 +30,7 @@ function ConfirmBooking() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [booking, setBooking] = useState(false);
+  const [value, setValue] = useState(2)
 
   const data = useSelector((state) => state.getBookingData);
   const { BookingData } = data;
@@ -66,9 +67,12 @@ function ConfirmBooking() {
     serviceDetails,
   };
 
+
+
   useEffect(() => {
     if (smessage) {
       setBooking(true);
+     setValue(3) 
     }
   }, [dispatch, smessage]);
   useEffect(() => {
@@ -85,7 +89,7 @@ function ConfirmBooking() {
   };
   return (
     <div>
-      <BookingNavbar />
+      <BookingNavbar value={value} />
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >

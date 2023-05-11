@@ -71,7 +71,7 @@ function Banner() {
               justifyItems: "center",
               justifyContent: "center",
               display: "flex",
-              mb:2,
+              mb: 2,
             }}
           >
             <Autocomplete
@@ -101,10 +101,10 @@ function Banner() {
           <Grid item xs={12} md={6}>
             <Autocomplete
               sx={{
-                width: "60vh",
+                width: { xs: "100%", md: "70vh" },
                 backgroundColor: "white",
                 borderRadius: "5px",
-                mb:2
+                mb: 2,
               }}
               value={value}
               onChange={(event, newValue) => {

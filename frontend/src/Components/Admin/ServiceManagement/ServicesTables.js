@@ -496,8 +496,9 @@ function ServicesTables() {
                                 <Box
                                   component="img"
                                   sx={{
-                                    width: "40%",
-                                    height: 120,
+                                    width: "100%",
+                                    height: "auto",
+                                    maxWidth: "40%",
                                     borderRadius: "5%",
                                   }}
                                   alt="The house from the offer."

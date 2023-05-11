@@ -41,63 +41,67 @@ function LocationManagement() {
   };
 
   return (
-    <Box>
-      <Card sx={{ p: 5, mx: 5 }}>
-        <h1 className="text-lg mb-5 font-bold text-gray-700 ">
-          Add Service Locations:
-        </h1>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={addLocation}
-          className=" flex  flex-row gap-5"
-        >
-          <TextField
-            id="loaction"
-            label="Type here..."
-            variant="outlined"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          ></TextField>
-
-          <Button
-            type="submit"
-            variant="outlined"
-            color="secondary"
-            style={{ marginRight: "20px" }}
-          >
-            Add
-          </Button>
-        </Box>
-        <Grid item xs={12} md={6}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            Locations
+    <Box sx={{ p: 3 }}>
+      <Card>
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h6" sx={{ mb: 3 }}>
+            Add Service Locations:
           </Typography>
-          <Demo>
-            <List>
-              {locations.map((item) => (
-                <ListItem
-                  secondaryAction={
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => handleDelete(item._id)}
+          <Box
+            component="form"
+            noValidate
+            onSubmit={addLocation}
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+          >
+            <TextField
+              id="loaction"
+              label="Type here..."
+              variant="outlined"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+            <Button
+              type="submit"
+              variant="outlined"
+              color="secondary"
+              sx={{ alignSelf: "flex-end", mt: 1 }}
+            >
+              Add
+            </Button>
+          </Box>
+          <Grid container spacing={3} sx={{ mt: 3 }}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Locations
+              </Typography>
+              <Demo>
+                <List sx={{ maxHeight: "300px", overflow: "auto" }}>
+                  {locations.map((item) => (
+                    <ListItem
+                      key={item._id}
+                      secondaryAction={
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() => handleDelete(item._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      }
                     >
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <LocationOnIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={item.location} />
-                </ListItem>
-              ))}
-            </List>
-          </Demo>
-        </Grid>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <LocationOnIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={item.location} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Demo>
+            </Grid>
+          </Grid>
+        </Box>
       </Card>
     </Box>
   );

@@ -6,14 +6,14 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import {  TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "@material-ui/lab/alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { addServiceType } from "../../../actions/adminActions";
 import ServicesList from "./ServicesList";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import { storage_bucket } from "../../../firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -80,11 +80,11 @@ function ServiceTypes() {
     let timeout;
     if (smessage) {
       timeout = setTimeout(() => {
-       dispatch(afterServiceTypeSuccess());
+        dispatch(afterServiceTypeSuccess());
       }, 1000); // specify the time limit in milliseconds
     }
     return () => clearTimeout(timeout);
-  }, [smessage,dispatch]);
+  }, [smessage, dispatch]);
 
   const addToType = async (e) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ function ServiceTypes() {
           component="form"
           noValidate
           onSubmit={addToType}
-          sx={{ minWidth: 150, width: "100%", px: 4 }}
+          sx={{ minWidth: 150, width: "100%", px: 2 }}
         >
           <Card variant="outlined" sx={{ boxShadow: 3 }}>
             <React.Fragment>
@@ -114,7 +114,7 @@ function ServiceTypes() {
                   Service Types
                 </Typography>
 
-                <div className="mt-5 mb-5 flex gap-5">
+                <div className="mt-5 mb-5 flex flex-col md:flex-row gap-5">
                   <input
                     accept="image/*"
                     className={classes.input}
@@ -175,12 +175,12 @@ function ServiceTypes() {
                   </Box>
                 )}
               </CardContent>
-              <CardActions style={{ justifyContent: "flex-end " }}>
+              <CardActions sx={{ justifyContent: "flex-end " }}>
                 <Button
                   type="submit"
                   variant="outlined"
                   color="secondary"
-                  style={{ marginRight: "20px" }}
+                  sx={{ mr: { xs: 0, sm: 2 } }}
                 >
                   Add
                 </Button>

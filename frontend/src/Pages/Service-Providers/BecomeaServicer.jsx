@@ -9,6 +9,7 @@ import image from '../assets/tasker.png'
 // import toast, { Toaster } from "react-hot-toast";
 import Alert from "@material-ui/lab/alert";
 import { afterProviderRegSuccess } from '../../Redux/Service-Providers/providerRegistrationSlice'
+import { Button, Grid, MenuItem, Select, Typography } from '@mui/material'
 
 function BecomeaServicer() {
 
@@ -68,48 +69,63 @@ function BecomeaServicer() {
       <Navbar />
 
       {!details ? (
-      <div className='lg:flex px-10  '>
-        <div className='w-2/3 p-10 md:hiden sm:hidden   '>
-          <img className='ml-20 ' src={image} alt='' style={{ height: "80%" }} />
-        </div>
+        <div className='lg:flex px-10  '>
+          <div className='w-2/3 p-10'>
+            <img className='ml-20' src={image} alt='' style={{ maxWidth: '100%', height: 'auto' }} />
+          </div>          
 
-        <div className='lg:w-1/3 mt-10 md:w-full md:justify-center' >
-
-          <h1 className='font-bold space-x-3 text-4xl '>Earn money your way </h1>
-
-          <p className='mt-5 w-2/3 text-gray-600 text-lg'> See how much you can make
-            tasking on Homey
-          </p>
-          <form className='w-full bg-transparent ' onSubmit={becomeProvider} >
-            <div className='text-2xl space-x-3 mt-6 font-bold'>
-              <h1>Select your area</h1>
-
-              <select id="countries" value={workLocation}
-                onChange={(e) => setWorkLocation(e.target.value)} class="bg-gray-50 border cursor-pointer border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 mt-4 p-5 ">
-                <option selected className='text-gray-500'>Select...</option>
-                {locations.map((place) => <option key={place._id} value={place.location}>{place.location}</option>)}
-
-
-              </select>
-
-
-              <h1 className='mt-5'>Choose a category</h1>
-              <select id="countries" value={serviceCategory}
-                onChange={(e) => setServiceCategory(e.target.value)} class="bg-gray-50 border cursor-pointer  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 mt-4 p-5 ">
-                <option selected className='text-gray-500'>Select...</option>
-                {services.map((services, index) => <option key={index} value={services.serviceName}> {services.serviceName} </option>)}
-
-              </select>
-              <button type='submit' class="bg-green-800 hover:bg-green-900 text-white font-semibold py-1 px-4 mt-6 w-4/6 border border-green-700 rounded">
-                Get started
-              </button>
-              <h1 className='mt-3 text-base text-slate-700 mb-10 '> Already have an account?  <Link to='/signin'><span className=' text-green-800'> Sign in  </span> </Link></h1>
+          <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ p: 3 }}>
+            <Grid item xs={12} md={8} lg={6}>
+              <Typography variant='h4' component='h1' gutterBottom>
+                Earn money your way
+              </Typography>
+              <Typography variant='body1' gutterBottom>
+                See how much you can make tasking on Homey
+              </Typography>
+              <form onSubmit={becomeProvider}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant='h5'>
+                      Select your area
+                    </Typography>
+                    <Select value={workLocation} onChange={(e) => setWorkLocation(e.target.value)} fullWidth>
+                      <MenuItem value=''>Select...</MenuItem>
+                      {locations.map((place) => <MenuItem key={place._id} value={place.location}>{place.location}</MenuItem>)}
+                    </Select>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant='h5'>
+                      Choose a category
+                    </Typography>
+                    <Select value={serviceCategory} onChange={(e) => setServiceCategory(e.target.value)} fullWidth>
+                      <MenuItem value=''>Select...</MenuItem>
+                      {services.map((service, index) => <MenuItem key={index} value={service.serviceName}>{service.serviceName}</MenuItem>)}
+                    </Select>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button type='submit' variant='contained' color='primary' fullWidth sx={{
+                      bgcolor: "#004C00",
+                      color: "white",
+                      "&:hover": {
+                        bgcolor: "#519451",
+                      },
+                    }} >
+                      Get started
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant='body2' align='center'>
+                      Already have an account? <Link to='/signin' color='primary'>Sign in</Link>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </form>
               {smessage && <Alert variant="filled" severity="success">{smessage}</Alert>}
-            </div>
-          </form>
+            </Grid>
+          </Grid>
+
         </div>
-      </div>
-      
+
       ) : (
 
         <ApplyVerify serviceCategory={serviceCategory} workLocation={workLocation} />

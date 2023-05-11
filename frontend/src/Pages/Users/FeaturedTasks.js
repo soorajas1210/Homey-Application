@@ -36,7 +36,7 @@ function FeaturedTasks() {
   return (
     <div>
       <Navbar />
-      <div class="relative ">
+      <div class="relative">
         <div
           className="bg-cover w-full"
           style={{
@@ -48,18 +48,15 @@ function FeaturedTasks() {
         <h1 class="absolute font-extrabold text-3xl text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           {getCategory.serviceType}
         </h1>
-        <p class="absolute text-2xl text-white bottom-4 left-1/2 -translate-x-1/2 mb-14 text-center ">
+        <p class="absolute text-2xl text-white bottom-4 left-1/2 -translate-x-1/2 mb-14 text-center">
           {getCategory.serviceTypeDescription}
         </p>
       </div>
-      <div className="font-bold text-lg text-green-800 mt-10 px-20 ">
-        <p>
-          {" "}
-          Home {">"} Services {">"} Featured Tasks{" "}
-        </p>
+      <div className="font-bold text-lg text-green-800 mt-10 px-5 sm:px-20">
+        <p>Home &gt; Services &gt;</p>
       </div>
-      <div className="flex">
-        <div className="flex flex-col gap-y-4 w-1/2 ml-20 mt-10">
+      <div className="flex flex-col md:flex-row md:justify-between lg:justify-center">
+        <div className="flex flex-col gap-y-4 w-full md:w-1/2 mt-10 px-5 md:px-0">
           {services
             .filter(
               (service) => service.serviceType === getCategory.serviceType
@@ -68,30 +65,21 @@ function FeaturedTasks() {
               <BookNow key={service._id} props={service} />
             ))}
         </div>
-        <div className="ml-10  w-1/3 mt-10 px-6  ">
-          <h1 className="font-bold text-lg">1.Select your Tasker</h1>{" "}
+        <div className="w-full md:w-1/3 mt-10 px-5 md:px-6">
+          <h1 className="font-bold text-lg">1. Select your Tasker</h1>{" "}
           <p>
             Describe your task and choose a background checked and
             client-reviewed Tasker for the job
           </p>{" "}
           <br />
-          <h1 className="font-bold text-lg"> 2.Schedule a time </h1>{" "}
+          <h1 className="font-bold text-lg">2. Schedule a time</h1>{" "}
           <p>Get your task done — on your time</p> <br />
-          <h1 className="font-bold text-lg"> 3.Pay when it’s done </h1>{" "}
+          <h1 className="font-bold text-lg">3. Pay when it’s done</h1>{" "}
           <p>
-            Pay seamlessly through the TaskRabbit platform only after your task
+            Pay seamlessly through the Homey platform only after your task
             is complete{" "}
           </p>
           <br />
-          <p>
-            Hear What People Are Saying Brian M. Punctual, efficient service
-            with a smile? Yes please, I'll have another task done from
-            TaskRabbit. – Brian M. Carol B. <br />I was amazed how quickly Ben
-            took care of the job. I'll definitely ask for his help again! –
-            Carol B. Sharya D. <br />
-            Super-helpful service that handled my last minute request to
-            perfection. – Sharya D.
-          </p>
         </div>
       </div>
 

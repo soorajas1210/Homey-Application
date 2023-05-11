@@ -281,7 +281,7 @@ function ProviderBookingDetails() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = providerBooked.map((n) => n.name);
+            const newSelected = bookings.map((n) => n.name);
             setSelected(newSelected);
             return;
         }
@@ -324,11 +324,13 @@ function ProviderBookingDetails() {
     const bookingList = useSelector((state) => state.providerBookedList);
     const { providerBooked } = bookingList;
 
+    const bookings = providerBooked.filter(booking => booking.status !=="payed")
+
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - providerBooked.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bookings.length) : 0;
 
     //  end
 
@@ -356,8 +358,8 @@ function ProviderBookingDetails() {
         setUpcoming(false);
     }
     return (
-        <>
-            <div class="flex justify-center mt-5 space-x-2">
+        <div className='my-5'>
+            <div class="flex justify-center my-5 space-x-2">
                 <button
                     onClick={newDetails}
                     type="button"
@@ -396,11 +398,11 @@ function ProviderBookingDetails() {
                                     orderBy={orderBy}
                                     onSelectAllClick={handleSelectAllClick}
                                     onRequestSort={handleRequestSort}
-                                    rowCount={providerBooked.length}
+                                    rowCount={bookings.length}
                                 />
                                 {!loading && !error && (
                                     <TableBody>
-                                        {stableSort(providerBooked, getComparator(order, orderBy))
+                                        {stableSort(bookings, getComparator(order, orderBy))
                                             .slice(
                                                 page * rowsPerPage,
                                                 page * rowsPerPage + rowsPerPage
@@ -531,7 +533,7 @@ function ProviderBookingDetails() {
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25]}
                             component="div"
-                            count={providerBooked.length}
+                            count={bookings.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={handleChangePage}
@@ -550,7 +552,7 @@ function ProviderBookingDetails() {
                     <CompletedServices />
                 )
             }
-        </>
+        </div>
     )
 }
 

@@ -229,7 +229,7 @@ function BookingDetails() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = userBooked.map((n) => n.name);
+      const newSelected = bookedList.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -274,6 +274,8 @@ function BookingDetails() {
 
   console.log("Bookinglist", userBooked);
 
+  const bookedList = userBooked.filter(item=> item.status !== "payed")
+
   const onClickHandler = (id) => {
     confirmAlert({
       title: "Confirm",
@@ -301,7 +303,9 @@ function BookingDetails() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userBooked.length) : 0;
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - bookedList.length)
+      : 0;
 
   //  end
 
@@ -320,8 +324,8 @@ function BookingDetails() {
   }
 
   return (
-    <>
-      <div class="flex justify-center mt-5 space-x-2">
+    <div className="my-5 ">
+      <div class="flex justify-center my-5 space-x-2 ">
         <button
           onClick={newDetails}
           type="button"
@@ -360,11 +364,11 @@ function BookingDetails() {
                   orderBy={orderBy}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={userBooked.length}
+                  rowCount={bookedList.length}
                 />
                 {!loading && !error && (
                   <TableBody>
-                    {stableSort(userBooked, getComparator(order, orderBy))
+                    {stableSort(bookedList, getComparator(order, orderBy))
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -475,7 +479,7 @@ function BookingDetails() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={userBooked.length}
+              count={bookedList.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -489,7 +493,7 @@ function BookingDetails() {
         </Box>
       )}
       {previous && <CompletedServices />}
-    </>
+    </div>
   );
 }
 

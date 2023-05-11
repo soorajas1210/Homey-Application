@@ -6,19 +6,23 @@ import AdminNavbar from "../../Components/Admin/Navbar/AdminNavbar";
 import SideBar from "../../Components/Admin/SideBar/SideBar";
 import TransactionChart from "../../Components/Admin/Dashboard/TransactionChart";
 import { useDispatch } from "react-redux";
-import { getBookedList, getPaymentInfo, usersList } from "../../actions/adminActions";
+import {
+  getBookedList,
+  getPaymentInfo,
+  usersList,
+} from "../../actions/adminActions";
 
 function AdminDashboard() {
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-      dispatch(getPaymentInfo());
-    }, []);
+  useEffect(() => {
+    dispatch(getPaymentInfo());
+  }, []);
 
-     useEffect(() => {
-       dispatch(getBookedList());
-       dispatch(usersList());
-     }, [dispatch]);
+  useEffect(() => {
+    dispatch(getBookedList());
+    dispatch(usersList());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden">
@@ -26,11 +30,15 @@ const dispatch = useDispatch()
       <div className="flex flex-col flex-1 overflow-auto">
         <AdminNavbar />
         <div className="flex flex-col gap-4 overflow-auto">
-          <Outlet />
-          <DashboardStatsGrid />
-          <div className="flex flex-row gap-4 w-full overflow-auto ">
-            <TransactionChart />
-            <ServiceStatusPieChart />
+          <Outlet />     
+            <DashboardStatsGrid />
+          <div className="flex flex-col sm:flex-row gap-4 w-full ">
+            <div className="w-full sm:w-1/2">
+              <TransactionChart />
+            </div>
+            <div className="w-full sm:w-1/2">
+              <ServiceStatusPieChart />
+            </div>
           </div>
         </div>
       </div>

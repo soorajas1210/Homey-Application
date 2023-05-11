@@ -52,15 +52,22 @@ function ServiceBook() {
       <Navbar />
       <div>
         <div class="relative ">
-          <div className="flex justify-cente ">
+          <div
+            className="flex justify-cente "
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
             <div
               className="bg-cover w-full"
               style={{
                 backgroundImage: `url(${getService.image})`,
                 height: "31rem",
+                width: "100%",
               }}
             ></div>
-
 
             <Box
               sx={{
@@ -115,20 +122,21 @@ function ServiceBook() {
           </div>
         </div>
       </div>
-      <h1 className="font-bold mt-10 mx-14 text-xl">
+      <h1 className="font-bold mt-10 mx-4 md:mx-14 text-xl text-center">
         {getService.serviceName}
       </h1>
-      <div className="flex flex-grid items-center p-9 ">
-        <div className="w-1/2 text-center p-10 break-words font-medium text-lg">
+      <div className="flex flex-wrap items-center p-4 md:p-9 ">
+        <div className="w-full md:w-1/2 text-center p-4 md:p-10 break-words font-medium text-lg">
           <h1>{getService.serviceDescription}</h1>
         </div>
-        <div className="w-1/2 p-9 ml-10">
+        <div className="w-full md:w-1/2 p-4 md:p-9">
           <div
-            className="bg-cover ml-14"
+            className="bg-cover mx-auto"
             style={{
               backgroundImage: `url(${image})`,
               height: "25rem",
               width: "25rem",
+              maxWidth: "100%",
             }}
           ></div>
         </div>

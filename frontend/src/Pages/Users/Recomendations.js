@@ -20,7 +20,6 @@ function Recomendations() {
   const { provider } = List;
 
   const getData = useSelector((state) => state.selectedProvider);
-
   const { successData } = getData;
 
   const [sProvider, setSProvider] = useState();
@@ -46,63 +45,23 @@ function Recomendations() {
   };
 
   useEffect(() => {
-    if (successData) {
+    if (newDate && taskTime && sProvider) {
       navigate("/book/ConfirmBooking");
     }
-  }, [successData, navigate]);
+  }, [newDate, taskTime, sProvider, navigate]);
 
   useEffect(() => {
     dispatch(getrecommendationList(newDate, taskTime));
   }, [dispatch, newDate, taskTime]);
+
   return (
     <div>
-      <BookingNavbar />
-
-      {/* <div className=" absolute w-1/4 flex flex-col items-center right-5 mt-5">
-        <label
-          for="countries"
-          class="block mb-2 text-sm font-medium text-gray-900 w-1/4 "
-        >
-          Sorted By :-
-        </label>
-        <select
-          id="countries"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/4 p-2.5 "
-        >
-          <option selected>Reccomended</option>
-          <option value="">Price(Lowest to High)</option>
-          <option value="">Price(Highest to Low)</option>
-          <option value="">Review</option>
-        </select>
+      <BookingNavbar value={1} />
+      <div className="text-center font-bold mt-5">
+        <h1>
+          Select your Service provider by selecting prefered date and Time.
+        </h1>
       </div>
-      <div className=" flex  mt-24   ">
-        <SideBox
-          changeDate={(date) => setDate(date)}
-          date={date}
-          changeTaskTime={(taskTime) => setTaskTime(taskTime)}
-          taskTime={taskTime}
-        />
-        <div className="flex flex-col  w-full p-5 ">
-          {provider && provider.length > 0 ? (
-            provider.map((provider) => (
-              <ServiceProvidersList
-                key={provider._id}
-                provider={provider}
-                providerSelected={(sProvider) => setSProvider(sProvider)}
-              />
-            ))
-          ) : (
-            <Typography>
-              <PermContactCalendarIcon fontSize="large" />
-              {
-                "There are no Taskers currently available to help with your task.Try seeing who’s available on different days."
-              }
-            </Typography>
-          )}
-
-          {sProvider && submitFunction()}
-        </div>
-      </div> */}
 
       <div className="flex flex-col md:flex-row items-start md:space-x-5 md:ml-8">
         <SideBox
@@ -112,7 +71,7 @@ function Recomendations() {
           taskTime={taskTime}
         />
 
-        <div className="flex flex-col  w-full p-5">
+        <div className="flex flex-col gap-4 w-full p-5">
           {provider && provider.length > 0 ? (
             provider.map((provider) => (
               <ServiceProvidersList
