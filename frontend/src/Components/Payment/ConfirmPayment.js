@@ -34,6 +34,7 @@ function ConfirmPayment() {
   const [pin, setPin] = useState("");
   const [country, setCountry] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [review, setReview] = useState("");
 
   useEffect(() => {
     dispatch(checkInvoice(id));
@@ -75,6 +76,7 @@ function ConfirmPayment() {
     userId,
     providerId,
     invoiceId,
+    review
   };
 
   // payment
@@ -141,20 +143,7 @@ function ConfirmPayment() {
           </Typography>
 
           <Box component="form" onSubmit={detailsCheck}>
-            {/* <div>
-                <p>
-                  {providerBookedDetails?.firstName +
-                    " " +
-                    providerBookedDetails?.lastName}
-                </p>
-                <p>{providerBookedDetails?.city}</p>
-                <p>{providerBookedDetails?.state}</p>
-                <p>{providerBookedDetails?.country}</p>
-
-                <p>Phone: {providerBookedDetails?.phoneNumber}</p>
-              </div> */}
-
-            <Grid item bgcolor="#f9f9f9" padding={2}>
+            <Grid item padding={2}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -164,7 +153,7 @@ function ConfirmPayment() {
                     label="First name"
                     fullWidth
                     autoComplete="given-name"
-                    variant="standard"
+                    variant="outlined"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
@@ -177,7 +166,7 @@ function ConfirmPayment() {
                     label="Last name"
                     fullWidth
                     autoComplete="family-name"
-                    variant="standard"
+                    variant="outlined"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -190,7 +179,7 @@ function ConfirmPayment() {
                     label="Address"
                     fullWidth
                     autoComplete="shipping address-line1"
-                    variant="standard"
+                    variant="outlined"
                     value={streetAddress}
                     onChange={(e) => setStreetAddress(e.target.value)}
                   />
@@ -204,7 +193,7 @@ function ConfirmPayment() {
                     label="City"
                     fullWidth
                     autoComplete="shipping address-level2"
-                    variant="standard"
+                    variant="outlined"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                   />
@@ -215,7 +204,7 @@ function ConfirmPayment() {
                     name="state"
                     label="State/Province/Region"
                     fullWidth
-                    variant="standard"
+                    variant="outlined"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                   />
@@ -228,7 +217,7 @@ function ConfirmPayment() {
                     label="PIN code"
                     fullWidth
                     autoComplete="shipping postal-code"
-                    variant="standard"
+                    variant="outlined"
                     value={pin}
                     onChange={(e) => setPin(e.target.value)}
                   />
@@ -241,7 +230,7 @@ function ConfirmPayment() {
                     label="Country"
                     fullWidth
                     autoComplete="shipping country"
-                    variant="standard"
+                    variant="outlined"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                   />
@@ -254,11 +243,25 @@ function ConfirmPayment() {
                     name="phoneNumber"
                     label="Mobile Number"
                     fullWidth
-                    autoComplete="shipping country"
-                    variant="standard"
+                    variant="outlined"
                     maxLength="10"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    required
+                    id="customerReview"
+                    name="customerReview"
+                    label="Share your review"
+                    fullWidth
+                    variant="outlined"
+                    maxLength="10"
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                    multiline
+                    rows={4}
                   />
                 </Grid>
               </Grid>

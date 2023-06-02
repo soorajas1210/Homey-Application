@@ -320,6 +320,7 @@ export const getrecommendationList =
       );
 
       dispatch(recommendationListSuccess(data));
+      console.log('recdata', data)
 
     } catch (error) {
       const message =

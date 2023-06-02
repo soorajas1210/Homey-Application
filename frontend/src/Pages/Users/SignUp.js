@@ -395,12 +395,10 @@ function SignUp() {
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <h1>
-                      Already have an account?
-                      <Link to="/signin" variant="body2">
-                        <span className="text-green-800 text-lg"> Sign in</span>
-                      </Link>
-                    </h1>
+                    <h1>Already have an account?</h1>
+                    <Link to="/signin" variant="body2">
+                      <span className="text-green-800 text-lg"> Sign in</span>
+                    </Link>
                   </Grid>
                 </Grid>
               </Box>

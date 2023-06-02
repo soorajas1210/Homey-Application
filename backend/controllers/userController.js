@@ -52,7 +52,6 @@ const signinUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
-    console.log(user.isVerified);
     if (user.isVerified === true) {
       res.json({
         _id: user._id,
@@ -80,7 +79,6 @@ const signinWithGoogle = asyncHandler(async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (user) {
-      console.log(user.isVerified);
       if (user.isVerified === true) {
         res.json({
           _id: user._id,
@@ -107,7 +105,6 @@ const getServiceDetails = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
 
-    console.log("id", id);
     const data = await Service.findById(id);
     if (data) {
       res.json(data);
@@ -125,7 +122,6 @@ const getCategoryDetails = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
 
-    console.log("id", id);
     const data = await ServiceCategory.findById(id);
     if (data) {
       res.json(data);
@@ -142,14 +138,12 @@ const getCategoryDetails = asyncHandler(async (req, res) => {
 const serviceSearch = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    console.log("id:", id);
     if (id === "undefined") {
       const List = await Service.find();
 
       return res.json(List);
     } else {
       const loc = await Location.findById(id);
-      console.log("loc.location:", loc.location);
 
       Service.find({ locations: { $in: [loc.location] } })
         .then((services) => {
@@ -160,19 +154,16 @@ const serviceSearch = asyncHandler(async (req, res) => {
           }
         })
         .catch((err) => {
-          console.error(err);
           res.status(500).json({ error: "Internal server error" });
         });
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "Error finding services" });
   }
 });
 
 const searchProvider = asyncHandler(async (req, res) => {
   try {
-    console.log("data", req.body);
     const { myValue, body } = req;
     const myId = myValue.toString();
     const { id, location, taskSize, details } = body;
@@ -203,75 +194,64 @@ const searchProvider = asyncHandler(async (req, res) => {
       res.status(201).json(createdData);
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "Error finding providers" });
   }
 });
 
 const providerRecommendations = asyncHandler(async (req, res) => {
-  const { myValue } = req;
+  try {
+    const { myValue } = req;
+    const newDate = req.body.newDate;
+    const taskTime = req.body.taskTime;
 
-  const newDate = req.body.newDate;
-  const taskTime = req.body.taskTime;
+    const myId = myValue.toString();
+    const sarchBookData = await Booking.findOne({ userId: myId }).populate(
+      "serviceId"
+    );
+    const allUserData = [];
+    const providerList = await User.find({
+      role: { $in: ["provider"] },
+    });
 
-  console.log("newDate,taskTime", newDate, taskTime);
-
-  // const newBooking = {
-  //   date: newDate,
-  //   time: taskTime,
-  // };
-
-  const myId = myValue.toString();
-  console.log(myId);
-  const sarchBookData = await Booking.findOne({ userId: myId }).populate(
-    "serviceId"
-  );
-
-  console.log("serarchbook data: ", sarchBookData);
-
-  const allUserData = [];
-  const providerList = await User.find({
-    role: { $in: ["provider"] },
-  });
-
-  if (providerList) {
-    if (providerList.length > 0) {
-      for (let i = 0; i < providerList.length; i++) {
-        const provider = providerList[i];
-        const providerData = await Provider.find({
-          $and: [
-            { userId: provider._id },
-            { serviceCategory: sarchBookData.serviceId.serviceName },
-            { workLocation: sarchBookData.location },
-            {
-              bookings: {
-                $not: {
-                  $elemMatch: {
-                    date: newDate,
-                    time: taskTime,
+    if (providerList) {
+      if (providerList.length > 0) {
+        for (let i = 0; i < providerList.length; i++) {
+          const provider = providerList[i];
+          const providerData = await Provider.find({
+            $and: [
+              { userId: provider._id },
+              { serviceCategory: sarchBookData.serviceId.serviceName },
+              { workLocation: sarchBookData.location },
+              {
+                bookings: {
+                  $not: {
+                    $elemMatch: {
+                      date: newDate,
+                      time: taskTime,
+                    },
                   },
                 },
               },
-            },
-          ],
-        });
-
-        if (providerData.length > 0) {
-          allUserData.push({
-            ...provider.toObject(),
-            ...providerData[0].toObject(),
+            ],
           });
-        }
-        // else {
-        //   allUserData.push(provider.toObject());
-        // }
-      }
-    } else {
-      console.log("No users found with role 'toVerify'");
-    }
-  }
 
-  res.json(allUserData);
+          if (providerData.length > 0) {
+            allUserData.push({
+              ...provider.toObject(),
+              ...providerData[0].toObject(),
+            });
+          }
+        }
+      } else {
+        res.status(400);
+        throw new Error("No users found with role 'toVerify'");
+      }
+    }
+    res.json(allUserData);
+  } catch (error) {
+    res.status(400);
+    throw new Error("Error Occured!");
+  }
 });
 
 const selectedProvider = asyncHandler(async (req, res) => {
@@ -297,7 +277,6 @@ const selectedProvider = asyncHandler(async (req, res) => {
       res.status(200).json(updatedData);
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "Error" });
   }
 });
@@ -311,27 +290,22 @@ const getBookingData = asyncHandler(async (req, res) => {
       const bookingData = await Booking.findOne({ userId: myId }).populate(
         "serviceId"
       );
-      console.log(bookingData);
 
       const pId = bookingData.providerId;
       if (pId) {
         const newPid = pId.toString();
-        console.log("providerId: ", newPid);
-        const ProviderData = await Provider.findById(newPid).populate("userId");
-        console.log("provider Data", ProviderData);
 
-        // Combine the bookingData and ProviderData into a single object
+        const ProviderData = await Provider.findById(newPid).populate("userId");
+
         const mergedData = {
           ...bookingData.toObject(),
           ...ProviderData.toObject(),
         };
 
-        console.log("merged Data", mergedData);
         res.status(200).json(mergedData);
       }
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "Error" });
   }
 });
@@ -343,8 +317,6 @@ const bookService = asyncHandler(async (req, res) => {
     const myId = myValue.toString();
 
     const { newData } = body;
-
-    console.log(newData);
 
     const bookedData = await Booked.create({
       userId: myId,
@@ -371,7 +343,6 @@ const bookService = asyncHandler(async (req, res) => {
       res.status(200).json(bookedData);
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "Error" });
   }
 });
@@ -384,7 +355,7 @@ const userbookedList = asyncHandler(async (req, res) => {
 
     const allBookingData = [];
     const BookingList = await Booked.find({ userId: myId });
-    console.log(BookingList);
+
     if (BookingList) {
       if (BookingList.length > 0) {
         for (let i = 0; i < BookingList.length; i++) {
@@ -405,13 +376,11 @@ const userbookedList = asyncHandler(async (req, res) => {
           }
         }
       } else {
-        console.log("No users found with role 'toVerify'");
       }
     }
 
     res.status(200).json(allBookingData);
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "No Booking data found" });
   }
 });
@@ -419,10 +388,8 @@ const userbookedList = asyncHandler(async (req, res) => {
 const getUserInfo = asyncHandler(async (req, res) => {
   try {
     const myId = req.params.id;
-    console.log("myId", myId);
 
     const userData = await User.findById(myId);
-    console.log("userInfo:", userData);
     if (userData) {
       if (userData.role !== "provider") {
         res.status(200).json(userData);
@@ -437,11 +404,9 @@ const getUserInfo = asyncHandler(async (req, res) => {
         res.status(200).json(mergedData);
       }
     } else {
-      console.log("error:", error);
       throw new Error("No data found!");
     }
   } catch (error) {
-    console.log("error:", error);
     throw new Error("No data found!");
   }
 });
@@ -450,22 +415,20 @@ const providerbookedList = asyncHandler(async (req, res) => {
   try {
     const { myValue } = req;
     const myId = myValue.toString();
-    console.log("inside providerbookedList", myId);
+
     const providerId = await Provider.findOne({ userId: myId });
-    console.log("providerId", providerId);
 
     const pId = providerId._id;
-    console.log("providerId", pId);
+
     const newPid = pId.toString();
     const bookingData = await Booked.find({
       providerId: newPid,
     }).populate("userId");
-    console.log("booking Data", bookingData);
+
     if (bookingData.length > 0) {
       res.status(200).json(bookingData);
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "No Booking data found" });
   }
 });
@@ -483,7 +446,6 @@ const cancelBooking = asyncHandler(async (req, res) => {
       res.status(200).json(cancelData);
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "No Booking data found" });
   }
 });
@@ -500,7 +462,6 @@ const checkInvoice = asyncHandler(async (req, res) => {
       throw new Error("No Data !");
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "No Booking data found" });
   }
 });
@@ -511,8 +472,6 @@ const checkoutService = asyncHandler(async (req, res) => {
 
     if (product) {
       const total = product.amount;
-      console.log("Payment Request recieved for this ruppess", total);
-
       const payment = await stripe.paymentIntents.create({
         amount: total * 100,
         currency: "inr",
@@ -523,7 +482,6 @@ const checkoutService = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("error:", error);
     res.status(500).json({ error: "Failure" });
   }
 });
@@ -537,7 +495,6 @@ const paymentSuccess = asyncHandler(async (req, res) => {
         "userId"
       );
 
-      console.log("provderFirstName", pDetails);
       if (pDetails) {
         const paymentData = await Payment.create({
           firstName: newData.firstName,
@@ -554,6 +511,7 @@ const paymentSuccess = asyncHandler(async (req, res) => {
           userId: newData.userId,
           providerId: newData.providerId,
           invoiceId: newData.invoiceId,
+          review: newData.review,
         });
 
         if (paymentData) {
@@ -573,15 +531,30 @@ const paymentSuccess = asyncHandler(async (req, res) => {
       throw new Error("NO data Found!");
     }
   } catch (error) {
-    console.log("error:", error);
+    res.status(500).json({ error: "Failure" });
+  }
+});
+
+const providerReview = asyncHandler(async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (id) {
+      const data = await Payment.find({
+        providerId: id,
+      });
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        throw new Error("nodata found");
+      }
+    }
+  } catch (error) {
     res.status(500).json({ error: "Failure" });
   }
 });
 
 const createChat = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body);
-
     const newChat = new Chat({
       members: [req.body.senderId, req.body.receiverId],
       serviceId: req.body.serviceId,
@@ -595,7 +568,6 @@ const createChat = asyncHandler(async (req, res) => {
       res.status(200).json(result);
     }
   } catch (error) {
-    console.log(error);
     res.status(400);
     throw new Error("Error Occured!");
   }
@@ -603,14 +575,6 @@ const createChat = asyncHandler(async (req, res) => {
 
 const userChat = asyncHandler(async (req, res) => {
   try {
-    const bookedId = req.body.bookedId;
-
-    console.log(" bookedId", bookedId);
-
-    // const chat = await Chat.find({
-    //   members: { $in: [req.params.userId] },
-    // });
-
     const chat = await Chat.find({
       $and: [
         { members: { $in: [req.params.userId] } },
@@ -620,7 +584,6 @@ const userChat = asyncHandler(async (req, res) => {
 
     res.status(200).json(chat);
   } catch (error) {
-    console.log(error);
     res.status(400);
     throw new Error("Error Occured!");
   }
@@ -634,7 +597,6 @@ const findChat = asyncHandler(async (req, res) => {
 
     res.status(200).json(chat);
   } catch (error) {
-    console.log(error);
     res.status(400);
     throw new Error("Error Occured!");
   }
@@ -651,7 +613,6 @@ const addMessage = asyncHandler(async (req, res) => {
     const result = await message.save();
     res.status(200).json(result);
   } catch (error) {
-    console.log(error);
     res.status(400);
     throw new Error("Error Occured!");
   }
@@ -663,7 +624,6 @@ const getMessages = asyncHandler(async (req, res) => {
     const result = await Message.find({ chatId });
     res.status(200).json(result);
   } catch (error) {
-    console.log(error);
     res.status(400);
     throw new Error("Error Occured!");
   }
@@ -672,10 +632,7 @@ const getMessages = asyncHandler(async (req, res) => {
 const getChatInfo = asyncHandler(async (req, res) => {
   try {
     const myId = req.params.id;
-    console.log("myId", myId);
-
     const userData = await User.findById(myId);
-    console.log("userInfo:", userData);
     if (userData) {
       if (userData.role !== "provider") {
         res.status(200).json(userData);
@@ -690,11 +647,9 @@ const getChatInfo = asyncHandler(async (req, res) => {
         res.status(200).json(mergedData);
       }
     } else {
-      console.log("error:", error);
       throw new Error("No data found!");
     }
   } catch (error) {
-    console.log("error:", error);
     throw new Error("No data found!");
   }
 });
@@ -723,12 +678,10 @@ const editUser = asyncHandler(async (req, res) => {
       if (update) {
         res.status(200).json(update);
       } else {
-        console.log("error:", error);
         throw new Error("Details not updated");
       }
     }
   } catch (error) {
-    console.log("error:", error);
     throw new Error("No data found!");
   }
 });
@@ -759,4 +712,5 @@ module.exports = {
   getMessages,
   getChatInfo,
   editUser,
+  providerReview,
 };

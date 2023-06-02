@@ -25,6 +25,7 @@ const {
   getMessages,
   getChatInfo,
   editUser,
+  providerReview,
 } = require("../controllers/userController");
 const userProtect = require("../middlewares/userAuthMiddleware");
 
@@ -51,6 +52,8 @@ router.get("/getInvoice/:id", userProtect, checkInvoice);
 router.post("/checkout", userProtect, checkoutService);
 router.post("/paymentSuccess", userProtect, paymentSuccess);
 router.patch("/editUser",userProtect, editUser);
+router.get("/providerReview/:id", providerReview);
+
 // chat
 router.post("/createChat", createChat);
 router.post("/chat/:userId", userChat);

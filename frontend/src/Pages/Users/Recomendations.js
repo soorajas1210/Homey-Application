@@ -28,16 +28,12 @@ function Recomendations() {
 
   const newDate = format(date, "dd-MM-yyyy");
 
-  // const selectedDate = date; // replace this with the result of the mobileDatepicker
-  // const formattedDate = format(selectedDate, "MMMM do yyyy, h:mm:ss a");
 
   console.log("in recomendations date", newDate);
   console.log("in recomendations taskTime", taskTime);
   console.log("in recomendations provider", sProvider);
+  console.log("in recomendations date", provider);
 
-  // const selected = (data) => {
-  //   console.log("providers", data);
-  // };
 
   const submitFunction = () => {
     console.log("selected the Provider");
@@ -63,7 +59,7 @@ function Recomendations() {
         </h1>
       </div>
 
-      <div className="flex flex-col md:flex-row items-start md:space-x-5 md:ml-8">
+      <div className="flex flex-col md:flex-row items-start md:space-x-5 md:ml-8 p-4">
         <SideBox
           changeDate={(date) => setDate(date)}
           date={date}
@@ -71,13 +67,14 @@ function Recomendations() {
           taskTime={taskTime}
         />
 
-        <div className="flex flex-col gap-4 w-full p-5">
+        <div className="flex flex-col gap-4 w-full md:w-2/3 p-5 h-screen overflow-y-auto">
           {provider && provider.length > 0 ? (
             provider.map((provider) => (
               <ServiceProvidersList
                 key={provider._id}
                 provider={provider}
                 providerSelected={(sProvider) => setSProvider(sProvider)}
+                className="flex flex-col"
               />
             ))
           ) : (

@@ -1,8 +1,24 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
+import Popup from "./Popup";
 
 function ServiceProvidersList(props) {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
   return (
     <Paper
       elevation={3}
@@ -15,6 +31,7 @@ function ServiceProvidersList(props) {
             src={props.provider.profileImage.url}
             alt=""
             className="w-36 h-36 rounded-full object-center"
+            onClick={handleClickOpen}
           />
           <div className="object-right mt-5 md:mt-4">
             <Button
@@ -65,7 +82,10 @@ function ServiceProvidersList(props) {
           </Grid>
         </Grid>
       </Grid>
+      <Popup open={(value)=>setOpen(value)} value={open} provider={props.provider}/>
     </Paper>
+
+    
   );
 }
 

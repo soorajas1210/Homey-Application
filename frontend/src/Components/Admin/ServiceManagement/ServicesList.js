@@ -107,7 +107,7 @@ useEffect(() => {
       component="form"
       noValidate
       onSubmit={handleChange}
-      sx={{ minWidth: 150, width: "100%", px: { xs: 2, md: 4 }, py: 2 }}
+      sx={{ minWidth: 150, width: "100%", px: { xs: 2, md: 4 }}}
     >
       <Card variant="outlined" sx={{ boxShadow: 3 }}>
         <React.Fragment>
@@ -216,7 +216,7 @@ useEffect(() => {
               </Box>
             )}
           </CardContent>
-          <CardActions sx={{ justifyContent: "flex-end ", mt: 3 }}>
+          <CardActions sx={{ justifyContent: "flex-end "}}>
             <Button
               type="submit"
               variant="outlined"

@@ -11,7 +11,6 @@ const Payment = require("../models/paymentSuccessModel");
 const adminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const admin = await User.findOne({ email });
-  console.log(admin.isAdmin);
   if (admin && (await admin.matchPassword(password))) {
     if (admin.isAdmin === true) {
       res.json({
@@ -35,7 +34,6 @@ const adminLogin = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-  console.log("object");
   try {
     const users = await User.find();
     res.json(users);
@@ -47,7 +45,6 @@ const getUsers = asyncHandler(async (req, res) => {
 
 const blockUser = asyncHandler(async (req, res) => {
   try {
-    console.log("object");
     const user = await User.findById(req.params.id);
 
     if (user) {
@@ -56,7 +53,6 @@ const blockUser = asyncHandler(async (req, res) => {
       } else {
         user.isVerified = true;
       }
-      // user.isVerified = req.body.isVerified;
 
       const updatedUser = await user.save();
 
@@ -73,7 +69,8 @@ const blockUser = asyncHandler(async (req, res) => {
       throw new Error("User Not Found!");
     }
   } catch (error) {
-    console.log(error.message);
+  res.status(404);
+  throw new Error(error.message);
   }
 });
 
@@ -103,19 +100,15 @@ const addServiceTypes = asyncHandler(async (req, res) => {
       throw new Error("Error Occured!");
     }
   } catch (error) {
-    console.log(error.message);
+throw new Error(error.message);
   }
 });
 
 const addServices = asyncHandler(async (req, res) => {
   const { stype, services, imageLink, text } = req.body;
-  console.log(stype, services);
   const serviceExists = await Service.findOne({
     $and: [{ serviceType: { $eq: stype } }, { serviceName: { $eq: services } }],
   });
-  //  $and: [{serviceType:{$eq: stype} }, { serviceName: {$eq: services }}
-
-  console.log(serviceExists);
 
   if (serviceExists) {
     res.status(400);
@@ -125,7 +118,6 @@ const addServices = asyncHandler(async (req, res) => {
   const serviceTypeExists = await ServiceCategory.findOne({
     serviceType: stype,
   });
-  // console.log(serviceTypeExists);
   if (serviceTypeExists) {
     const service = await Service.create({
       serviceType: stype,
@@ -174,11 +166,8 @@ const servicesList = asyncHandler(async (req, res) => {
 
 const verifyProvider = asyncHandler(async (req, res) => {
   try {
-    console.log("verify provider");
 
     const user = await User.findById(req.params.id);
-    console.log(user);
-    console.log(req.params.id);
     if (user) {
       const verified = await User.updateOne(
         { _id: req.params.id },
@@ -186,16 +175,11 @@ const verifyProvider = asyncHandler(async (req, res) => {
       );
 
       const providerData = await Provider.findOne({ userId: req.params.id });
-      console.log("providerData", providerData);
-
-      console.log("serviceCategory", providerData.serviceCategory);
       const result = await Service.findOneAndUpdate(
         { serviceName: providerData.serviceCategory },
         { $set: { locations: providerData.workLocation } },
         { upsert: true, new: true }
       );
-
-      console.log(result);
 
       res.json({ verified });
     } else {
@@ -203,16 +187,13 @@ const verifyProvider = asyncHandler(async (req, res) => {
       throw new Error("User Not Found!");
     }
   } catch (error) {
-    console.log(error.message);
+    throw new Error(error.message);
   }
 });
 
 const rejectProvider = asyncHandler(async (req, res) => {
   try {
-    console.log("rejectprovider");
     const user = await User.findById(req.params.id);
-    console.log(user);
-    console.log(req.params.id);
     if (user) {
       const reject = await User.updateOne(
         { _id: req.params.id },
@@ -227,7 +208,6 @@ const rejectProvider = asyncHandler(async (req, res) => {
       throw new Error("User Not Found!");
     }
   } catch (error) {
-    console.log(error.message);
     res.status(404);
     throw new Error("User Not Found!");
   }
@@ -256,13 +236,12 @@ const providersList = asyncHandler(async (req, res) => {
           }
         }
       } else {
-        console.log("No users found with role 'toVerify'");
+       throw new Error("No users found with role 'toVerify'");
       }
     }
 
     res.json(allUserData);
   } catch (error) {
-    console.log(error.message);
     res.status(404);
     throw new Error("User Not Found!");
   }
@@ -270,8 +249,6 @@ const providersList = asyncHandler(async (req, res) => {
 
 const blockProvider = asyncHandler(async (req, res) => {
   try {
-    console.log("block provider");
-    console.log(req.body.role);
 
     const user = await User.findById(req.params.id);
     if (req.body.role === "provider") {
@@ -291,7 +268,6 @@ const blockProvider = asyncHandler(async (req, res) => {
       throw new Error("User Not Found!");
     }
   } catch (error) {
-    console.log(error.message);
     res.status(404);
     throw new Error("User Not Found!");
   }
@@ -343,7 +319,6 @@ const getBookedList = asyncHandler(async (req, res) => {
       res.status(200).json(bookedList);
     }
   } catch (error) {
-    console.log(error.message);
     res.status(404);
     throw new Error("No booking Yet!");
   }
@@ -355,7 +330,6 @@ const deleteLocation = asyncHandler(async (req, res) => {
     const deleteData = await Location.findByIdAndDelete(locId);
     res.status(204).end();
   } catch (error) {
-    console.log(error.message);
     res.status(404);
     throw new Error("No booking Yet!");
   }
@@ -369,7 +343,6 @@ const paymentInfo = asyncHandler(async (req, res) => {
       res.status(200).json(paymentDetails);
     }
   } catch (error) {
-    console.log(error.message);
     res.status(404);
     throw new Error("No payment Yet!");
   }

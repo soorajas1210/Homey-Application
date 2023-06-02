@@ -74,9 +74,9 @@ function Navbar() {
     <>
       <AppBar
         position="sticky"
-        style={{ background: "transparent" }}
+        style={{ background: "white" }}
         sx={{
-          opacity: "0.8",
+          opacity: "1",
           height: "4rem",
         }}
       >

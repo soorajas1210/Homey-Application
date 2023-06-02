@@ -98,7 +98,7 @@ function createData(customer, provider, service, amount) {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.amoount}
+                        key={row.id}
                       >
                         {columns.map((column) => {
                           const value = row[column.id];

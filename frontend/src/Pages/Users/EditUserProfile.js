@@ -19,10 +19,11 @@ import axios from "axios";
 import { BASE_URL } from "../../actions/helper";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function EditUserProfile() {
   const theme = useTheme();
-
+const navigate = useNavigate()
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -67,6 +68,9 @@ function EditUserProfile() {
         theme: "colored",
       });
     }
+
+    navigate("/")
+  
   },[smessage]);
 
   return (

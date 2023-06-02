@@ -25,7 +25,7 @@ import {
   getProviderInfoSuccess,
 } from "../Redux/Service-Providers/getProviderInfoSlice";
 
-export const providerReg =
+export const  providerReg =
   (
     serviceCategory,
     workLocation,

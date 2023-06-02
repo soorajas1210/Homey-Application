@@ -7,11 +7,8 @@ const Booked = require("../models/completedBookingModel");
 const Invoice = require("../models/InvoiceModel");
 
 const toVerify = asyncHandler(async (req, res) => {
-  console.log("fdf", req.body);
-
   try {
-    // const myId = req.myValue;
-    // const id = myId.toString();
+
     const { myValue, body } = req;
 
     if (!myValue) {
@@ -36,8 +33,6 @@ const toVerify = asyncHandler(async (req, res) => {
       pin,
     } = body;
 
-    console.log(myId);
-
     const result = await cloudinary.uploader.upload(profileImage, {
       folder: "providerProfileFolder",
       width: 200,
@@ -50,8 +45,6 @@ const toVerify = asyncHandler(async (req, res) => {
     });
 
     const userData = await User.findById(myId);
-    console.log(userData);
-
     if (userData.role === "provider") {
       res.status(400).json({ message: "You are a service provider" });
       return;
@@ -85,13 +78,6 @@ const toVerify = asyncHandler(async (req, res) => {
         pin,
       });
       if (provider) {
-        // const result = await Service.findOneAndUpdate(
-        //   { serviceName: serviceCategory },
-        //   { $set: { locations: workLocation } },
-        //   { upsert: true, new: true }
-        // );
-
-        // console.log(result);
 
         await User.updateOne({ _id: myId }, { $set: { role: "toVerify" } });
         res.status(201).json({
@@ -113,12 +99,10 @@ const toVerify = asyncHandler(async (req, res) => {
           role: provider.role,
         });
       } else {
-        console.error(error);
         res.status(400).json({ message: error.message });
       }
     }
   } catch (error) {
-    console.error(error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -143,12 +127,11 @@ const toVerifyList = asyncHandler(async (req, res) => {
         }
       }
     } else {
-      console.log("No users found with role 'toVerify'");
+      res.status(400).send("No users found with role 'toVerify'");
     }
 
     res.json(allUserData);
   } catch (error) {
-    console.error(error);
     res.status(400).send("Error Occurred!");
   }
 });
@@ -162,7 +145,6 @@ const providerInfo = asyncHandler(async (req, res) => {
       res.status(200).json(provider);
     }
   } catch (error) {
-    console.log("error:", error);
     throw new Error("No data found!");
   }
 });
@@ -176,8 +158,7 @@ const providerBookingHandler = asyncHandler(async (req, res) => {
     const pid = bookingData.providerId;
     const newPid = pid.toString();
 
-    console.log("booking data:", bookingData);
-    const newBooking = {
+      const newBooking = {
       date: bookingData.serviceDate,
       time: bookingData.serviceTime,
     };
@@ -210,12 +191,11 @@ const providerBookingHandler = asyncHandler(async (req, res) => {
         );
         res.status(200).json(updatedData);
       } else {
-        console.error(error);
+
         res.status(400).send("Invalid status value!");
       }
     }
   } catch (error) {
-    console.error(error);
     res.status(400).send("Error Occurred!");
   }
 });
@@ -233,7 +213,6 @@ const bookedServiceDetails = asyncHandler(async (req, res) => {
       res.status(400).send("no service details found!");
     }
   } catch (error) {
-    console.error(error);
     res.status(400).send("Error Occurred!");
   }
 });
@@ -241,7 +220,6 @@ const bookedServiceDetails = asyncHandler(async (req, res) => {
 const sendInvoice = asyncHandler(async (req, res) => {
   try {
     const { newData } = req.body;
-    console.log("new Data", newData);
 
     const invoiceData = Invoice.create({
       bookedId: newData.bookedId,
@@ -265,7 +243,6 @@ const sendInvoice = asyncHandler(async (req, res) => {
       res.status(404).send("Invoice not Send");
     }
   } catch (error) {
-    console.error(error);
     res.status(400).send("Error Occurred!");
   }
 });
@@ -273,7 +250,6 @@ const sendInvoice = asyncHandler(async (req, res) => {
 const providerChat = asyncHandler(async (req, res) => {
   try {
   } catch (error) {
-    console.log(error);
     res.status(400);
     throw new Error("Error Occured!");
   }

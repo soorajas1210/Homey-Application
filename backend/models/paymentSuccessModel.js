@@ -42,6 +42,10 @@ const paymentSuccessSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    review: {
+      type: String,
+      required: true,
+    },
     bookedId: {
       type: mongoose.Types.ObjectId,
       required: true,
