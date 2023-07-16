@@ -1,9 +1,8 @@
 const io = require("socket.io")(8800, {
   cors: {
-    origin: "https://homeyapplication.netlify.app/",
+    origin: "https://homeyapplication.netlify.app",
   },
 });
-
 let activeUsers = [];
 
 io.on("connection", (socket) => {

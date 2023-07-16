@@ -1,22 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.9d22f739.css",
-    "main.js": "/static/js/main.0db10e08.js",
+    "main.css": "/static/css/main.88b8e64a.css",
+    "main.js": "/static/js/main.3efa3aed.js",
     "static/media/SingnIn.jpg": "/static/media/SingnIn.7891d9d8773a693a0768.jpg",
     "static/media/serviceBanner.jpg": "/static/media/serviceBanner.744ed287395fd201d813.jpg",
-    "static/media/featured.jpg": "/static/media/featured.b21420d91a916e97b9b8.jpg",
     "static/media/tasker.png": "/static/media/tasker.939a70f7d63642dffada.png",
     "static/media/Handyman-Booking.png": "/static/media/Handyman-Booking.0153f469e08ab629f888.png",
     "static/media/Banner2.jpeg": "/static/media/Banner2.4fb3c56ef9737f55cbe4.jpeg",
-    "static/media/avatar.jpg": "/static/media/avatar.01496601c3761495297f.jpg",
     "static/media/Footer-logo.png": "/static/media/Footer-logo.dcff10179b65e63894bc.png",
     "static/media/Logo.png": "/static/media/Logo.6935d1df08761d14248c.png",
     "index.html": "/index.html",
-    "main.9d22f739.css.map": "/static/css/main.9d22f739.css.map",
-    "main.0db10e08.js.map": "/static/js/main.0db10e08.js.map"
+    "main.88b8e64a.css.map": "/static/css/main.88b8e64a.css.map",
+    "main.3efa3aed.js.map": "/static/js/main.3efa3aed.js.map"
   },
   "entrypoints": [
-    "static/css/main.9d22f739.css",
-    "static/js/main.0db10e08.js"
+    "static/css/main.88b8e64a.css",
+    "static/js/main.3efa3aed.js"
   ]
 }
