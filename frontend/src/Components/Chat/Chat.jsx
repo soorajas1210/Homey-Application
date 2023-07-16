@@ -49,7 +49,7 @@ function Chat() {
 
 
     useEffect(() => {
-        socket.current = io("http://chatsocket-dlgf.onrender.com");
+        socket.current = io("https://chatsocket-dlgf.onrender.com");
         socket.current.emit("new-user-add", uid);
         socket.current.on("get-users", (users) => setOnlineUsers(users));
     }, []);

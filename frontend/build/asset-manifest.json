@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.88b8e64a.css",
-    "main.js": "/static/js/main.3efa3aed.js",
+    "main.js": "/static/js/main.597c498c.js",
     "static/media/SingnIn.jpg": "/static/media/SingnIn.7891d9d8773a693a0768.jpg",
     "static/media/serviceBanner.jpg": "/static/media/serviceBanner.744ed287395fd201d813.jpg",
     "static/media/tasker.png": "/static/media/tasker.939a70f7d63642dffada.png",
@@ -11,10 +11,10 @@
     "static/media/Logo.png": "/static/media/Logo.6935d1df08761d14248c.png",
     "index.html": "/index.html",
     "main.88b8e64a.css.map": "/static/css/main.88b8e64a.css.map",
-    "main.3efa3aed.js.map": "/static/js/main.3efa3aed.js.map"
+    "main.597c498c.js.map": "/static/js/main.597c498c.js.map"
   },
   "entrypoints": [
     "static/css/main.88b8e64a.css",
-    "static/js/main.3efa3aed.js"
+    "static/js/main.597c498c.js"
   ]
 }
