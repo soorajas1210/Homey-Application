@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import profile from './avatar.jpg'
+
 import ProviderBookingDetails from './ProviderBookingDetails'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getFullUserInfo, getUser } from '../../../actions/userActions';
-import { Button, Grid } from '@mui/material';
+import { getFullUserInfo} from '../../../actions/userActions';
+import {  Grid } from '@mui/material';
 
 function Account() {
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function Account() {
     // const newDate = format(date, "dd-MM-yyyy");
 
     const toEdit = () => {
-        navigate("/userProfile/edit");
+        navigate("/provider/editDetails");
     };
 
     useEffect(() => {

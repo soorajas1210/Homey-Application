@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,13 +7,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 
 function CompletedServices() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const dispatch = useDispatch();
+ 
 
   const bookingList = useSelector((state) => state.userbookedList);
   const { userBooked } = bookingList;

@@ -9,71 +9,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell,
 } from "recharts";
 
-// const data = [
-//   {
-//     name: "Jan",
-//     Booking: 4000,
-//     Income: 2400,
-//   },
-//   {
-//     name: "Feb",
-//     Booking: 3000,
-//     Income: 1398,
-//   },
-//   {
-//     name: "Mar",
-//     Booking: 2000,
-//     Income: 9800,
-//   },
-//   {
-//     name: "Apr",
-//     Booking: 2780,
-//     Income: 3908,
-//   },
-//   {
-//     name: "May",
-//     Booking: 1890,
-//     Income: 4800,
-//   },
-//   {
-//     name: "Jun",
-//     Booking: 2390,
-//     Income: 3800,
-//   },
-//   {
-//     name: "July",
-//     Booking: 3490,
-//     Income: 4300,
-//   },
-//   {
-//     name: "Aug",
-//     Booking: 2000,
-//     Income: 9800,
-//   },
-//   {
-//     name: "Sep",
-//     Booking: 2780,
-//     Income: 3908,
-//   },
-//   {
-//     name: "Oct",
-//     Booking: 1890,
-//     Income: 4800,
-//   },
-//   {
-//     name: "Nov",
-//     Booking: 2390,
-//     Income: 3800,
-//   },
-//   {
-//     name: "Dec",
-//     Booking: 3490,
-//     Income: 4300,
-//   },
-// ];
+
 
 export default function TransactionChart() {
   const pay = useSelector((state) => state.paymentInfo);

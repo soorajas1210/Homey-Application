@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./Chat.css"
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats} from '../../actions/userActions'
+import { getChats } from '../../actions/userActions'
 import NavIcons from './NavIcons/NavIcons'
 import Conversation from './Conversation'
 import { useParams } from 'react-router-dom'
@@ -53,6 +53,8 @@ function Chat() {
         socket.current.emit("new-user-add", uid);
         socket.current.on("get-users", (users) => setOnlineUsers(users));
     }, []);
+
+
 
     // Send Message to socket server
     useEffect(() => {

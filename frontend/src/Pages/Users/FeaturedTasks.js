@@ -6,7 +6,6 @@ import { serviceTypeDetails } from "../../actions/userActions";
 import BookNow from "../../Components/BookNow/BookNow";
 import Footer from "../../Components/Footer/Footer";
 import Navbar from "../../Components/Navbar/Navbar";
-import featured from "../assets/featured.jpg";
 
 function FeaturedTasks() {
   const { id } = useParams();

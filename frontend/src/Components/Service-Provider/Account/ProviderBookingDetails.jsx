@@ -106,11 +106,10 @@ const headCells = [
 
 function EnhancedTableHead(props) {
     const {
-        onSelectAllClick,
+
         order,
         orderBy,
-        numSelected,
-        rowCount,
+
         onRequestSort,
     } = props;
     const createSortHandler = (property) => (event) => {
@@ -237,11 +236,6 @@ function ProviderBookingDetails() {
     const List = useSelector((state) => state.providerList);
     const { loading, provider, error } = List;
 
-    const adminLogin = useSelector((state) => state.adminSignin);
-
-    // const {
-    //     adminInfo: { isAdmin },
-    // } = adminLogin;
 
     const adminProviderBlock = useSelector((state) => state.providerBlock);
 
@@ -288,25 +282,6 @@ function ProviderBookingDetails() {
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
-            );
-        }
-
-        setSelected(newSelected);
-    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -324,7 +299,7 @@ function ProviderBookingDetails() {
     const bookingList = useSelector((state) => state.providerBookedList);
     const { providerBooked } = bookingList;
 
-    const bookings = providerBooked.filter(booking => booking.status !=="payed")
+    const bookings = providerBooked.filter(booking => booking.status !== "payed")
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -348,15 +323,7 @@ function ProviderBookingDetails() {
         setUpcoming(false);
     }
 
-    function newDetails() {
-        setUpcoming(true);
-        setPrevious(false);
-    }
-
-    function oldDetails() {
-        setPrevious(true);
-        setUpcoming(false);
-    }
+    
     return (
         <div className='my-5'>
             <div class="flex justify-center my-5 space-x-2">
@@ -416,11 +383,11 @@ function ProviderBookingDetails() {
                                                 return (
                                                     <TableRow
                                                         hover
-                                                        // onClick={(event) => handleClick(event, row.firstName)}
+
 
                                                         aria-checked={isItemSelected}
                                                         tabIndex={-1}
-                                                        key={user._id}
+                                                        key={index}
                                                         selected={isItemSelected}
                                                     >
                                                         <TableCell>
@@ -450,7 +417,7 @@ function ProviderBookingDetails() {
                                                             />
                                                         </TableCell>
                                                         <TableCell align="right">
-                                                            {user.userId.firstName +" "+ user.userId.lastName}
+                                                            {user.userId.firstName + " " + user.userId.lastName}
                                                         </TableCell>
                                                         <TableCell align="right">
                                                             {new Date(user.createdAt).toLocaleDateString(

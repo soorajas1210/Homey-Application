@@ -1,15 +1,14 @@
 import React, { Fragment } from "react";
-import { Menu, Popover, Transition } from "@headlessui/react";
+import { Popover, Transition } from "@headlessui/react";
 import {
   HiOutlineBell,
   HiOutlineSearch,
   HiOutlineChatAlt,
 } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 
 export default function AdminNavbar() {
-  const navigate = useNavigate();
+
 
   return (
     <div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">

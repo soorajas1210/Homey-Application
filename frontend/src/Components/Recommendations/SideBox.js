@@ -1,5 +1,4 @@
-import { Paper, Slider } from "@mui/material";
-import { Box, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -68,9 +67,9 @@ function SideBox(props) {
         </FormControl>
       </div>
       <div className="mt-5">
-        <h1 className="p-2 text-pink-800">Price</h1>
+        {/* <h1 className="p-2 text-pink-800">Price</h1> */}
         <div className="px-5 mt-5">
-          <Slider
+          {/* <Slider
             color="secondary"
             aria-label="Price"
             defaultValue={300}
@@ -79,7 +78,7 @@ function SideBox(props) {
             max={1000}
             // marks={mark}
             valueLabelDisplay="auto"
-          />
+          /> */}
         </div>
       </div>
     </div>

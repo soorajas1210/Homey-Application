@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BookingDetails from "./BookingDetails";
 import { getFullUserInfo } from "../../actions/userActions";
-import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
 

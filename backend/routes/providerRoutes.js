@@ -7,6 +7,7 @@ const {
   sendInvoice,
   providerChat,
   providerInfo,
+  editProvider,
 } = require("../controllers/providerController");
 const userProtect = require("../middlewares/userAuthMiddleware");
 
@@ -19,6 +20,8 @@ router.get("/serviceDetails/:id", userProtect, bookedServiceDetails);
 router.post("/sendInvoice", userProtect, sendInvoice);
 router.post("/chatService", userProtect, providerChat);
 router.get("/providerInfo/:id",userProtect, providerInfo);
+router.patch("/editProvider", userProtect, editProvider);
+
 
 
 module.exports = router;

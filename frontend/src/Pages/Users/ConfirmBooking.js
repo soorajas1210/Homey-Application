@@ -9,7 +9,6 @@ import { Grid, List, ListItem, ListItemText, TextField } from "@mui/material";
 import BookingNavbar from "../../Components/BookingNavbar/BookingNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { bookService, getBookingData } from "../../actions/userActions";
-import { useTheme } from "@mui/material/styles";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -17,7 +16,6 @@ import CardMedia from "@mui/material/CardMedia";
 import { useNavigate } from "react-router-dom";
 
 function ConfirmBooking() {
-  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
@@ -390,7 +388,7 @@ function ConfirmBooking() {
                               {BookingData?.city}
                             </Typography>
                             <Typography component="div" variant="h5">
-                              {BookingData?.serviceCharge + " " + " ₹/hr"}
+                              {BookingData?.serviceCharge + "  ₹/hr"}
                             </Typography>
                           </CardContent>
                         </Box>

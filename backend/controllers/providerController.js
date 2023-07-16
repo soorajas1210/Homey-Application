@@ -8,7 +8,6 @@ const Invoice = require("../models/InvoiceModel");
 
 const toVerify = asyncHandler(async (req, res) => {
   try {
-
     const { myValue, body } = req;
 
     if (!myValue) {
@@ -78,7 +77,6 @@ const toVerify = asyncHandler(async (req, res) => {
         pin,
       });
       if (provider) {
-
         await User.updateOne({ _id: myId }, { $set: { role: "toVerify" } });
         res.status(201).json({
           userId: myId,
@@ -158,7 +156,7 @@ const providerBookingHandler = asyncHandler(async (req, res) => {
     const pid = bookingData.providerId;
     const newPid = pid.toString();
 
-      const newBooking = {
+    const newBooking = {
       date: bookingData.serviceDate,
       time: bookingData.serviceTime,
     };
@@ -191,7 +189,6 @@ const providerBookingHandler = asyncHandler(async (req, res) => {
         );
         res.status(200).json(updatedData);
       } else {
-
         res.status(400).send("Invalid status value!");
       }
     }
@@ -247,6 +244,38 @@ const sendInvoice = asyncHandler(async (req, res) => {
   }
 });
 
+const editProvider = asyncHandler(async (req, res) => {
+  try {
+    const { myValue, body } = req;
+    const myId = myValue.toString();
+    const { editData } = body;
+
+    if (editData) {
+      const update = await Provider.findOneAndUpdate(
+        { userId: myId },
+        {
+          serviceCharge: editData.serviceCharge,
+          workHours: editData.workHours,
+          email: editData.email,
+          mobileno: editData.phoneNumber,
+          streetAddress: editData.streetAddress,
+          city: editData.city,
+          state: editData.state,
+          pin: editData.pin,
+          country: editData.country,
+        }
+      );
+      if (update) {
+        res.status(200).json(update);
+      } else {
+        throw new Error("Details not updated");
+      }
+    }
+  } catch (error) {
+    throw new Error("No data found!");
+  }
+});
+
 const providerChat = asyncHandler(async (req, res) => {
   try {
   } catch (error) {
@@ -263,4 +292,5 @@ module.exports = {
   sendInvoice,
   providerChat,
   providerInfo,
+  editProvider,
 };

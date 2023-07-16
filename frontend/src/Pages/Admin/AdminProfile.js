@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import AdminNavbar from "../../Components/Admin/Navbar/AdminNavbar";
 import SideBar from "../../Components/Admin/SideBar/SideBar";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function AdminProfile() {
-  const dispatch = useDispatch();
 
 const admin = useSelector((state)=>state.adminSignin)
 const {adminInfo} = admin;

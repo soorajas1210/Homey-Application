@@ -5,25 +5,22 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Grid, List, ListItem, ListItemText, TextField } from "@mui/material";
-import BookingNavbar from "../../Components/BookingNavbar/BookingNavbar";
+import { Grid, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  bookService,
+
   editUser,
-  getBookingData,
+
 } from "../../actions/userActions";
-import { useTheme } from "@mui/material/styles";
+
 import Navbar from "../../Components/Navbar/Navbar";
-import axios from "axios";
-import { BASE_URL } from "../../actions/helper";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Navigate, useNavigate } from "react-router-dom";
+
 
 function EditUserProfile() {
-  const theme = useTheme();
-const navigate = useNavigate()
+
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -33,7 +30,6 @@ const navigate = useNavigate()
   const [pin, setPin] = useState("");
   const [country, setCountry] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [message, setMessage] = useState("");
 
   const editData = {
     firstName,
@@ -68,8 +64,6 @@ const navigate = useNavigate()
         theme: "colored",
       });
     }
-
-    navigate("/")
   
   },[smessage]);
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -97,12 +97,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-  
-    order,
-    orderBy,
-    onRequestSort,
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -275,26 +270,6 @@ export default function CustomersTable() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -345,7 +320,6 @@ export default function CustomersTable() {
                     return (
                       <TableRow
                         hover
-                        // onClick={(event) => handleClick(event, row.firstName)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}

@@ -4,6 +4,7 @@ import BecomeaServicer from '../Pages/Service-Providers/BecomeaServicer';
 import ProviderAccount from '../Pages/Service-Providers/ProviderAccount';
 import ProviderServiceDetails from '../Pages/Service-Providers/ProviderServiceDetails';
 import ProviderChatPage from '../Pages/Service-Providers/ProviderChatPage';
+import EditProviderDetails from '../Pages/Service-Providers/EditProviderDetails';
 
 
 
@@ -21,6 +22,7 @@ function ServicesRouter() {
         element={<ProviderServiceDetails />}
       />
       <Route path="/provider/chat/:id" element={<ProviderChatPage />} />
+      <Route path = "/provider/editDetails" element={<EditProviderDetails/>} />
     </Routes>
   );
 }

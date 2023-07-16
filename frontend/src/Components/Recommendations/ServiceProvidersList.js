@@ -1,23 +1,14 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+
+import { Button, Grid, Paper, Typography } from "@mui/material";
 import Popup from "./Popup";
 
 function ServiceProvidersList(props) {
-    const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
   return (
     <Paper
@@ -82,10 +73,12 @@ function ServiceProvidersList(props) {
           </Grid>
         </Grid>
       </Grid>
-      <Popup open={(value)=>setOpen(value)} value={open} provider={props.provider}/>
+      <Popup
+        open={(value) => setOpen(value)}
+        value={open}
+        provider={props.provider}
+      />
     </Paper>
-
-    
   );
 }
 

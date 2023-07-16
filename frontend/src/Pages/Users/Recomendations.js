@@ -7,7 +7,6 @@ import {
   getrecommendationList,
   selectedProvider,
 } from "../../actions/userActions";
-import { Typography } from "@mui/material";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";

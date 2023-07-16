@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { makeStyles } from "@material-ui/core";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
@@ -9,14 +9,13 @@ import {
   Button,
   ThemeProvider,
   createTheme,
-  Stepper,
 } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Invoice, bookedServiceDetails } from "../../actions/servicesActions";
+import { bookedServiceDetails } from "../../actions/servicesActions";
 import { checkInvoice, createChat } from "../../actions/userActions";
 
 const theme = createTheme();

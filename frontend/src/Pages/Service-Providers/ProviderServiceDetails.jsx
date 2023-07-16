@@ -6,7 +6,6 @@ import {
     Paper,
     Typography,
     Button,
-    Divider,
     TextField,
     FormControl,
     InputLabel,
@@ -14,7 +13,7 @@ import {
     MenuItem,
     ThemeProvider,
     createTheme,
-    Stepper,
+
 
 } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -151,7 +150,7 @@ function ProviderServiceDetails() {
                         </Grid>
                         <Grid sx={{ display: "flex", gap: 2 }}>
                             <div style={{ flexGrow: 1 }} ></div>
-                            {providerBookedDetails?.chat === "Active" && ( <Link to={`/provider/chat/${providerBookedDetails?._id}`}>
+                            {providerBookedDetails?.chat === "Active" && (<Link to={`/provider/chat/${providerBookedDetails?._id}`}>
                                 <Button variant="contained" className={classes.button} >
                                     <ChatIcon />
                                 </Button>

@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { IoBagHandle, IoPieChart, IoPeople, IoCart } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 
 export default function DashboardStatusGrid() {
-  const dispatch = useDispatch();
 
   const pay = useSelector((state) => state.paymentInfo);
   const { payments } = pay;

@@ -7,25 +7,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import image from "../assets/Handyman-Booking.png";
 import { Box, Button, Typography } from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  container: {
-    height: "31rem",
-    "@media (max-width: 600px)": {
-      height: "20rem",
-    },
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
-});
-
 function ServiceBook() {
-  const classes = useStyles();
-
   const { id } = useParams();
   console.log(id);
   const navigate = useNavigate();

@@ -51,6 +51,7 @@ function ProviderChat() {
         socket.current.on("get-users", (users) => setOnlineUsers(users));
     }, []);
 
+   
     // Send Message to socket server
     useEffect(() => {
         if (sendMessage !== null) {

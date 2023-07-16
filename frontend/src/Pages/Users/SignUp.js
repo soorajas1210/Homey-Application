@@ -19,7 +19,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/alert";
 import { auth } from "../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
+import { BsFillShieldLockFill} from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 
 import OtpInput from "otp-input-react";

@@ -24,6 +24,7 @@ import {
   getProviderInfoFail,
   getProviderInfoSuccess,
 } from "../Redux/Service-Providers/getProviderInfoSlice";
+import { userEditFail, userEditSuccess } from "../Redux/Users/userEditSlice";
 
 export const  providerReg =
   (
@@ -237,5 +238,34 @@ export const providerDetails = (pid) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch(getProviderInfoFail(message));
+  }
+};
+
+export const editProvider = (editData) => async (dispatch, getState) => {
+  try {
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const data = await axios.patch(
+      `${BASE_URL}/api/provider/editProvider`,
+      { editData },
+      config
+    );
+    dispatch(userEditSuccess(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    console.log(message);
+    dispatch(userEditFail(message));
   }
 };
